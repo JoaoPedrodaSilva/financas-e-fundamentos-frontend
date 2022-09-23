@@ -1,11 +1,11 @@
-export const Title = ({ companyName, companyCode, innerWidth }) => (
+export const Title = ({ title, companyName, innerWidth }) => (
     <g>
         <text
             style={{ fill: "white", textAnchor: "middle" }}
             x={innerWidth / 2}
             y="-30"
         >
-            {companyCode} - {companyName} - LUCRO LÍQUIDO
+            {companyName} - {title}
         </text>
     </g>
 )

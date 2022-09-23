@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { scaleLinear, extent, max, format } from "d3"
+import { scaleLinear, extent, format } from "d3"
 import axios from "../axios"
 
 
@@ -9,7 +9,9 @@ import { XAxis } from "./chartComponents/XAxis"
 import { YAxis } from "./chartComponents/YAxis"
 import { YLabel } from "./chartComponents/YLabel"
 import { Marks } from "./chartComponents/Marks"
+import { ColorLegend } from "./chartComponents/ColorLegend"
 import { Source } from "./chartComponents/Source"
+
 
 
 export const Chart = ({ selectedCompanyId, selectedChart }) => {
@@ -18,28 +20,17 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
     const [companyData, setCompanyData] = useState(null)
     const [financialData, setFinancialData] = useState(null)
     const [xAccessor, setXAccessor] = useState(null)
-    const [yAccessor, setYAccessor] = useState(null)
+    const [firstYAccessor, setFirstYAccessor] = useState(null)
+    const [secondYAccessor, setSecondYAccessor] = useState(null)
     const [yAccessorTickFormat, setYAccessorTickFormat] = useState(null)
+    const [yLabel, setYLabel] = useState(null)
+    const [title, setTitle] = useState(null)
 
     const svgWidth = 700
     const svgHeight = 450
-    const margin = { top: 50, right: 20, bottom: 50, left: 70 }
+    const margin = { top: 50, right: 20, bottom: 80, left: 70 }
     const innerWidth = svgWidth - margin.right - margin.left
-    const innerHeight = svgHeight - margin.top - margin.bottom   
-    
-
-    // change xAccessor and yAccessor everytime the selected chart changes
-    useEffect(() => {
-        if (selectedChart === 'profit') {
-            setXAccessor(() => d => d.year)
-            setYAccessor(() => d => d.netProfit)
-            setYAccessorTickFormat(() => format(","))
-        } else if (selectedChart === 'debt') {
-            setXAccessor(() => d => d.year)
-            setYAccessor(() => d => d.netDebtByEbitda)
-            setYAccessorTickFormat(() => format(".1f"))
-        }
-    }, [selectedChart])
+    const innerHeight = svgHeight - margin.top - margin.bottom
 
 
     //create functions
@@ -58,6 +49,14 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         const netWorth = Number(financialData.net_worth)
         return grossDebt / netWorth
     }
+    const getYDomainMaxValue = (financialData, firstYAccessor, secondYAccessor) => {
+        const tempAllAccessorValues = []
+        financialData.map(data => {
+            tempAllAccessorValues.push(firstYAccessor(data))
+            tempAllAccessorValues.push(secondYAccessor(data))
+        })
+        return Math.max(...tempAllAccessorValues)
+    }
 
 
     //get the selected company general and financial data from the database everytime the selected company changes
@@ -67,7 +66,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                 const results = await axios.get(`/api/acoes/${selectedCompanyId}`)
 
                 const tempFinancialData = []
-                results.data.financialData.map(data => {                    
+                results.data.financialData.map(data => {
                     tempFinancialData.push({
                         year: Number(data.year),
                         netProfit: Number(data.net_profit),
@@ -86,6 +85,26 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         getGeneralAndFinancialData()
     }, [selectedCompanyId])
 
+    // change title, xAccessor, YAccessors and yLabels everytime the selected chart changes
+    useEffect(() => {
+        if (selectedChart === 'profit') {
+            setTitle('LUCRO')
+            setXAccessor(() => d => d.year)
+            setFirstYAccessor(() => d => d.netProfit)
+            setSecondYAccessor(() => d => d.operatingProfit)
+            setYAccessorTickFormat(() => format(","))
+            setYLabel('Milhões de Reais')
+        } else if (selectedChart === 'debt') {
+            setTitle('ENDIVIDAMENTO')
+            setXAccessor(() => d => d.year)
+            setFirstYAccessor(() => d => d.netDebtByEbitda)
+            setSecondYAccessor(() => d => d.grossDebtByNetWorth)
+            setYAccessorTickFormat(() => format(".1f"))
+            setYLabel('Resultado dos Indicadores')
+        }
+    }, [selectedChart])
+
+
     //render in case of no data
     if (!companyData || !financialData) {
         return <pre className="text-white text-center">Loading...</pre>
@@ -99,7 +118,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         .nice()
 
     const yScale = scaleLinear()
-        .domain([0, max(financialData, yAccessor)])
+        .domain([0, getYDomainMaxValue(financialData, firstYAccessor, secondYAccessor)])
         .range([innerHeight, 0])
         .nice()
 
@@ -112,8 +131,8 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         >
             <g transform={`translate(${margin.left}, ${margin.top})`}>
                 <Title
+                    title={title}
                     companyName={companyData.company}
-                    companyCode={companyData.code}
                     innerWidth={innerWidth}
                 />
 
@@ -127,16 +146,24 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                     innerWidth={innerWidth}
                     tickFormat={yAccessorTickFormat}
                 />
-                <YLabel />
+                <YLabel
+                    yLabel={yLabel}
+                    innerHeight={innerHeight}
+                />
 
                 <Marks
                     data={financialData}
+
                     xScale={xScale}
-                    yScale={yScale}
                     xAccessor={xAccessor}
-                    yAccessor={yAccessor}
+
+                    yScale={yScale}                    
+                    firstYAccessor={firstYAccessor}
+                    secondYAccessor={secondYAccessor}
                     yAccessorTickFormat={yAccessorTickFormat}
                 />
+
+                <ColorLegend />
 
                 <Source />
             </g>

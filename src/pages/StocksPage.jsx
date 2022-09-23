@@ -5,7 +5,7 @@ import axios from "../axios"
 export const StocksPage = () => {
     const [allCompanies, setAllCompanies] = useState(null)
     const [selectedCompanyId, setSelectedCompanyId] = useState(3) // 3 is the id of ABEV, the first company by alphabetical order
-    const [selectedChart, setSelectedChart] = useState('profit')
+    const [selectedChart, setSelectedChart] = useState('profit') // want to show the profit chart at first load
 
     //get all companies from database
     useEffect(() => {
