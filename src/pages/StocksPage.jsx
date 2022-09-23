@@ -4,8 +4,8 @@ import axios from "../axios"
 
 export const StocksPage = () => {
     const [allCompanies, setAllCompanies] = useState(null)
-    const [selectedCompanyId, setSelectedCompanyId] = useState(3) // 3 is the id of ABEV, the first company by alphabetical order
-
+    const [selectedCompanyId, setSelectedCompanyId] = useState(1) // 3 is the id of ABEV, the first company by alphabetical order
+    const [selectedChart, setSelectedChart] = useState('profit')
 
     //get all companies from database
     useEffect(() => {
@@ -40,17 +40,18 @@ export const StocksPage = () => {
                 {/* types of chart dropdown */}
                 <select
                     className="shadow w-full rounded px-1 py-2 text-gray-700 focus:outline-none focus:shadow-outline"
+                    onChange={event => setSelectedChart(event.target.value)}
                 >
                     <option value="profit">LUCRO</option>
-                    {/* <option value="debt">ENDIVIDAMENTO</option>
-                    <option value="eficiency">EFICIÊNCIA</option>
+                    <option value="debt">ENDIVIDAMENTO</option>
+                    {/* <option value="eficiency">EFICIÊNCIA</option>
                     <option value="general-data">DADOS GERAIS</option> */}
                 </select>
 
             </div>
 
             <div className='w-full border border-white rounded p-1'>
-                <Chart selectedCompanyId={selectedCompanyId} />
+                <Chart selectedCompanyId={selectedCompanyId} selectedChart={selectedChart} />
             </div>
 
         </section>

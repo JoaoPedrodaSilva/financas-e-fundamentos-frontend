@@ -12,10 +12,10 @@ import { Marks } from "./chartComponents/Marks"
 import { Source } from "./chartComponents/Source"
 
 
-export const Chart = ({ selectedCompanyId }) => {
+export const Chart = ({ selectedCompanyId, selectedChart }) => {
     //create states and variables
     const [companyData, setCompanyData] = useState(null)
-    const [profitHistory, setProfitHistory] = useState(null)
+    const [financialData, setFinancialData] = useState(null)
 
     const svgWidth = 700
     const svgHeight = 450
@@ -23,41 +23,80 @@ export const Chart = ({ selectedCompanyId }) => {
     const innerWidth = svgWidth - margin.right - margin.left
     const innerHeight = svgHeight - margin.top - margin.bottom
 
-    const xAccessor = d => Number(d.year)
-    const yAccessor = d => Number(d.net_profit)
-    const yAccessorTickFormat = format(",")
+    const xAccessor = d => d.year
+    let yAccessor = d => d.netDebtByEbitda
+    let yAccessorTickFormat = format(".2f")
+
+    //change the yAccessor everytime the selected chart changes
+    // useEffect(() => {
+    //     if (selectedChart === 'profit') {
+    //         yAccessor = d => d.netProfit
+    //         yAccessorTickFormat = format(",")
+    //     } else if (selectedChart === 'debt') {
+    //         yAccessor = d => d.netDebtByEbitda
+    //         yAccessorTickFormat = format("2f")
+    //     }
+    // }, [selectedChart])
 
 
-    //get the selected company data and its profit from the database everytime the selected company changes
+    //create functions
+    const getNetDebtByEbitda = (financialData) => {
+        const netDebt = Number(financialData.short_term_loans_and_financings) + Number(financialData.long_term_loans_and_financings) - Number(financialData.cash_and_cash_equivalents)
+
+        if (netDebt <= 0) {
+            return 0
+        }
+        
+        const ebitda = Number(financialData.operating_profit) + Number(financialData.depreciation_and_amortization)
+        return netDebt / ebitda
+    }
+    const getGrossDebtByNetWorth = (financialData) => {
+        const grossDebt = Number(financialData.short_term_loans_and_financings) + Number(financialData.long_term_loans_and_financings)
+        const netWorth = Number(financialData.net_worth)
+        return grossDebt / netWorth
+    }
+
+
+    //get the selected company general and financial data from the database everytime the selected company changes
     useEffect(() => {
-        const getCompanyDataAndProfit = async () => {
+        const getGeneralAndFinancialData = async () => {
             try {
-                const companyDataAndProfitHistory = await axios.get(`/api/acoes/${selectedCompanyId}`)
-                setCompanyData(companyDataAndProfitHistory.data.companyData)
-                setProfitHistory(companyDataAndProfitHistory.data.profitHistory)
+                const results = await axios.get(`/api/acoes/${selectedCompanyId}`)
 
+                const tempFinancialData = []
+                results.data.financialData.map(data => {                    
+                    tempFinancialData.push({
+                        year: Number(data.year),
+                        netProfit: Number(data.net_profit),
+                        operatingProfit: Number(data.operating_profit),
+                        netDebtByEbitda: getNetDebtByEbitda(data),
+                        grossDebtByNetWorth: getGrossDebtByNetWorth(data)
+                    })
+                })
+
+                setCompanyData(results.data.companyData)
+                setFinancialData(tempFinancialData)
             } catch (error) {
                 console.log(error)
             }
         }
-        getCompanyDataAndProfit()
+        getGeneralAndFinancialData()
     }, [selectedCompanyId])
 
-
     //render in case of no data
-    if (!companyData || !profitHistory) {
-        return <pre>Loading...</pre>
+    if (!companyData || !financialData) {
+        return <pre className="text-white">Loading...</pre>
     }
 
 
     //create scales
     const xScale = scaleLinear()
-        .domain(extent(profitHistory, xAccessor))
+        .domain(extent(financialData, xAccessor))
         .range([0, innerWidth])
         .nice()
 
     const yScale = scaleLinear()
-        .domain([0, max(profitHistory, yAccessor)])
+        .domain([0, max(financialData, yAccessor)])
         .range([innerHeight, 0])
         .nice()
 
@@ -68,6 +107,8 @@ export const Chart = ({ selectedCompanyId }) => {
             preserveAspectRatio="xMinYMin meet"
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
         >
+            {console.log(selectedChart)}
+            {console.log(yAccessor)}
             <g transform={`translate(${margin.left}, ${margin.top})`}>
                 <Title
                     companyName={companyData.company}
@@ -88,7 +129,7 @@ export const Chart = ({ selectedCompanyId }) => {
                 <YLabel />
 
                 <Marks
-                    data={profitHistory}
+                    data={financialData}
                     xScale={xScale}
                     yScale={yScale}
                     xAccessor={xAccessor}
