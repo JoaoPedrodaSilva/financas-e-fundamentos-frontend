@@ -13,30 +13,33 @@ import { Source } from "./chartComponents/Source"
 
 
 export const Chart = ({ selectedCompanyId, selectedChart }) => {
+
     //create states and variables
     const [companyData, setCompanyData] = useState(null)
     const [financialData, setFinancialData] = useState(null)
+    const [xAccessor, setXAccessor] = useState(null)
+    const [yAccessor, setYAccessor] = useState(null)
+    const [yAccessorTickFormat, setYAccessorTickFormat] = useState(null)
 
     const svgWidth = 700
     const svgHeight = 450
     const margin = { top: 50, right: 20, bottom: 50, left: 70 }
     const innerWidth = svgWidth - margin.right - margin.left
-    const innerHeight = svgHeight - margin.top - margin.bottom
+    const innerHeight = svgHeight - margin.top - margin.bottom   
+    
 
-    const xAccessor = d => d.year
-    let yAccessor = d => d.netDebtByEbitda
-    let yAccessorTickFormat = format(".2f")
-
-    //change the yAccessor everytime the selected chart changes
-    // useEffect(() => {
-    //     if (selectedChart === 'profit') {
-    //         yAccessor = d => d.netProfit
-    //         yAccessorTickFormat = format(",")
-    //     } else if (selectedChart === 'debt') {
-    //         yAccessor = d => d.netDebtByEbitda
-    //         yAccessorTickFormat = format("2f")
-    //     }
-    // }, [selectedChart])
+    // change xAccessor and yAccessor everytime the selected chart changes
+    useEffect(() => {
+        if (selectedChart === 'profit') {
+            setXAccessor(() => d => d.year)
+            setYAccessor(() => d => d.netProfit)
+            setYAccessorTickFormat(() => format(","))
+        } else if (selectedChart === 'debt') {
+            setXAccessor(() => d => d.year)
+            setYAccessor(() => d => d.netDebtByEbitda)
+            setYAccessorTickFormat(() => format(".1f"))
+        }
+    }, [selectedChart])
 
 
     //create functions
@@ -46,7 +49,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         if (netDebt <= 0) {
             return 0
         }
-        
+
         const ebitda = Number(financialData.operating_profit) + Number(financialData.depreciation_and_amortization)
         return netDebt / ebitda
     }
@@ -85,7 +88,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
 
     //render in case of no data
     if (!companyData || !financialData) {
-        return <pre className="text-white">Loading...</pre>
+        return <pre className="text-white text-center">Loading...</pre>
     }
 
 
@@ -101,14 +104,12 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         .nice()
 
 
-    //render bar chart
+    //render chart
     return (
         <svg
             preserveAspectRatio="xMinYMin meet"
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
         >
-            {console.log(selectedChart)}
-            {console.log(yAccessor)}
             <g transform={`translate(${margin.left}, ${margin.top})`}>
                 <Title
                     companyName={companyData.company}
