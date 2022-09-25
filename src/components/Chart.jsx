@@ -13,22 +13,20 @@ import { ColorLegend } from "./chartComponents/ColorLegend"
 import { Source } from "./chartComponents/Source"
 
 
-
 export const Chart = ({ selectedCompanyId, selectedChart }) => {
 
     //create states and variables
     const [companyData, setCompanyData] = useState(null)
     const [financialData, setFinancialData] = useState(null)
-    const [xAccessor, setXAccessor] = useState(null)
-    const [firstYAccessor, setFirstYAccessor] = useState(null)
-    const [secondYAccessor, setSecondYAccessor] = useState(null)
+    const [chartTitle, setChartTitle] = useState(null)
+    const [xAccessor] = useState(() => d => d.year)
+    const [yAccessor, setYAccessor] = useState(null)
     const [yAccessorTickFormat, setYAccessorTickFormat] = useState(null)
-    const [yLabel, setYLabel] = useState(null)
-    const [title, setTitle] = useState(null)
+    const [yAxisLabel, setYAxisLabel] = useState(null)
 
     const svgWidth = 700
     const svgHeight = 450
-    const margin = { top: 50, right: 20, bottom: 80, left: 70 }
+    const margin = { top: 50, right: 80, bottom: 90, left: 30 }
     const innerWidth = svgWidth - margin.right - margin.left
     const innerHeight = svgHeight - margin.top - margin.bottom
 
@@ -49,11 +47,18 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         const netWorth = Number(financialData.net_worth)
         return grossDebt / netWorth
     }
-    const getYDomainMaxValue = (financialData, firstYAccessor, secondYAccessor) => {
+    const getYDomainMaxValue = (financialData, firstYAccessor, secondYAccessor, thirdYAccessor) => {
         const tempAllAccessorValues = []
         financialData.map(data => {
-            tempAllAccessorValues.push(firstYAccessor(data))
-            tempAllAccessorValues.push(secondYAccessor(data))
+            if (firstYAccessor) {
+                tempAllAccessorValues.push(firstYAccessor(data))
+            }
+            if (secondYAccessor) {
+                tempAllAccessorValues.push(secondYAccessor(data))
+            }
+            if (thirdYAccessor) {
+                tempAllAccessorValues.push(thirdYAccessor(data))
+            }
         })
         return Math.max(...tempAllAccessorValues)
     }
@@ -69,8 +74,9 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                 results.data.financialData.map(data => {
                     tempFinancialData.push({
                         year: Number(data.year),
-                        netProfit: Number(data.net_profit),
+                        netIncome: Number(data.net_income),
                         operatingProfit: Number(data.operating_profit),
+                        netProfit: Number(data.net_profit),                        
                         netDebtByEbitda: getNetDebtByEbitda(data),
                         grossDebtByNetWorth: getGrossDebtByNetWorth(data)
                     })
@@ -85,22 +91,41 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         getGeneralAndFinancialData()
     }, [selectedCompanyId])
 
-    // change title, xAccessor, YAccessors and yLabels everytime the selected chart changes
+    // change chartTitle, yAxisLabel, YAccessor, yAccessorLegend and yAccessorTickFormat everytime the selected chart changes
     useEffect(() => {
+
         if (selectedChart === 'profit') {
-            setTitle('LUCRO')
-            setXAccessor(() => d => d.year)
-            setFirstYAccessor(() => d => d.netProfit)
-            setSecondYAccessor(() => d => d.operatingProfit)
+            setChartTitle('LUCRO')
+            setYAxisLabel('Milhões de Reais')
+            setYAccessor({
+                firstYAccessor: d => d.netIncome,
+                firstYAccessorColor: "#d6d6ff",
+                firstYAccessorLegend: "Receita líquida",
+                secondYAccessor: d => d.operatingProfit,
+                secondYAccessorColor: "#4747ff",
+                secondYAccessorLegend: "Lucro operacional",
+                thirdYAccessor: d => d.netProfit,
+                thirdYAccessorColor: "#000066",
+                thirdYAccessorLegend: "Lucro líquido",
+                // tickFormat: () => format(",") don't know why it does not work
+            })
             setYAccessorTickFormat(() => format(","))
-            setYLabel('Milhões de Reais')
+            
+
         } else if (selectedChart === 'debt') {
-            setTitle('ENDIVIDAMENTO')
-            setXAccessor(() => d => d.year)
-            setFirstYAccessor(() => d => d.netDebtByEbitda)
-            setSecondYAccessor(() => d => d.grossDebtByNetWorth)
+            setChartTitle('ENDIVIDAMENTO')
+            setYAxisLabel('Resultado dos Indicadores')
+            setYAccessor({
+                firstYAccessor: d => d.netDebtByEbitda,
+                firstYAccessorColor: "#d6d6ff",
+                firstYAccessorLegend: "Dívida líquida / Ebitda",
+                secondYAccessor: d => d.grossDebtByNetWorth,
+                secondYAccessorColor: "#4747ff",
+                secondYAccessorLegend: "Dívida bruta / Patrimônio líquido",
+                // tickFormat: () => format(".1f") don't know why it does not work
+            })
             setYAccessorTickFormat(() => format(".1f"))
-            setYLabel('Resultado dos Indicadores')
+            
         }
     }, [selectedChart])
 
@@ -118,7 +143,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         .nice()
 
     const yScale = scaleLinear()
-        .domain([0, getYDomainMaxValue(financialData, firstYAccessor, secondYAccessor)])
+        .domain([0, getYDomainMaxValue(financialData, yAccessor.firstYAccessor, yAccessor.secondYAccessor, yAccessor.thirdYAccessor)])
         .range([innerHeight, 0])
         .nice()
 
@@ -131,7 +156,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         >
             <g transform={`translate(${margin.left}, ${margin.top})`}>
                 <Title
-                    title={title}
+                    chartTitle={chartTitle}
                     companyName={companyData.company}
                     innerWidth={innerWidth}
                 />
@@ -147,7 +172,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                     tickFormat={yAccessorTickFormat}
                 />
                 <YLabel
-                    yLabel={yLabel}
+                    yAxisLabel={yAxisLabel}
                     innerHeight={innerHeight}
                 />
 
@@ -157,13 +182,14 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                     xScale={xScale}
                     xAccessor={xAccessor}
 
-                    yScale={yScale}                    
-                    firstYAccessor={firstYAccessor}
-                    secondYAccessor={secondYAccessor}
+                    yScale={yScale}
+                    yAccessor={yAccessor}
                     yAccessorTickFormat={yAccessorTickFormat}
                 />
 
-                <ColorLegend />
+                <ColorLegend
+                    yAccessor={yAccessor}
+                />
 
                 <Source />
             </g>

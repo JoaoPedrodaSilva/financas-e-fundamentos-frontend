@@ -23,7 +23,7 @@ export const DetailedArticlePage = () => {
 
 
     return (
-        <section className='h-full flex flex-col justify-center items-start gap-1 px-5 sm:px-14 lg:px-40 bg-gray-800'>
+        <section className='h-full flex flex-col justify-center items-start gap-1 px-5 lg:px-20 bg-gray-800'>
 
             <h1 className='self-center text-white text-center text-3xl font-semibold my-5'>{article && article.title}</h1>
             {contents && contents.map(content => {

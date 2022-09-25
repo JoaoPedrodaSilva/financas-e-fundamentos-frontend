@@ -1,5 +1,5 @@
 export const HomePage = () => (
-    <section className='h-full flex flex-col justify-center items-center gap-8 px-5 sm:px-14 lg:px-40'
+    <section className='h-full flex flex-col justify-center items-center gap-8 px-5 lg:px-20'
     // style={{
     //     backgroundImage: "url(" + "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSng3iWiwoumM3N-TAXZSpcKniWGz4wwzIVuw&usqp=CAU" + ")",
     //     backgroundPosition: 'center',

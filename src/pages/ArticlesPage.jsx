@@ -19,7 +19,7 @@ export const ArticlesPage = () => {
     }, [])
 
     return (
-        <section className='h-full flex flex-wrap justify-center items-center gap-x-10 px-5 sm:px-14 lg:px-40 bg-gray-800'>
+        <section className='h-full flex flex-wrap justify-center items-center gap-x-10 px-5 lg:px-20 bg-gray-800'>
 
             {articles && articles.map(article => {
                 return (

@@ -30,7 +30,7 @@ export const Navbar = () => {
 
 
     return (
-        <nav className="flex justify-between items-center gap-8 px-5 sm:px-14 lg:px-40 py-2 lg:py-1 bg-white">
+        <nav className="flex justify-between items-center gap-8 px-5 lg:px-20 py-2 lg:py-1 bg-white">
 
             {/* brand */}
             <Link to={`/`} className="flex items-center justify-center gap-1">

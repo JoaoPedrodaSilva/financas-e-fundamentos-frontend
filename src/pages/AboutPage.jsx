@@ -1,5 +1,5 @@
 export const AboutPage = () => (
-    <section className='h-full flex flex-col justify-center items-start gap-4 px-5 sm:px-14 lg:px-40'>
+    <section className='h-full flex flex-col justify-center items-start gap-4 px-5 lg:px-20'>
 
         <h1 className='text-white text-2xl sm:text-3xl lg:text-4xl self-center text-center mb-6 sm:mb-12'>
             Planejamento financeiro moderno e gestão de investimentos independente
