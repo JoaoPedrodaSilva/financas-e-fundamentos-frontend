@@ -33,15 +33,15 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
 
     //create functions
     const getYDomainMaxValue = (financialData, yAccessors) => {
-        const tempAllAccessorValues = []
-        financialData.map(data => {
-            if (yAccessors) {
-                yAccessors.map(yAccessor => {
-                    tempAllAccessorValues.push(yAccessor.accessor(data))
-                })
-            }            
+        const tempVisibleAccessors = []
+        financialData.map(yearOfData => {
+            yAccessors.map(yAccessor => {
+                if (yAccessor.visible) {
+                    tempVisibleAccessors.push(yAccessor.accessor(yearOfData))
+                }                
+            })
         })
-        return Math.max(...tempAllAccessorValues)
+        return Math.max(...tempVisibleAccessors)
     }
 
     const getNetDebtByEbitda = (financialData) => {
@@ -62,8 +62,9 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
     }
 
 
-
-    //get the selected company general and financial data from the database everytime the selected company changes
+    // Everytime the selected company changes, this useEffect do the following:
+    // 1 - get the selected company general and financial data from the database 
+    // 2 - make all yAccessors visible
     useEffect(() => {
         const getGeneralAndFinancialData = async () => {
             try {
@@ -83,6 +84,45 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
 
                 setCompanyData(results.data.companyData)
                 setFinancialData(tempFinancialData)
+
+                if (selectedChart === 'profit') {
+                    setYAccessors([
+                        {
+                            accessor: d => d.netIncome,
+                            color: "#d6d6ff",
+                            legend: "Receita líquida",
+                            visible: true
+                        },
+                        {
+                            accessor: d => d.operatingProfit,
+                            color: "#4747ff",
+                            legend: "Lucro operacional",
+                            visible: true
+                        },
+                        {
+                            accessor: d => d.netProfit,
+                            color: "#000066",
+                            legend: "Lucro líquido",
+                            visible: true
+                        }
+                    ])
+                } else if (selectedChart === 'debt') {
+                    setYAccessors([
+                        {
+                            accessor: d => d.netDebtByEbitda,
+                            color: "#d6d6ff",
+                            legend: "Dívida líquida / ebitda",
+                            visible: true
+                        },
+                        {
+                            accessor: d => d.grossDebtByNetWorth,
+                            color: "#4747ff",
+                            legend: "Dívida bruta / patrimônio líquido",
+                            visible: true
+                        }
+                    ])
+                }
+
             } catch (error) {
                 console.log(error)
             }
@@ -133,7 +173,6 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                     legend: "Dívida bruta / patrimônio líquido",
                     visible: true
                 }
-
             ])
             setYAccessorTickFormat(() => format(".1f"))
         }
