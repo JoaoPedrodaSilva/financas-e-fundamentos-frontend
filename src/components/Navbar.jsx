@@ -38,7 +38,7 @@ export const Navbar = () => {
                 <span className="self-center text-base sm:text-lg lg:text-xl font-semibold">Finanças e Fundamentos</span>
             </Link>
 
-            {/* hamburger menu (mobile only) */}
+            {/* hamburger menu icon (mobile and tablet only) */}
             <button
                 data-collapse-toggle="navbar-default"
                 type="button"
@@ -57,9 +57,9 @@ export const Navbar = () => {
                 }
             </button>
 
-            {/* inline menu (tablets and desktops) */}
+            {/* inline menu (desktop only) */}
             <div ref={menuRef} className={`${showMenu ? 'absolute lg:relative top-10 lg:top-auto right-0 lg:right-auto' : 'hidden'} `} id="navbar-default">
-                <ul className="flex flex-col items-start lg:flex-row gap-4 px-6 py-4 bg-white rounded">
+                <ul className="flex flex-col items-start lg:flex-row gap-4 px-6 py-4 bg-white rounded-b">
                     <li>
                         <Link
                             to={`/`}
