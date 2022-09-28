@@ -38,7 +38,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
             yAccessors.map(yAccessor => {
                 if (yAccessor.visible) {
                     tempVisibleAccessors.push(yAccessor.accessor(yearOfData))
-                }                
+                }
             })
         })
         return Math.max(...tempVisibleAccessors)
@@ -181,7 +181,13 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
 
     //render in case of no data
     if (!companyData || !financialData) {
-        return <pre className="text-white text-center">Loading...</pre>
+        return (
+            <div className="flex flex-col justify-center items-center gap-3">
+                <p className="text-white text-center">Carregando as informações...</p>
+                <img className="w-2/12 sm:w-1/12 rounded-lg" src={require('../../src/loading.gif')} alt="An animation, showing the chart is being loaded." />
+            </div>
+        )
+        // return <pre className="text-white text-center">Loading...</pre>
     }
 
 

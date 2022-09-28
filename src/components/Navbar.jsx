@@ -137,7 +137,7 @@ export const Navbar = () => {
                                         Ações
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link
                                         to={`/fundosimobiliarios`}
                                         className="text-md text-gray-700 rounded hover:text-blue-700"
@@ -148,7 +148,7 @@ export const Navbar = () => {
                                     >
                                         Fundos Imobiliários
                                     </Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </li>

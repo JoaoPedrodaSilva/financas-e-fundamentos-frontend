@@ -26,24 +26,18 @@ export const StocksPage = () => {
         <section className='h-full flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-2 lg:gap-10 px-5 lg:px-20'>
             <div className="w-full sm:w-1/2 lg:w-3/4 lg:max-w-xl flex flex-col gap-3">
 
-                {/* selected company general data */}
+                {/* selected company general data (tablet and desktop only) */}
                 {selectedCompanyData && (
                     <div className="hidden w-full sm:flex flex-col text-white px-1 lg:text-lg">
                         <p className="my-3 text-justify">
                             <span className="text-gray-400">Nome empresarial: </span><br />{selectedCompanyData.company}
                         </p>
-                        {/* <p className="my-3 text-justify">
-                            <span className="text-gray-400">CNPJ: </span><br />{selectedCompanyData.cnpj}
-                        </p> */}
                         <p className="my-3 text-justify">
                             <span className="text-gray-400">Código de negociação: </span><br />{selectedCompanyData.code}3
                         </p>
                         <p className="my-1 text-justify">
                             <span className="text-gray-400">Segmento de listagem: </span><br />{selectedCompanyData.listing_segment}
                         </p>
-                        {/* <p className="my-1">
-                            <span className="text-gray-400">Escriturador: </span><br />{selectedCompanyData.bookkeeper}
-                        </p> */}
                     </div>
                 )}
 
@@ -53,7 +47,7 @@ export const StocksPage = () => {
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     onChange={event => setSelectedCompanyId(event.target.value)}
                 >
-                    {/* create an option for each company at the database */}
+                    {/* create an option for each company registered at the database */}
                     {allCompanies && allCompanies.map(company => (
                         <option key={company.id} value={company.id}>
                             {`${company.code} - ${company.company}`}
@@ -75,7 +69,10 @@ export const StocksPage = () => {
 
             </div>
 
+            
             <div className='w-full border border-white rounded p-1'>
+
+                {/* general data */}
                 {selectedChart === 'general-data' ? (
                     <div className="w-full h-full flex flex-col text-white p-2 sm:p-4 text-sm sm:text-base lg:text-lg">
                         <p className="text-justify">
@@ -100,6 +97,8 @@ export const StocksPage = () => {
                             <span className="text-gray-400">Atividade principal: </span>{selectedCompanyData.main_activity}
                         </p>
                     </div>
+
+                // charts
                 ) : (
                     <Chart selectedCompanyId={selectedCompanyId} selectedChart={selectedChart} />
                 )}

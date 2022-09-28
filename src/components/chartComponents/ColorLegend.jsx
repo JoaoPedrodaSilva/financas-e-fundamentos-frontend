@@ -1,5 +1,3 @@
-import { useEffect } from "react"
-import { useState } from "react"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 
 export const ColorLegend = ({ yAccessors, setYAccessors, getYDomainMaxValue, selectedChart }) => {
