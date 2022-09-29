@@ -6,7 +6,7 @@ export const StocksPage = () => {
     const [allCompanies, setAllCompanies] = useState(null)
     const [selectedCompanyData, setSelectedCompanyData] = useState(null)
     const [selectedCompanyId, setSelectedCompanyId] = useState(3) // 3 is the id of ABEV, the first company by alphabetical order
-    const [selectedChart, setSelectedChart] = useState('profit') // want to show the profit chart at first load
+    const [selectedChart, setSelectedChart] = useState('income') // want to show the profit chart at first load
 
     //get all companies from database
     useEffect(() => {
@@ -33,7 +33,7 @@ export const StocksPage = () => {
                             <span className="text-gray-400">Nome empresarial: </span><br />{selectedCompanyData.company}
                         </p>
                         <p className="my-3 text-justify">
-                            <span className="text-gray-400">Código de negociação: </span><br />{selectedCompanyData.code}3
+                            <span className="text-gray-400">Código de negociação: </span><br />{selectedCompanyData.code}
                         </p>
                         <p className="my-1 text-justify">
                             <span className="text-gray-400">Segmento de listagem: </span><br />{selectedCompanyData.listing_segment}
@@ -61,9 +61,9 @@ export const StocksPage = () => {
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     onChange={event => setSelectedChart(event.target.value)}
                 >
-                    <option value="profit">LUCRO</option>
+                    <option value="income">LUCRO</option>
                     <option value="debt">ENDIVIDAMENTO</option>
-                    {/* <option value="eficiency">EFICIÊNCIA</option> */}
+                    <option value="eficiency">EFICIÊNCIA</option>
                     <option value="general-data">DADOS GERAIS</option>
                 </select>
 
@@ -93,9 +93,16 @@ export const StocksPage = () => {
                         <p className="my-2 text-justify">
                             <span className="text-gray-400">Classificação setorial: </span>{selectedCompanyData.sectoral_classification}
                         </p>
-                        <p className="my-2 text-justify">
+                        <p className="mt-2 mb-7 text-justify">
                             <span className="text-gray-400">Atividade principal: </span>{selectedCompanyData.main_activity}
                         </p>
+                        <p className="text-right text-[0.6rem]"><a
+                            style={{ fill: "white" }}
+                            href="https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm"
+                            target="blank"
+                            rel="noopener noreferrer">
+                            Fonte: B3 S.A. - Brasil, Bolsa, Balcão
+                        </a></p>
                     </div>
 
                 // charts

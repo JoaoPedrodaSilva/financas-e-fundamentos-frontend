@@ -1,6 +1,6 @@
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 
-export const ColorLegend = ({ yAccessors, setYAccessors, getYDomainMaxValue, selectedChart }) => {
+export const ColorLegend = ({ yAccessors, setYAccessors }) => {
 
 
     const toggleAccessorVisibility = (yAccessor) => {
@@ -8,10 +8,10 @@ export const ColorLegend = ({ yAccessors, setYAccessors, getYDomainMaxValue, sel
 
         yAccessors.map(currentYAccessor => {
             if (currentYAccessor.legend === yAccessor.legend) {
-                if (currentYAccessor.visible) {
-                    tempYAccessors.push({ ...yAccessor, visible: false })
+                if (currentYAccessor.isVisible) {
+                    tempYAccessors.push({ ...yAccessor, isVisible: false })
                 } else {
-                    tempYAccessors.push({ ...yAccessor, visible: true })
+                    tempYAccessors.push({ ...yAccessor, isVisible: true })
                 }
             } else {
                 tempYAccessors.push({ ...currentYAccessor })
@@ -27,7 +27,7 @@ export const ColorLegend = ({ yAccessors, setYAccessors, getYDomainMaxValue, sel
                 <g
                     key={index}
                     transform={`translate(${105 * index}, ${350})`}
-                    style={yAccessor.visible ? { cursor: "pointer", opacity: "1" } : { cursor: "pointer", opacity: "0.3" }}
+                    style={yAccessor.isVisible ? { cursor: "pointer", opacity: "1" } : { cursor: "pointer", opacity: "0.3" }}
                     onClick={() => toggleAccessorVisibility(yAccessor)}
                 >
                     <rect
@@ -47,7 +47,7 @@ export const ColorLegend = ({ yAccessors, setYAccessors, getYDomainMaxValue, sel
                         {yAccessor.legend}
                     </text>
 
-                    {yAccessor.visible ? (
+                    {yAccessor.isVisible ? (
                         <AiFillEye
                             x={(index * 120) - 10}
                             y={3.2}

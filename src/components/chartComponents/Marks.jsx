@@ -5,7 +5,7 @@ export const Marks = ({ data, xScale, yScale, xAccessor, yAccessors, yAccessorTi
     return (
         <>
             {yAccessors.map((yAccessor, index) => (
-                yAccessor.visible && (
+                yAccessor.isVisible && (
                     <g key={index}>
                         <path
                             d={line()

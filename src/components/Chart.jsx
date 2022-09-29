@@ -36,7 +36,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         const tempVisibleAccessors = []
         financialData.map(yearOfData => {
             yAccessors.map(yAccessor => {
-                if (yAccessor.visible) {
+                if (yAccessor.isVisible) {
                     tempVisibleAccessors.push(yAccessor.accessor(yearOfData))
                 }
             })
@@ -51,14 +51,24 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
             return 0
         }
 
-        const ebitda = Number(financialData.operating_profit) + Number(financialData.depreciation_and_amortization)
+        const ebitda = Number(financialData.operating_income) + Number(financialData.depreciation_and_amortization)
         return netDebt / ebitda
     }
 
     const getGrossDebtByNetWorth = (financialData) => {
         const grossDebt = Number(financialData.short_term_loans_and_financings) + Number(financialData.long_term_loans_and_financings)
-        const netWorth = Number(financialData.net_worth)
+        const netWorth = Number(financialData.equity)
         return grossDebt / netWorth
+    }
+
+    const getReturnOnEquity = (financialData) => {
+        const returnOnEquity = Number(financialData.net_income) / Number(financialData.equity)
+        return returnOnEquity
+    }
+
+    const getReturnOnAssets = (financialData) => {
+        const returnOnAssets = Number(financialData.net_income) / Number(financialData.assets)
+        return returnOnAssets
     }
 
 
@@ -74,36 +84,38 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                 results.data.financialData.map(data => {
                     tempFinancialData.push({
                         year: Number(data.year),
+                        netRevenue: Number(data.net_revenue),
+                        operatingIncome: Number(data.operating_income),
                         netIncome: Number(data.net_income),
-                        operatingProfit: Number(data.operating_profit),
-                        netProfit: Number(data.net_profit),
                         netDebtByEbitda: getNetDebtByEbitda(data),
-                        grossDebtByNetWorth: getGrossDebtByNetWorth(data)
+                        grossDebtByNetWorth: getGrossDebtByNetWorth(data),
+                        returnOnEquity: getReturnOnEquity(data),
+                        returnOnAssets: getReturnOnAssets(data),
                     })
                 })
 
                 setCompanyData(results.data.companyData)
                 setFinancialData(tempFinancialData)
 
-                if (selectedChart === 'profit') {
+                if (selectedChart === 'income') {
                     setYAccessors([
                         {
-                            accessor: d => d.netIncome,
+                            accessor: d => d.netRevenue,
                             color: "#d6d6ff",
                             legend: "Receita líquida",
-                            visible: true
+                            isVisible: true
                         },
                         {
-                            accessor: d => d.operatingProfit,
+                            accessor: d => d.operatingIncome,
                             color: "#4747ff",
-                            legend: "Lucro operacional",
-                            visible: true
+                            legend: "Lucro operacional (EBIT)",
+                            isVisible: true
                         },
                         {
-                            accessor: d => d.netProfit,
+                            accessor: d => d.netIncome,
                             color: "#000066",
                             legend: "Lucro líquido",
-                            visible: true
+                            isVisible: true
                         }
                     ])
                 } else if (selectedChart === 'debt') {
@@ -112,13 +124,28 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                             accessor: d => d.netDebtByEbitda,
                             color: "#d6d6ff",
                             legend: "Dívida líquida / ebitda",
-                            visible: true
+                            isVisible: true
                         },
                         {
                             accessor: d => d.grossDebtByNetWorth,
                             color: "#4747ff",
-                            legend: "Dívida bruta / patrimônio líquido",
-                            visible: true
+                            legend: "Dívida bruta / pat. líquido",
+                            isVisible: true
+                        }
+                    ])
+                } else if (selectedChart === 'eficiency') {
+                    setYAccessors([
+                        {
+                            accessor: d => d.returnOnEquity,
+                            color: "#d6d6ff",
+                            legend: "Retorno / pat. líquido (ROE)",
+                            isVisible: true
+                        },
+                        {
+                            accessor: d => d.returnOnAssets,
+                            color: "#4747ff",
+                            legend: "Retorno / ativos (ROA)",
+                            isVisible: true
                         }
                     ])
                 }
@@ -132,27 +159,27 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
 
     // change chartTitle, yAxisLabel, YAccessor, yAccessorLegend and yAccessorTickFormat everytime the selected chart changes
     useEffect(() => {
-        if (selectedChart === 'profit') {
+        if (selectedChart === 'income') {
             setChartTitle('LUCRO')
             setYAxisLabel('Milhões de Reais')
             setYAccessors([
                 {
-                    accessor: d => d.netIncome,
+                    accessor: d => d.netRevenue,
                     color: "#d6d6ff",
                     legend: "Receita líquida",
-                    visible: true
+                    isVisible: true
                 },
                 {
-                    accessor: d => d.operatingProfit,
+                    accessor: d => d.operatingIncome,
                     color: "#4747ff",
-                    legend: "Lucro operacional",
-                    visible: true
+                    legend: "Lucro operacional (EBIT)",
+                    isVisible: true
                 },
                 {
-                    accessor: d => d.netProfit,
+                    accessor: d => d.netIncome,
                     color: "#000066",
                     legend: "Lucro líquido",
-                    visible: true
+                    isVisible: true
                 }
             ])
             setYAccessorTickFormat(() => format(","))
@@ -165,13 +192,31 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                     accessor: d => d.netDebtByEbitda,
                     color: "#d6d6ff",
                     legend: "Dívida líquida / ebitda",
-                    visible: true
+                    isVisible: true
                 },
                 {
                     accessor: d => d.grossDebtByNetWorth,
                     color: "#4747ff",
-                    legend: "Dívida bruta / patrimônio líquido",
-                    visible: true
+                    legend: "Dívida bruta / pat. líquido",
+                    isVisible: true
+                }
+            ])
+            setYAccessorTickFormat(() => format(".1f"))
+        } else if (selectedChart === 'eficiency') {
+            setChartTitle('EFICIÊNCIA')
+            setYAxisLabel('Resultado dos Indicadores')
+            setYAccessors([
+                {
+                    accessor: d => d.returnOnEquity,
+                    color: "#d6d6ff",
+                    legend: "Retorno / pat. líquido (ROE)",
+                    isVisible: true
+                },
+                {
+                    accessor: d => d.returnOnAssets,
+                    color: "#4747ff",
+                    legend: "Retorno / ativos (ROA)",
+                    isVisible: true
                 }
             ])
             setYAccessorTickFormat(() => format(".1f"))
