@@ -1,6 +1,6 @@
 import { line, curveNatural } from "d3"
 
-export const Marks = ({ data, xScale, yScale, xAccessor, yAccessors, yAccessorTickFormat }) => {
+export const Marks = ({ data, selectedChart, xScale, yScale, xAccessor, yAccessors, yAccessorTickFormat }) => {
 
     return (
         <>
@@ -29,9 +29,15 @@ export const Marks = ({ data, xScale, yScale, xAccessor, yAccessors, yAccessorTi
                                 cy={yScale(yAccessor.accessor(d))}
                                 r={4}
                             >
-                                {/* <title>
-                                    {`Ano: ${xAccessor(d)}  -  ${yAccessor.legend}: ${yAccessorTickFormat(yAccessor.accessor(d))}`}
-                                </title> */}
+                                {selectedChart === "income" ? (
+                                    <title>
+                                        {`Ano: ${xAccessor(d)}  -  ${yAccessor.legend}: R$ ${yAccessorTickFormat(yAccessor.accessor(d)).replace(",", ".")}.000,00`}
+                                    </title>
+                                ) : (
+                                    <title>
+                                        {`Ano: ${xAccessor(d)}  -  ${yAccessor.legend}: ${yAccessorTickFormat(yAccessor.accessor(d))}`}
+                                    </title>
+                                )}
                             </circle>
                         ))}
                     </g>

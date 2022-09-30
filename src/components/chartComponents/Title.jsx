@@ -3,7 +3,7 @@ export const Title = ({ chartTitle, companyName, innerWidth }) => (
         <text
             style={{ fill: "white", textAnchor: "middle" }}
             x={innerWidth / 2}
-            y="-30"
+            y="-20"
         >
             {companyName} - {chartTitle}
         </text>

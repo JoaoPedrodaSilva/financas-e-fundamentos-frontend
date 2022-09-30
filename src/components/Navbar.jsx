@@ -127,7 +127,7 @@ export const Navbar = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        to={`/acoes`}
+                                        to={`/acoes/3`}
                                         className="text-md text-gray-700 rounded hover:text-blue-700"
                                         onClick={() => {
                                             setShowSubMenu(false)

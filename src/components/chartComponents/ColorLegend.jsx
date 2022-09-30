@@ -26,12 +26,12 @@ export const ColorLegend = ({ yAccessors, setYAccessors }) => {
             {yAccessors.map((yAccessor, index) => (
                 <g
                     key={index}
-                    transform={`translate(${105 * index}, ${350})`}
+                    transform={`translate(${105 * index}, ${365})`}
                     style={yAccessor.isVisible ? { cursor: "pointer", opacity: "1" } : { cursor: "pointer", opacity: "0.3" }}
                     onClick={() => toggleAccessorVisibility(yAccessor)}
                 >
                     <rect
-                        width={220}
+                        width={190}
                         height={25}
                         x={(index * 120) - 15}
                         rx={5}

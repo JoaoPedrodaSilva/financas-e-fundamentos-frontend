@@ -1,20 +1,22 @@
 import { useState, useEffect } from "react"
 import { Chart } from "../components/Chart"
+import { Link, Navigate, useParams } from "react-router-dom"
 import axios from "../axios"
 
 export const StocksPage = () => {
+    const {id} = useParams()
     const [allCompanies, setAllCompanies] = useState(null)
     const [selectedCompanyData, setSelectedCompanyData] = useState(null)
-    const [selectedCompanyId, setSelectedCompanyId] = useState(3) // 3 is the id of ABEV, the first company by alphabetical order
-    const [selectedChart, setSelectedChart] = useState('income') // want to show the profit chart at first load
+    const [selectedCompanyId, setSelectedCompanyId] = useState(id) // want to show ABEV as default (alphabetical order)
+    const [selectedChart, setSelectedChart] = useState('income') // want to show the income chart as default
 
-    //get all companies from database
+    // get all companies from database
     useEffect(() => {
         const getAllCompanies = async () => {
             try {
-                const data = await axios.get(`/api/acoes/${selectedCompanyId}`) //need to change that to /api/acoes
+                const data = await axios.get(`/api/acoes/${selectedCompanyId}`)
                 setAllCompanies(data.data.allCompanies)
-                setSelectedCompanyData(data.data.companyData)
+                setSelectedCompanyData(data.data.companyData)                
             } catch (error) {
                 console.log(error)
             }
@@ -22,8 +24,13 @@ export const StocksPage = () => {
         getAllCompanies()
     }, [selectedCompanyId])
 
+    // const handleNavigate = (id) => {
+    //     <Navigate to={`/artigos`} replace={false} />
+    // }
+
     return (
         <section className='h-full flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-2 lg:gap-10 px-5 lg:px-20'>
+            {/* <Navigate to={`/acoes/${selectedCompanyId}`} /> */}
             <div className="w-full sm:w-1/2 lg:w-3/4 lg:max-w-xl flex flex-col gap-3">
 
                 {/* selected company general data (tablet and desktop only) */}
@@ -45,16 +52,15 @@ export const StocksPage = () => {
                 {/* companies dropdown */}
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
-                    onChange={event => setSelectedCompanyId(event.target.value)}
+                    onChange={event =>  setSelectedCompanyId(event.target.value)}
                 >
                     {/* create an option for each company registered at the database */}
                     {allCompanies && allCompanies.map(company => (
                         <option key={company.id} value={company.id}>
                             {`${company.code} - ${company.company}`}
-                        </option>
+                        </option>                        
                     ))}
                 </select>
-
 
                 {/* types of chart dropdown */}
                 <select
@@ -69,48 +75,56 @@ export const StocksPage = () => {
 
             </div>
 
-            
-            <div className='w-full border border-white rounded p-1'>
 
-                {/* general data */}
+            <div className='w-full border border-white rounded p-1'>
                 {selectedChart === 'general-data' ? (
-                    <div className="w-full h-full flex flex-col text-white p-2 sm:p-4 text-sm sm:text-base lg:text-lg">
+                    <div className="w-full h-full flex flex-col text-white px-2 sm:px-4 pt-2 sm:pt-4 text-sm sm:text-base lg:text-lg">
                         <p className="text-justify">
-                            <span className="text-gray-400">Nome empresarial: </span>{selectedCompanyData.company}
+                            <span className="text-gray-400">Nome empresarial: </span>
+                            {selectedCompanyData.company}
                         </p>
                         <p className="my-2 text-justify">
-                            <span className="text-gray-400">CNPJ: </span>{selectedCompanyData.cnpj}
+                            <span className="text-gray-400">CNPJ: </span>
+                            {selectedCompanyData.cnpj}
                         </p>
                         <p className="my-2 text-justify">
-                            <span className="text-gray-400">Código de negociação: </span>{selectedCompanyData.code}3
+                            <span className="text-gray-400">Código de negociação: </span>
+                            {selectedCompanyData.code}3
                         </p>
                         <p className="my-2 text-justify">
-                            <span className="text-gray-400">Segmento de listagem: </span>{selectedCompanyData.listing_segment}
+                            <span className="text-gray-400">Segmento de listagem: </span>
+                            {selectedCompanyData.listing_segment}
                         </p>
                         <p className="my-2 text-justify">
-                            <span className="text-gray-400">Escriturador: </span>{selectedCompanyData.bookkeeper}
+                            <span className="text-gray-400">Escriturador: </span>
+                            {selectedCompanyData.bookkeeper}
                         </p>
                         <p className="my-2 text-justify">
-                            <span className="text-gray-400">Classificação setorial: </span>{selectedCompanyData.sectoral_classification}
+                            <span className="text-gray-400">Classificação setorial: </span>
+                            {selectedCompanyData.sectoral_classification}
                         </p>
                         <p className="mt-2 mb-7 text-justify">
-                            <span className="text-gray-400">Atividade principal: </span>{selectedCompanyData.main_activity}
+                            <span className="text-gray-400">Atividade principal: </span>
+                            {selectedCompanyData.main_activity}
                         </p>
-                        <p className="text-right text-[0.6rem]"><a
-                            style={{ fill: "white" }}
-                            href="https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm"
-                            target="blank"
-                            rel="noopener noreferrer">
-                            Fonte: B3 S.A. - Brasil, Bolsa, Balcão
-                        </a></p>
+                        <p className="text-right text-[0.6rem]">
+                            <a
+                                style={{ fill: "white" }}
+                                href="https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm"
+                                target="blank"
+                                rel="noopener noreferrer"
+                            >
+                                Fonte: B3 S.A. - Brasil, Bolsa, Balcão
+                            </a>
+                        </p>
                     </div>
 
-                // charts
+                    // charts
                 ) : (
                     <Chart selectedCompanyId={selectedCompanyId} selectedChart={selectedChart} />
                 )}
             </div>
 
-        </section>
+        </section >
     )
 }

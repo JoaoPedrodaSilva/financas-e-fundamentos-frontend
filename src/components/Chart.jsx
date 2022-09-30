@@ -3,11 +3,10 @@ import { scaleLinear, extent, format } from "d3"
 import axios from "../axios"
 
 
-//import chart components to build the chart
+//importing chart components to build the chart
 import { Title } from "./chartComponents/Title"
 import { XAxis } from "./chartComponents/XAxis"
 import { YAxis } from "./chartComponents/YAxis"
-import { YLabel } from "./chartComponents/YLabel"
 import { Marks } from "./chartComponents/Marks"
 import { ColorLegend } from "./chartComponents/ColorLegend"
 import { Source } from "./chartComponents/Source"
@@ -15,23 +14,22 @@ import { Source } from "./chartComponents/Source"
 
 export const Chart = ({ selectedCompanyId, selectedChart }) => {
 
-    //create states and variables
+    //declaring states and variables    
     const [companyData, setCompanyData] = useState(null)
     const [financialData, setFinancialData] = useState(null)
     const [chartTitle, setChartTitle] = useState(null)
     const [xAccessor] = useState(() => d => d.year)
     const [yAccessors, setYAccessors] = useState(null)
     const [yAccessorTickFormat, setYAccessorTickFormat] = useState(null)
-    const [yAxisLabel, setYAxisLabel] = useState(null)
 
     const svgWidth = 700
     const svgHeight = 450
-    const margin = { top: 50, right: 80, bottom: 90, left: 30 }
+    const margin = { top: 40, right: 60, bottom: 80, left: 30 }
     const innerWidth = svgWidth - margin.right - margin.left
     const innerHeight = svgHeight - margin.top - margin.bottom
 
 
-    //create functions
+    //declaring functions
     const getYDomainMaxValue = (financialData, yAccessors) => {
         const tempVisibleAccessors = []
         financialData.map(yearOfData => {
@@ -42,6 +40,74 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
             })
         })
         return Math.max(...tempVisibleAccessors)
+    }
+
+    const refreshYAccessors = () => {
+        if (selectedChart === 'income') {
+            setYAccessors([
+                {
+                    accessor: d => d.netRevenue,
+                    color: "#d6d6ff",
+                    legend: "Receita líquida",
+                    isVisible: true
+                },
+                {
+                    accessor: d => d.operatingIncome,
+                    color: "#4747ff",
+                    legend: "Lucro operacional (EBIT)",
+                    isVisible: true
+                },
+                {
+                    accessor: d => d.netIncome,
+                    color: "#000066",
+                    legend: "Lucro líquido",
+                    isVisible: true
+                }
+            ])
+        } else if (selectedChart === 'debt') {
+            setYAccessors([
+                {
+                    accessor: d => d.netDebtByEbitda,
+                    color: "#d6d6ff",
+                    legend: "Dívida líquida / ebitda",
+                    isVisible: true
+                },
+                {
+                    accessor: d => d.grossDebtByNetWorth,
+                    color: "#4747ff",
+                    legend: "Dívida bruta / pat. líquido",
+                    isVisible: true
+                }
+            ])
+        } else if (selectedChart === 'eficiency') {
+            setYAccessors([
+                {
+                    accessor: d => d.returnOnEquity,
+                    color: "#d6d6ff",
+                    legend: "Retorno / pat. líquido (ROE)",
+                    isVisible: true
+                },
+                {
+                    accessor: d => d.returnOnAssets,
+                    color: "#4747ff",
+                    legend: "Retorno / ativos (ROA)",
+                    isVisible: true
+                }
+            ])
+        }
+    }
+
+    const refreshChartType = () => {
+        if (selectedChart === 'income') {
+            setChartTitle('LUCRO (EM MILHÕES DE REAIS)')
+            setYAccessorTickFormat(() => format(","))
+        } else if (selectedChart === 'debt') {
+            setChartTitle('ENDIVIDAMENTO')
+            setYAccessorTickFormat(() => format(".1f"))
+        } else if (selectedChart === 'eficiency') {
+            setChartTitle('EFICIÊNCIA')
+            setYAccessorTickFormat(() => format(",.0%"))
+        }
     }
 
     const getNetDebtByEbitda = (financialData) => {
@@ -96,59 +162,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
 
                 setCompanyData(results.data.companyData)
                 setFinancialData(tempFinancialData)
-
-                if (selectedChart === 'income') {
-                    setYAccessors([
-                        {
-                            accessor: d => d.netRevenue,
-                            color: "#d6d6ff",
-                            legend: "Receita líquida",
-                            isVisible: true
-                        },
-                        {
-                            accessor: d => d.operatingIncome,
-                            color: "#4747ff",
-                            legend: "Lucro operacional (EBIT)",
-                            isVisible: true
-                        },
-                        {
-                            accessor: d => d.netIncome,
-                            color: "#000066",
-                            legend: "Lucro líquido",
-                            isVisible: true
-                        }
-                    ])
-                } else if (selectedChart === 'debt') {
-                    setYAccessors([
-                        {
-                            accessor: d => d.netDebtByEbitda,
-                            color: "#d6d6ff",
-                            legend: "Dívida líquida / ebitda",
-                            isVisible: true
-                        },
-                        {
-                            accessor: d => d.grossDebtByNetWorth,
-                            color: "#4747ff",
-                            legend: "Dívida bruta / pat. líquido",
-                            isVisible: true
-                        }
-                    ])
-                } else if (selectedChart === 'eficiency') {
-                    setYAccessors([
-                        {
-                            accessor: d => d.returnOnEquity,
-                            color: "#d6d6ff",
-                            legend: "Retorno / pat. líquido (ROE)",
-                            isVisible: true
-                        },
-                        {
-                            accessor: d => d.returnOnAssets,
-                            color: "#4747ff",
-                            legend: "Retorno / ativos (ROA)",
-                            isVisible: true
-                        }
-                    ])
-                }
+                refreshYAccessors()
 
             } catch (error) {
                 console.log(error)
@@ -157,70 +171,10 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         getGeneralAndFinancialData()
     }, [selectedCompanyId])
 
-    // change chartTitle, yAxisLabel, YAccessor, yAccessorLegend and yAccessorTickFormat everytime the selected chart changes
+    // change chartTitle, yAxisLabel, YAccessors, yAccessorLegend and yAccessorTickFormat everytime the selected chart changes
     useEffect(() => {
-        if (selectedChart === 'income') {
-            setChartTitle('LUCRO')
-            setYAxisLabel('Milhões de Reais')
-            setYAccessors([
-                {
-                    accessor: d => d.netRevenue,
-                    color: "#d6d6ff",
-                    legend: "Receita líquida",
-                    isVisible: true
-                },
-                {
-                    accessor: d => d.operatingIncome,
-                    color: "#4747ff",
-                    legend: "Lucro operacional (EBIT)",
-                    isVisible: true
-                },
-                {
-                    accessor: d => d.netIncome,
-                    color: "#000066",
-                    legend: "Lucro líquido",
-                    isVisible: true
-                }
-            ])
-            setYAccessorTickFormat(() => format(","))
-
-        } else if (selectedChart === 'debt') {
-            setChartTitle('ENDIVIDAMENTO')
-            setYAxisLabel('Resultado dos Indicadores')
-            setYAccessors([
-                {
-                    accessor: d => d.netDebtByEbitda,
-                    color: "#d6d6ff",
-                    legend: "Dívida líquida / ebitda",
-                    isVisible: true
-                },
-                {
-                    accessor: d => d.grossDebtByNetWorth,
-                    color: "#4747ff",
-                    legend: "Dívida bruta / pat. líquido",
-                    isVisible: true
-                }
-            ])
-            setYAccessorTickFormat(() => format(".1f"))
-        } else if (selectedChart === 'eficiency') {
-            setChartTitle('EFICIÊNCIA')
-            setYAxisLabel('Resultado dos Indicadores')
-            setYAccessors([
-                {
-                    accessor: d => d.returnOnEquity,
-                    color: "#d6d6ff",
-                    legend: "Retorno / pat. líquido (ROE)",
-                    isVisible: true
-                },
-                {
-                    accessor: d => d.returnOnAssets,
-                    color: "#4747ff",
-                    legend: "Retorno / ativos (ROA)",
-                    isVisible: true
-                }
-            ])
-            setYAccessorTickFormat(() => format(".1f"))
-        }
+        refreshYAccessors()
+        refreshChartType()
     }, [selectedChart])
 
 
@@ -236,7 +190,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
     }
 
 
-    //create scales
+    //declaring scales
     const xScale = scaleLinear()
         .domain(extent(financialData, xAccessor))
         .range([0, innerWidth])
@@ -248,7 +202,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
         .nice()
 
 
-    //render chart
+    //rendering chart
     return (
         <svg
             preserveAspectRatio="xMinYMin meet"
@@ -271,13 +225,10 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
                     innerWidth={innerWidth}
                     tickFormat={yAccessorTickFormat}
                 />
-                <YLabel
-                    yAxisLabel={yAxisLabel}
-                    innerHeight={innerHeight}
-                />
 
                 <Marks
                     data={financialData}
+                    selectedChart={selectedChart}
 
                     xScale={xScale}
                     xAccessor={xAccessor}
