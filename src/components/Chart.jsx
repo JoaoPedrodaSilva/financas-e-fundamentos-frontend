@@ -10,11 +10,13 @@ import { YAxis } from "./chartComponents/YAxis"
 import { Marks } from "./chartComponents/Marks"
 import { ColorLegend } from "./chartComponents/ColorLegend"
 import { Source } from "./chartComponents/Source"
+import { useParams } from "react-router-dom"
 
 
-export const Chart = ({ selectedCompanyId, selectedChart }) => {
+export const Chart = ({ selectedChart }) => {
 
-    //declaring states and variables    
+    //declaring states and variables   
+    const { code } = useParams()
     const [companyData, setCompanyData] = useState(null)
     const [financialData, setFinancialData] = useState(null)
     const [chartTitle, setChartTitle] = useState(null)
@@ -144,7 +146,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
     useEffect(() => {
         const getGeneralAndFinancialData = async () => {
             try {
-                const results = await axios.get(`/api/acoes/${selectedCompanyId}`)
+                const results = await axios.get(`/api/acoes/${code}`)
 
                 const tempFinancialData = []
                 results.data.financialData.map(data => {
@@ -169,7 +171,7 @@ export const Chart = ({ selectedCompanyId, selectedChart }) => {
             }
         }
         getGeneralAndFinancialData()
-    }, [selectedCompanyId])
+    }, [code])
 
     // change chartTitle, yAxisLabel, YAccessors, yAccessorLegend and yAccessorTickFormat everytime the selected chart changes
     useEffect(() => {
