@@ -101,7 +101,7 @@ export const StocksPage = () => {
                             {selectedCompanyData.sectoral_classification}
                         </p>
                         <p className="mt-2 mb-7 text-justify">
-                            <span className="text-gray-400">Ativcodeade principal: </span>
+                            <span className="text-gray-400">Atividade principal: </span>
                             {selectedCompanyData.main_activity}
                         </p>
                         <p className="text-right text-[0.6rem]">

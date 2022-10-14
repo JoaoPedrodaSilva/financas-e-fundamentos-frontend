@@ -34,7 +34,7 @@ export const Navbar = () => {
 
             {/* brand */}
             <Link to={`/`} className="flex items-center justify-center gap-1">
-                <img src='https://financasefundamentos.s3.sa-east-1.amazonaws.com/logo.png' className="w-6 sm:w-8 lg:w-10" alt="Logotipo do Finanças e Fundamentos, uma moeda amarela com duas letras efes, uma de cabeça para cima e outra de cabeça para baixo." />
+                <img src='https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/logo.png' className="w-6 sm:w-8 lg:w-10" alt="Logotipo do Finanças e Fundamentos, uma moeda amarela com duas letras efes, uma de cabeça para cima e outra de cabeça para baixo." />
                 <span className="self-center text-base sm:text-lg lg:text-xl font-semibold">Finanças e Fundamentos</span>
             </Link>
 
