@@ -43,6 +43,17 @@ export const Chart = ({ selectedChart }) => {
         })
         return Math.max(...tempVisibleAccessors)
     }
+    const getYDomainMinValue = (financialData, yAccessors) => {
+        const tempVisibleAccessors = []
+        financialData.map(yearOfData => {
+            yAccessors.map(yAccessor => {
+                if (yAccessor.isVisible) {
+                    tempVisibleAccessors.push(yAccessor.accessor(yearOfData))
+                }
+            })
+        })
+        return Math.min(...tempVisibleAccessors)
+    }
 
     const refreshYAccessors = () => {
         if (selectedChart === 'income') {
@@ -51,7 +62,7 @@ export const Chart = ({ selectedChart }) => {
                     accessor: d => d.netRevenue,
                     color: "#d6d6ff",
                     legend: "Receita líquida",
-                    isVisible: true
+                    isVisible: false
                 },
                 {
                     accessor: d => d.operatingIncome,
@@ -199,7 +210,7 @@ export const Chart = ({ selectedChart }) => {
         .nice()
 
     const yScale = scaleLinear()
-        .domain([0, getYDomainMaxValue(financialData, yAccessors)])
+        .domain([getYDomainMinValue(financialData, yAccessors), getYDomainMaxValue(financialData, yAccessors)])
         .range([innerHeight, 0])
         .nice()
 

@@ -46,8 +46,8 @@ export const StocksPage = () => {
 
 
                 {/* companies dropdown */}
-                <select
-                    className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
+                <select                    
+                    className="w-full lg:max-w-md shadow rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={code}
                     onChange={event => navigate(`/acoes/${event.target.value}`)}
                 >
