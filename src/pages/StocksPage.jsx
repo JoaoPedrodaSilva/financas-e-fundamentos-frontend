@@ -54,7 +54,7 @@ export const StocksPage = () => {
                     {/* create an option for each company registered at the database */}
                     {allCompanies && allCompanies.map(company => (
                         <option key={company.code} value={company.code}>
-                            {`${company.code} - ${company.company}`}
+                            {`${company.code} - ${company.company}`.toUpperCase()}
                         </option>
                     ))}
                 </select>
