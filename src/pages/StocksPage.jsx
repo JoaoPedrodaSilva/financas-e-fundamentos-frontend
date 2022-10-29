@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Chart } from "../components/Chart"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, Link } from "react-router-dom"
 import axios from "../axios"
 
 export const StocksPage = () => {
@@ -25,7 +25,7 @@ export const StocksPage = () => {
     }, [code])
 
 
-    return (
+    return (        
         <section className='h-full flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-2 lg:gap-10 px-5 lg:px-20'>
             <div className="w-full sm:w-1/2 lg:w-3/4 lg:max-w-xl flex flex-col gap-3">
 
@@ -36,7 +36,7 @@ export const StocksPage = () => {
                             <span className="text-gray-400">Nome empresarial: </span><br />{selectedCompanyData.company}
                         </p>
                         <p className="my-3 text-justify">
-                            <span className="text-gray-400">Código de negociação: </span><br />{selectedCompanyData.code}
+                            <span className="text-gray-400">Códigos de negociação: </span><br />{selectedCompanyData.negotiation_codes}
                         </p>
                         <p className="my-1 text-justify">
                             <span className="text-gray-400">Segmento de listagem: </span><br />{selectedCompanyData.listing_segment}
@@ -46,15 +46,15 @@ export const StocksPage = () => {
 
 
                 {/* companies dropdown */}
-                <select                    
+                <select
                     className="w-full lg:max-w-md shadow rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={code}
                     onChange={event => navigate(`/acoes/${event.target.value}`)}
                 >
                     {/* create an option for each company registered at the database */}
                     {allCompanies && allCompanies.map(company => (
-                        <option key={company.code} value={company.code}>
-                            {`${company.code} - ${company.company}`.toUpperCase()}
+                        <option key={company.base_code} value={company.base_code}>
+                            {`${company.base_code} - ${company.company}`}
                         </option>
                     ))}
                 </select>
@@ -72,56 +72,66 @@ export const StocksPage = () => {
 
             </div>
 
+            <div className='w-full flex flex-col justify-center items-center gap-2'>
+                <div className='w-full border border-white rounded p-1'>
+                    {selectedChart === 'general-data' ? (
+                        <div className="w-full h-full flex flex-col text-white px-2 sm:px-4 pt-2 sm:pt-4 text-sm sm:text-base lg:text-lg">
+                            <p className="text-justify">
+                                <span className="text-gray-400">Nome empresarial: </span>
+                                {selectedCompanyData.company}
+                            </p>
+                            <p className="my-2 text-justify">
+                                <span className="text-gray-400">CNPJ: </span>
+                                {selectedCompanyData.cnpj}
+                            </p>
+                            <p className="my-2 text-justify">
+                                <span className="text-gray-400">Códigos de negociação: </span>
+                                {selectedCompanyData.negotiation_codes}
+                            </p>
+                            <p className="my-2 text-justify">
+                                <span className="text-gray-400">Segmento de listagem: </span>
+                                {selectedCompanyData.listing_segment}
+                            </p>
+                            <p className="my-2 text-justify">
+                                <span className="text-gray-400">Escriturador: </span>
+                                {selectedCompanyData.bookkeeper}
+                            </p>
+                            <p className="my-2 text-justify">
+                                <span className="text-gray-400">Classificação setorial: </span>
+                                {selectedCompanyData.sectoral_classification}
+                            </p>
+                            <p className="mt-2 mb-7 text-justify">
+                                <span className="text-gray-400">Atividade principal: </span>
+                                {selectedCompanyData.main_activity}
+                            </p>
+                            <p className="text-right text-[0.6rem]">
+                                <a
+                                    style={{ fill: "white" }}
+                                    href="https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm"
+                                    target="blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Fonte: B3 S.A. - Brasil, Bolsa, Balcão
+                                </a>
+                            </p>
+                        </div>
 
-            <div className='w-full border border-white rounded p-1'>
-                {selectedChart === 'general-data' ? (
-                    <div className="w-full h-full flex flex-col text-white px-2 sm:px-4 pt-2 sm:pt-4 text-sm sm:text-base lg:text-lg">
-                        <p className="text-justify">
-                            <span className="text-gray-400">Nome empresarial: </span>
-                            {selectedCompanyData.company}
-                        </p>
-                        <p className="my-2 text-justify">
-                            <span className="text-gray-400">CNPJ: </span>
-                            {selectedCompanyData.cnpj}
-                        </p>
-                        <p className="my-2 text-justify">
-                            <span className="text-gray-400">Código de negociação: </span>
-                            {selectedCompanyData.code}
-                        </p>
-                        <p className="my-2 text-justify">
-                            <span className="text-gray-400">Segmento de listagem: </span>
-                            {selectedCompanyData.listing_segment}
-                        </p>
-                        <p className="my-2 text-justify">
-                            <span className="text-gray-400">Escriturador: </span>
-                            {selectedCompanyData.bookkeeper}
-                        </p>
-                        <p className="my-2 text-justify">
-                            <span className="text-gray-400">Classificação setorial: </span>
-                            {selectedCompanyData.sectoral_classification}
-                        </p>
-                        <p className="mt-2 mb-7 text-justify">
-                            <span className="text-gray-400">Atividade principal: </span>
-                            {selectedCompanyData.main_activity}
-                        </p>
-                        <p className="text-right text-[0.6rem]">
-                            <a
-                                style={{ fill: "white" }}
-                                href="https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm"
-                                target="blank"
-                                rel="noopener noreferrer"
-                            >
-                                Fonte: B3 S.A. - Brasil, Bolsa, Balcão
-                            </a>
-                        </p>
-                    </div>
-
-                    // charts
-                ) : (
-                    <Chart selectedChart={selectedChart} />
-                )}
+                        // charts
+                    ) : (
+                        <Chart selectedChart={selectedChart} />
+                    )}
+                </div>
+                {
+                    selectedChart === "income" &&
+                    <Link
+                        to='/artigos/indicadores-de-lucro'
+                        className="text-white text-sm lg:text-base mb-5"
+                    >
+                        Clique e aprenda a interpretar esse gráfico
+                    </Link>
+                }
+                
             </div>
-
         </section >
     )
 }

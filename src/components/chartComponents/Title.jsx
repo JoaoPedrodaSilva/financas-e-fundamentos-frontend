@@ -5,7 +5,7 @@ export const Title = ({ chartTitle, companyName, innerWidth }) => (
             x={innerWidth / 2}
             y="-20"
         >
-            {companyName.toUpperCase()} - {chartTitle}
+            {companyName} - {chartTitle}
         </text>
     </g>
 )

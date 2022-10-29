@@ -10,11 +10,11 @@ export const AboutPage = () => (
         </p>
 
         <p className='text-white sm:text-lg lg:text-xl text-center'>
-            Mostramos como conhecer o seu próprio perfil de risco e escolher o investimento mais adequado para você, sem depender de gerentes de banco ou assessores de investimento.
+            Mostramos como conhecer seu próprio perfil de risco e escolher o investimento mais adequado para você, sem depender de gerentes de banco ou assessores de investimento.
         </p>
 
         <p className='text-white sm:text-lg lg:text-xl text-center'>
-            Finanças e Fundamentos é sobre educação financeira. É sobre como preparar um futuro próspero sem deixar de aproveitar o presente.
+            Finanças e Fundamentos é sobre educação financeira, é sobre como preparar um futuro próspero sem deixar de aproveitar o presente.
         </p>
 
     </section>

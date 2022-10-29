@@ -125,24 +125,29 @@ export const Chart = ({ selectedChart }) => {
 
     const getNetDebtByEbitda = (financialData) => {
         const netDebt = Number(financialData.short_term_loans_and_financings) + Number(financialData.long_term_loans_and_financings) - Number(financialData.cash_and_cash_equivalents)
+        const ebitda = Number(financialData.operating_income) + Number(financialData.depreciation_and_amortization)
 
-        if (netDebt <= 0) {
+        if (netDebt <= 0 || ebitda <= 0) {
             return 0
         }
-
-        const ebitda = Number(financialData.operating_income) + Number(financialData.depreciation_and_amortization)
+        
         return netDebt / ebitda
     }
 
-    const getGrossDebtByNetWorth = (financialData) => {
+    const getGrossDebtByEquity = (financialData) => {
         const grossDebt = Number(financialData.short_term_loans_and_financings) + Number(financialData.long_term_loans_and_financings)
-        const netWorth = Number(financialData.equity)
-        return grossDebt / netWorth
+        const equity = Number(financialData.equity)
+
+        if (equity <= 0) {
+            return 0
+        }
+        return grossDebt / equity
     }
 
     const getReturnOnEquity = (financialData) => {
         const returnOnEquity = Number(financialData.net_income) / Number(financialData.equity)
         return returnOnEquity
+
     }
 
     const getReturnOnAssets = (financialData) => {
@@ -167,7 +172,7 @@ export const Chart = ({ selectedChart }) => {
                         operatingIncome: Number(data.operating_income),
                         netIncome: Number(data.net_income),
                         netDebtByEbitda: getNetDebtByEbitda(data),
-                        grossDebtByNetWorth: getGrossDebtByNetWorth(data),
+                        grossDebtByNetWorth: getGrossDebtByEquity(data),
                         returnOnEquity: getReturnOnEquity(data),
                         returnOnAssets: getReturnOnAssets(data),
                     })

@@ -113,7 +113,7 @@ export const Navbar = () => {
                         {/* Submenu items*/}
                         <div id="dropdownNavbar" className={`${showSubMenu ? 'absolute right-0 z-10 w-48 bg-white rounded ' : 'hidden'}`}>
                             <ul className="flex flex-col items-start gap-4 px-6 py-4 bg-white rounded " aria-labelledby="dropdownLargeButton">
-                                {/* <li>
+                                <li>
                                     <Link
                                         to={`/artigos`}
                                         className="text-md text-gray-700 rounded hover:text-blue-700"
@@ -124,10 +124,10 @@ export const Navbar = () => {
                                     >
                                         Artigos
                                     </Link>
-                                </li> */}
+                                </li>
                                 <li>
                                     <Link
-                                        to={`/acoes/ABEV3`}
+                                        to={`/acoes/ABEV`}
                                         className="text-md text-gray-700 rounded hover:text-blue-700"
                                         onClick={() => {
                                             setShowSubMenu(false)
