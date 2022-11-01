@@ -111,8 +111,8 @@ export const Navbar = () => {
                             }
                         </button>
                         {/* Submenu items*/}
-                        <div id="dropdownNavbar" className={`${showSubMenu ? 'absolute right-0 z-10 w-48 bg-white rounded ' : 'hidden'}`}>
-                            <ul className="flex flex-col items-start gap-4 px-6 py-4 bg-white rounded " aria-labelledby="dropdownLargeButton">
+                        <div id="dropdownNavbar" className={`${showSubMenu ? 'absolute right-0 z-10 w-full lg:w-auto rounded' : 'hidden'}`}>
+                            <ul className="flex flex-col lg:flex-row items-start gap-4 px-6 py-4 bg-gray-200 shadow-lg rounded " aria-labelledby="dropdownLargeButton">
                                 <li>
                                     <Link
                                         to={`/artigos`}
@@ -137,18 +137,6 @@ export const Navbar = () => {
                                         Ações
                                     </Link>
                                 </li>
-                                {/* <li>
-                                    <Link
-                                        to={`/fundosimobiliarios`}
-                                        className="text-md text-gray-700 rounded hover:text-blue-700"
-                                        onClick={() => {
-                                            setShowSubMenu(false)
-                                            navbarWidth < 768 && setShowMenu(false)
-                                        }}
-                                    >
-                                        Fundos Imobiliários
-                                    </Link>
-                                </li> */}
                             </ul>
                         </div>
                     </li>

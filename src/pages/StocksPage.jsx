@@ -125,7 +125,7 @@ export const StocksPage = () => {
                     selectedChart === "income" &&
                     <Link
                         to='/artigos/indicadores-de-lucro'
-                        className="text-white text-sm lg:text-base mb-5"
+                        className="text-white text-sm lg:text-base"
                     >
                         Clique e aprenda a interpretar esse gráfico
                     </Link>

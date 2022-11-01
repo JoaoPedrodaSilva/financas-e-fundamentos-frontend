@@ -1,26 +1,76 @@
-export const IncomeMetrics = () => (
+export const EficiencyMetrics = () => (
     <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20 overflow-scroll">
-        <h1 className="text-center text-xl font-bold py-8">Indicadores de Lucratividade</h1>
+        <h1 className="text-center text-xl font-bold py-8">Indicadores Fundamentalistas de Endividamento</h1>
 
+        {/* Intro */}
         <p className="indent-10 text-justify pb-2">
-            São um dos mais importantes a serem observados, afinal, o objetivo econômico de toda empresa é a geração de lucro. Teoricamente, quanto maiores forem os números apresentados por estes indicadores, melhor, e o ideal é que haja uma tendência de crescimento ao longo dos anos.
-        </p>
-        <p className="indent-10 text-justify pb-2">
-            Os indicadores apresentados neste artigo são encontrados em um relatório financeiro chamado DRE - Demonstração de Resultado do Exercício. Este documento é publicado pelas empresas trimestralmente, e é uma espécie de resumo das operações financeiras em determinado período.
+            São importantes para sabermos como anda a saúde financeira da empresa, se ela possui condições de honrar com os compromissos assumidos em termos de empréstimos e financiamentos junto a terceiros.
         </p>
         <p className="indent-10 text-justify pb-8">
-            Alguns dos principais indicadores de lucratividade são:
+            Para iniciarmos os estudos, precisamos compreender melhor alguns relatórios financeiros divulgados, trimestralmente, pelas empresas.
+        </p>
+
+        {/* balance sheet */}
+        <h2 className="indent-10 font-bold pb-2">
+            Balanço Patrimonial
+        </h2>
+        <p className="indent-10 text-justify pb-4">
+            O primeiro relatório financeiro que iremos analisar é chamado de balanço patrimonial, ele tem a finalidade de apresentar a posição financeira de uma empresa em determinada data. Esse documento é dividido em três partes: os ativos, os passivos e o patrimônio líquido. Detalharemos cada uma delas a seguir.
+        </p>
+
+        {/* balance sheet - assets */}
+        <h3 className="indent-10 font-bold pb-2">
+            Balanço Patrimonial - Ativos
+        </h3>
+        <p className="indent-10 text-justify pb-2">
+            A primeira parte são os ativos. Aqui, encontramos todos os bens e direitos que uma empresa possui. Eles são divididos em duas categorias: os ativos circulantes e os ativos não circulantes.
+        </p>
+        <p className="indent-10 text-justify pb-2">
+            Os ativos circulantes são os bens e direitos com maior liquidez, ou seja, que a empresa consegue transformar em dinheiro de maneira mais rápida (em até 12 meses), por exemplo: dinheiro em caixa, contas a receber, tributos a recuperar, estoque e aplicações financeiras de maior liquidez.
+        </p>
+        <p className="indent-10 text-justify pb-4">
+            Já os ativos não circulantes são os bens e direitos com menor liquidez, ou seja, que a empresa demoraria mais de 12 meses para transformar em dinheiro, por exemplo: imóveis, terrenos, veículos, maquinário, além de alguns ativos intangíveis, como direitos autorais e patentes.
+        </p>
+
+        {/* balance sheet - liabilities */}
+        <h3 className="indent-10 font-bold pb-2">
+            Balanço Patrimonial - Passivos
+        </h3>
+        <p className="indent-10 text-justify pb-2">
+            A segunda parte são os passivos. Aqui, encontramos todas as dívidas e obrigações que uma empresa precisa honrar. Eles também são divididos em duas categorias: os passivos circulantes e os passivos não circulantes.
+        </p>
+        <p className="indent-10 text-justify pb-2">
+            Os passivos circulantes são as dívidas e obrigações de curto prazo, ou seja, que a empresa precisa honrar em até 12 meses, por exemplo: salário de funcionários, pagamento de fornecedores, tributos e impostos, além de empréstimos e financiamentos.
+        </p>
+        <p className="indent-10 text-justify pb-2">
+            Já os passivos não circulantes as dívidas e obrigações de mais longo prazo, ou seja, que a empresa pode demorar mais de 12 meses para honrar, por exemplo: empréstimos e financiamentos, debêntures e créditos provisionados.
+        </p>
+
+        {/* balance sheet - equity */}
+        <h3 className="indent-10 font-bold pb-4">
+            Balanço Patrimonial - Patrimônio Líquido
+        </h3>
+        <p className="indent-10 text-justify pb-2">
+            A terceira e última parte é o patrimônio líquido. Ele corresponde à diferença entre os ativos e os passivos, além disso, é considerado como o valor contábil da empresa. Inclui o dinheiro investido pelos próprios sócios (capital social), as reservas de lucro e as ações em tesouraria, por exemplo.
         </p>
 
 
         <h2 className="indent-10 font-bold pb-2">
-            Receita Líquida
+            Dívida Bruta
         </h2>
         <p className="indent-10 text-justify pb-2">
-            Na DRE, a receita líquida costuma ser o primeiro dado apresentado, portanto, fica na parte superior do documento. A nomenclatura mais comum que as empresas utilizam para designar este indicador é "Receita de Venda de Bens e/ou Serviços".
+            A dívida bruta representa o total de empréstimos e financiamentos que uma empresa possui, tanto no curto, quanto no longo prazo. Para termos acesso a esses números, devemos nos basear em um documento chamado Balanço Patrimonial, ele é divulgado trimestralmente e
+        </p>
+
+
+        <h2 className="indent-10 font-bold pb-2">
+            Dívida Líquida
+        </h2>
+        <p className="indent-10 text-justify pb-2">
+            A dívida líquida representa o total de empréstimos e financiamentos que uma empresa possui, tanto no curto quanto no longo prazo, deduzidos o caixa e o equivalente de caixa. Para termos acesso a esses dados, devemos nos basear em um documento chamado Balanço Patrimonial, ele é divulgado trimestralmente pelas empresas e tem a finalidade de apresentar a posição financeira de uma empresa em determinada data, normalmente 31 de dezembro do ano em questão.
         </p>
         <p className="indent-10 text-justify pb-2">
-            A receita líquida é o dinheiro que a empresa conseguiu ganhar ao realizar suas operações de venda de produtos e/ou prestação de serviços. Basicamente, ela equivale a quase todo dinheiro que entra no caixa. Digo quase todo dinheiro, pois este indicador não inclui descontos, devoluções, abatimentos e alguns impostos, como IPI, ISS e ICMS, por exemplo.
+            A dívida líquida representa o total de empréstimos e financiamentos que uma empresa possui, tanto no curto quanto no longo prazo, deduzidos o caixa e o equivalente de caixa. Para termos acesso a esses dados, devemos nos basear em um documento chamado Balanço Patrimonial, ele é divulgado trimestralmente pelas empresas e tem a finalidade de apresentar a posição financeira de uma empresa em determinada data, normalmente 31 de dezembro do ano em questão.
         </p>
         <p className="indent-10 text-justify pb-8">
             Entender o conceito de receita líquida é o passo inicial para se analisar a demonstração dos resultados publicada pela empresa, isso porque é a partir dela que vamos avançando pelos demais indicadores de lucratividade, e entendendo melhor o cenário em que a empresa se encontra em termos de vendas de produtos, prestações de serviços e pagamento de custos e despesas para continuar operando.
@@ -68,7 +118,7 @@ export const IncomeMetrics = () => (
 
             <div className="col-span-1 text-right mr-2">(-)</div>
             <div className="col-span-11">CUSTO PARA PRODUZIR O PRODUTO VENDIDO OU PARA PRESTAR O SERVIÇO</div>
-            
+
             <div className="col-span-1 text-right mr-2">(-)</div>
             <div className="col-span-11 ">DESPESAS ADMINISTRATIVAS GERAIS, COMO FOLHA DE PAGAMENTO E PROPAGANDAS</div>
 
