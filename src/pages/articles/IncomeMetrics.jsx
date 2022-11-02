@@ -1,9 +1,24 @@
+import { Link } from "react-router-dom"
+
 export const IncomeMetrics = () => (
     <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20 overflow-scroll">
+
+        {/* Title */}
         <h1 className="text-center text-xl font-bold py-8">Indicadores de Lucratividade</h1>
 
+
+        {/* Recomendations */}
+        {/* <p className="indent-10 text-justify pb-2">
+            Para aproveitar melhor este conteúdo, recomendamos que você leia também o seguinte artigo.
+        </p>
+        <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+            DRE - Demonstração de Resultado do Exercício.
+        </Link> */}
+
+
+        {/* Intro */}
         <p className="indent-10 text-justify pb-2">
-            São um dos mais importantes a serem observados, afinal, o objetivo econômico de toda empresa é a geração de lucro. Teoricamente, quanto maiores forem os números apresentados por estes indicadores, melhor, e o ideal é que haja uma tendência de crescimento ao longo dos anos.
+            Os indicadores de lucratividade são um dos mais importantes a serem observados, afinal, o objetivo econômico de toda empresa é a geração de lucro. Teoricamente, quanto maiores forem os números apresentados por estes indicadores, melhor, e o ideal é que haja uma tendência de crescimento ao longo dos anos.
         </p>
         <p className="indent-10 text-justify pb-2">
             Os indicadores apresentados neste artigo são encontrados em um relatório financeiro chamado DRE - Demonstração de Resultado do Exercício. Este documento é publicado pelas empresas trimestralmente, e é uma espécie de resumo das operações financeiras em determinado período.
@@ -13,7 +28,8 @@ export const IncomeMetrics = () => (
         </p>
 
 
-        <h2 className="indent-10 font-bold pb-2">
+        {/* Net Revenue */}
+        <h2 className="text-center font-bold pb-2">
             Receita Líquida
         </h2>
         <p className="indent-10 text-justify pb-2">
@@ -27,8 +43,8 @@ export const IncomeMetrics = () => (
         </p>
 
 
-
-        <h2 className="indent-10 font-bold pb-2">
+        {/* Operating Income */}
+        <h2 className="text-center font-bold pb-2">
             Lucro Operacional
         </h2>
         <p className="indent-10 text-justify pb-2">
@@ -42,7 +58,8 @@ export const IncomeMetrics = () => (
         </p>
 
 
-        <h2 className="indent-10 font-bold pb-2">
+        {/* Net Income */}
+        <h2 className="text-center font-bold pb-2">
             Lucro Líquido
         </h2>
         <p className="indent-10 text-justify pb-2">
@@ -59,30 +76,33 @@ export const IncomeMetrics = () => (
         </p>
 
 
-        <h2 className="text-center text-sm sm:text-base lg:text-lg font-bold mb-3">
-            Resumo Simplificado da Demonstração de Resultado do Exercício - DRE
+        {/* Example */}
+        <p className="indent-10 text-justify pb-2">
+            Abaixo temos um exemplo de uma DRE - Demonstração de Resultado do Exercício, com a receita líquida, o lucro operacional e o lucro líquido em destaque.
+        </p>
+        <img
+            src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/income-statement.png"
+            alt="um exemplo de DRE - Demonstração de Resultado do Exercício"
+            className="pb-8"
+        />
+
+
+        {/* Ending */}
+        <p className="indent-10 text-justify pb-8">
+            Agora você já é capaz de colher os dados necessários e analisar a lucratividade de uma companhia. Esse é um grande passo para poder fazer sua própria análise e decidir se vai investir, ou não, em determinada empresa.
+        </p>
+
+
+        {/* Related Articles */}
+        <h2 className="text-center font-bold pb-2">
+            Artigos relacionados
         </h2>
-        <div className="sm:w-3/4 text-[0.6rem] sm:text-sm lg:text-base grid grid-cols-12 items-center justify-center gap-y-2 mb-8 sm:mx-auto">
-            <div className="col-span-1"></div>
-            <div className="col-span-11 font-bold border-t-2">RECEITA LÍQUIDA</div>
+        <Link to="/artigos/indicadores-de-endividamento" className="indent-10 text-justify pb-8 underline">
+            Indicadores de Endividamento.
+        </Link>
+        {/* <Link to="/artigos/indicadores-de-eficiencia" className="indent-10 text-justify pb-8 underline">
+            Indicadores de Eficiência.
+        </Link> */}
 
-            <div className="col-span-1 text-right mr-2">(-)</div>
-            <div className="col-span-11">CUSTO PARA PRODUZIR O PRODUTO VENDIDO OU PARA PRESTAR O SERVIÇO</div>
-            
-            <div className="col-span-1 text-right mr-2">(-)</div>
-            <div className="col-span-11 ">DESPESAS ADMINISTRATIVAS GERAIS, COMO FOLHA DE PAGAMENTO E PROPAGANDAS</div>
-
-            <div className="col-span-1 text-right mr-2">(=)</div>
-            <div className="col-span-11 font-bold border-t-2">LUCRO OPERACIONAL</div>
-
-            <div className="col-span-1 text-right mr-2">(-)</div>
-            <div className="col-span-11">IMPOSTO DE RENDA E CONTRIBUIÇÃO SOCIAL</div>
-
-            <div className="col-span-1 text-right mr-2">(+/-)</div>
-            <div className="col-span-11">RESULTADO FINANCEIRO</div>
-
-            <div className="col-span-1 text-right mr-2">(=)</div>
-            <div className="col-span-11 font-bold border-t-2">LUCRO LÍQUIDO</div>
-        </div>
     </article>
 )

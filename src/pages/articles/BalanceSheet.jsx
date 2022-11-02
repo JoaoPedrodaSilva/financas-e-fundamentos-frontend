@@ -1,8 +1,23 @@
+import { Link } from "react-router-dom"
+
 export const BalanceSheet = () => (
     <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20 overflow-scroll">
 
         {/* Title */}
         <h1 className="text-center text-xl font-bold py-8">Balanço Patrimonial</h1>
+
+
+        {/* Recomendations */}
+        {/* <p className="indent-10 text-justify pb-2">
+            Para aproveitar melhor este conteúdo, recomendamos que você leia também os seguintes artigos.
+        </p> */}
+        {/* <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+            DRE - Demonstração de Resultado do Exercício.
+        </Link>
+        <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+            DFC - Demonstração de Fluxo de Caixa.
+        </Link> */}
+
 
         {/* Intro */}
         <p className="indent-10 text-justify pb-2">
@@ -30,6 +45,7 @@ export const BalanceSheet = () => (
             Já os ativos não circulantes são os bens e direitos com menor liquidez, ou seja, que a empresa demoraria mais de 12 meses para transformar em dinheiro, por exemplo: imóveis, terrenos, veículos, maquinário, além de alguns ativos intangíveis, como direitos autorais e patentes.
         </p>
 
+
         {/* Liabilities */}
         <h2 className="text-center font-bold pb-2">
             Passivos
@@ -44,6 +60,7 @@ export const BalanceSheet = () => (
             Já os passivos não circulantes são as dívidas e obrigações de mais longo prazo, ou seja, que a empresa pode demorar mais de 12 meses para honrar, por exemplo: empréstimos e financiamentos, debêntures e créditos provisionados.
         </p>
 
+
         {/* Equity */}
         <h2 className="text-center font-bold pb-2">
             Patrimônio Líquido
@@ -53,24 +70,33 @@ export const BalanceSheet = () => (
         </p>
 
 
-        <h2 className="text-center font-bold pb-2">
-            Exemplo de balanço patrimonial
-        </h2>
+        {/* Example */}
+        <p className="indent-10 text-justify pb-2">
+            Abaixo temos um exemplo de um BP - Balanço Patrimonial, com a parte de ativos, passivos e patrimônio líquido em destaque.
+        </p>
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/balance-sheet.png"
             alt="imagem de um exemplo de balanço patrimonial"
             className="pb-8"
         />
 
-        <h2 className="text-center font-bold pb-2">
+
+        {/* Ending */}
+        <p className="indent-10 text-justify pb-8">
+            Agora você já conhece um dos relatórios financeiros mais importantes na hora de analisar uma companhia. Esse é um grande passo para poder fazer sua própria análise e decidir se vai investir, ou não, em determinada empresa.
+        </p>
+
+
+        {/* Related Articles */}
+        {/* <h2 className="text-center font-bold pb-2">
             Artigos relacionados
-        </h2>
-        <p className="text-sm text-justify pb-2">
-            DRE (Demontração do Resultado do Exercício).
-        </p>
-        <p className="text-sm text-justify pb-2">
-            DFC (Demonstração do Fluxo de Caixa).
-        </p>
+        </h2> */}
+        {/* <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+            DRE - Demonstração de Resultado do Exercício.
+        </Link>
+        <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+            DFC - Demonstração de Fluxo de Caixa.
+        </Link> */}
 
     </article>
 )
