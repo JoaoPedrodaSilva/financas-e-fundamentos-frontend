@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 export const IncomeMetrics = () => (
-    <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20 overflow-scroll">
+    <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20">
 
         {/* Title */}
         <h1 className="text-center text-xl font-bold py-8">Indicadores de Lucratividade</h1>
@@ -83,7 +83,7 @@ export const IncomeMetrics = () => (
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/income-statement.png"
             alt="um exemplo de DRE - Demonstração de Resultado do Exercício"
-            className="pb-8"
+            className="pb-8 lg:w-1/4 mx-auto"
         />
 
 
@@ -97,12 +97,12 @@ export const IncomeMetrics = () => (
         <h2 className="text-center font-bold pb-2">
             Artigos relacionados
         </h2>
-        <Link to="/artigos/indicadores-de-endividamento" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/indicadores-de-endividamento" className="indent-10 text-justify pb-2 underline">
             Indicadores de Endividamento.
         </Link>
-        {/* <Link to="/artigos/indicadores-de-eficiencia" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/indicadores-de-eficiencia" className="indent-10 text-justify pb-8 underline">
             Indicadores de Eficiência.
-        </Link> */}
+        </Link>
 
     </article>
 )

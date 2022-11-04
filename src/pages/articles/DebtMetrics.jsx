@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 export const DebtMetrics = () => (
-    <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20 overflow-scroll">
+    <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20">
 
 
         {/* Title */}
@@ -50,7 +50,7 @@ export const DebtMetrics = () => (
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/gross-debt.png"
             alt="um exemplo da parte de passivos do balanço patrimonial"
-            className="pb-8"
+            className="pb-8 lg:w-1/2 mx-auto"
         />
 
 
@@ -70,7 +70,7 @@ export const DebtMetrics = () => (
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/net-debt.png"
             alt="um exemplo de balanço patrimonial que demonstra a dívida líquida"
-            className="pb-8"
+            className="pb-8 lg:w-1/2 mx-auto"
         />
 
 
@@ -84,7 +84,7 @@ export const DebtMetrics = () => (
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/equity.png"
             alt="um exemplo de balanço patrimonial que demonstra a dívida líquida"
-            className="pb-8"
+            className="pb-8 lg:w-1/2 mx-auto"
         />
 
         {/* Ebit */}
@@ -97,7 +97,7 @@ export const DebtMetrics = () => (
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ebit.png"
             alt="um exemplo de DRE que mostra o lucro operacional"
-            className="pb-8"
+            className="pb-8 lg:w-1/4 mx-auto"
         />
 
         {/* Depreciation and amortization */}
@@ -110,7 +110,7 @@ export const DebtMetrics = () => (
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/depreciation-and-amortization.png"
             alt="um exemplo de DFC que mostra a depreciação e amortização"
-            className="pb-8"
+            className="pb-8 lg:w-1/2 mx-auto"
         />
 
 
@@ -133,7 +133,7 @@ export const DebtMetrics = () => (
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/gross-debt-equity.png"
             alt="um exemplo de balanço patrimonial que mostra a dívida bruta / patrimônio líquido"
-            className="pb-8"
+            className="pb-8 lg:w-1/4 mx-auto"
         />
 
 
@@ -151,12 +151,12 @@ export const DebtMetrics = () => (
             Para encontrarmos o resultado deste indicador, devemos dividir a dívida líquida pelo EBITDA. Em termos gerais, quanto menor for o resultado, melhor, e o desejado é que ele esteja abaixo de 2, pois isso significa que a dívida líquida da empresa não representa mais que 2 anos de operações. Quando o resultado estiver acima de 2, é necessário atenção, pois o endividamento pode estar saindo do controle.
         </p>
         <p className="indent-10 text-justify pb-2">
-            No exemplo abaixo, temos pequenos recortes do balanço patrimonial, da demonstração de resultado do exercício e da demonstração de fluxo de caixa de uma empresa.Podemos somar todos os empréstimos e financiamentos para chegarmos a uma dívida bruta de 509.496.Agora, subtraímos o caixa e equivalentes de caixa, com isso, chegamos a uma dívida líquida de 439.871. Em seguida precisaremos encontrar o ebitda, para isso, somamos o lucro operacional e as depreciações e amortizações, chegando a um valor de 697.604. Finalmente, dividimos a dívida líquida pelo ebitda, chegando ao resultado de 0,63. É um resultado desejável.
+            No exemplo abaixo, temos pequenos recortes do balanço patrimonial, da demonstração de resultado do exercício e da demonstração de fluxo de caixa de uma empresa. Podemos somar todos os empréstimos e financiamentos para chegarmos a uma dívida bruta de 509.496. Agora, subtraímos o caixa e equivalentes de caixa, com isso, chegamos a uma dívida líquida de 439.871. Em seguida precisaremos encontrar o ebitda, para isso, somamos o lucro operacional e as depreciações e amortizações, chegando a um valor de 697.604. Finalmente, dividimos a dívida líquida pelo ebitda, chegando ao resultado de 0,63. É um resultado desejável.
         </p>
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/net-debt-ebitda.png"
             alt="um exemplo de BP, DRE e DFC que demonstra a dívida líquida / ebitda"
-            className="pb-8"
+            className="pb-8 lg:w-1/2 mx-auto"
         />
 
         {/* Ending */}
@@ -169,12 +169,12 @@ export const DebtMetrics = () => (
         <h2 className="text-center font-bold pb-2">
             Artigos relacionados
         </h2>
-        <Link to="/artigos/indicadores-de-lucratividade" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/indicadores-de-lucratividade" className="indent-10 text-justify pb-2 underline">
             Indicadores de Lucratividade.
         </Link>
-        {/* <Link to="/artigos/indicadores-de-eficiencia" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/indicadores-de-eficiencia" className="indent-10 text-justify pb-8 underline">
             Indicadores de Eficiência.
-        </Link> */}
+        </Link>
 
     </article>
 )

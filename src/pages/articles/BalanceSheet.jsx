@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 export const BalanceSheet = () => (
-    <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20 overflow-scroll">
+    <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20">
 
         {/* Title */}
         <h1 className="text-center text-xl font-bold py-8">Balanço Patrimonial</h1>
@@ -77,7 +77,7 @@ export const BalanceSheet = () => (
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/balance-sheet.png"
             alt="imagem de um exemplo de balanço patrimonial"
-            className="pb-8"
+            className="pb-8  lg:w-1/2 mx-auto"
         />
 
 
