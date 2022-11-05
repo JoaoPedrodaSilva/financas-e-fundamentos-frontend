@@ -9,18 +9,18 @@ export const DebtMetrics = () => (
 
 
         {/* Recomendations */}
-        <p className="indent-10 text-justify pb-2">
+        <p className="text-center pb-2">
             Para aproveitar melhor este conteúdo, recomendamos que você leia também o seguinte artigo.
         </p>
-        <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
             BP - Balanço Patrimonial.
         </Link>
-        {/* <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/demonstracao-de-resultados-do-exercicio" className="text-center pb-8 underline">
             DRE - Demonstração de Resultado do Exercício.
         </Link>
-        <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/demonstracao-de-fluco-de-caixa" className="text-center pb-8 underline">
             DFC - Demonstração de Fluxo de Caixa.
-        </Link> */}
+        </Link>
 
         {/* Intro */}
         <p className="indent-10 text-justify pb-2">

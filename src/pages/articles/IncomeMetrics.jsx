@@ -8,12 +8,12 @@ export const IncomeMetrics = () => (
 
 
         {/* Recomendations */}
-        {/* <p className="indent-10 text-justify pb-2">
-            Para aproveitar melhor este conteúdo, recomendamos que você leia também o seguinte artigo.
+        <p className="text-center pb-2">
+            Para aproveitar melhor este conteúdo, recomendamos que leia também o seguinte artigo.
         </p>
-        <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
             DRE - Demonstração de Resultado do Exercício.
-        </Link> */}
+        </Link>
 
 
         {/* Intro */}

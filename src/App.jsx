@@ -31,7 +31,7 @@ const App = () => {
                         <Route path='/artigos' element={<ArticlesPage />} />
                         <Route path='/artigos/demonstracao-de-resultados-do-exercicio' element={<IncomeStatement />} />
                         <Route path='/artigos/balanco-patrimonial' element={<BalanceSheet />} />
-                        <Route path='/artigos/demonstracao-de-fluxo-de-caixa-do-exercicio' element={<CashFlowStatement />} />
+                        <Route path='/artigos/demonstracao-de-fluxo-de-caixa' element={<CashFlowStatement />} />
                         <Route path='/artigos/indicadores-de-lucratividade' element={<IncomeMetrics />} />
                         <Route path='/artigos/indicadores-de-endividamento' element={<DebtMetrics />} />
                         <Route path='/artigos/indicadores-de-eficiencia' element={<EficiencyMetrics />} />

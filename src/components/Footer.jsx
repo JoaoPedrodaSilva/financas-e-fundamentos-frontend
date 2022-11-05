@@ -4,7 +4,7 @@ export const Footer = () => (
             &copy;Copyright. Finanças e Fundamentos - 2022
         </p>
         <a href="https://joaopedrodeveloper.com" target='_blank' rel='noreferrer'>
-            Desenvolvido por João Pedro Developer
+            Desenvolvido por João Pedro Software Developer
         </a>
     </footer>
 )

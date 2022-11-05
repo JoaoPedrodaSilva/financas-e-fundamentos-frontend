@@ -9,15 +9,15 @@ export const EficiencyMetrics = () => (
 
 
         {/* Recomendations */}
-        <p className="indent-10 text-justify pb-2">
-            Para aproveitar melhor este conteúdo, recomendamos que você leia também o seguinte artigo.
+        <p className="text-center pb-2">
+            Para aproveitar melhor este conteúdo, recomendamos que você leia também os seguintes artigos.
         </p>
-        <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
             BP - Balanço Patrimonial.
         </Link>
-        {/* <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/demonstracao-de-resultado-do-exercicio" className="text-center pb-8 underline">
             DRE - Demonstração de Resultado do Exercício.
-        </Link> */}
+        </Link>
 
         {/* Intro */}
         <p className="indent-10 text-justify pb-2">

@@ -25,13 +25,14 @@ export const StocksPage = () => {
     }, [code])
 
 
-    return (        
+    return (
         <section className='h-full flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-2 lg:gap-10 px-5 lg:px-20'>
+
             <div className="w-full sm:w-1/2 lg:w-3/4 lg:max-w-xl flex flex-col gap-3">
 
                 {/* selected company general data (tablet and desktop only) */}
                 {selectedCompanyData && (
-                    <div className="hcodeden w-full sm:flex flex-col text-white px-1 lg:text-lg">
+                    <div className="w-full sm:flex flex-col text-white px-1 lg:text-lg">
                         <p className="my-3 text-justify">
                             <span className="text-gray-400">Nome empresarial: </span><br />{selectedCompanyData.company}
                         </p>
@@ -60,17 +61,23 @@ export const StocksPage = () => {
                 </select>
 
                 {/* types of chart dropdown */}
+
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     onChange={event => setSelectedChart(event.target.value)}
                 >
-                    <option value="income">LUCRO</option>
-                    <option value="debt">ENDIVIDAMENTO</option>
-                    <option value="eficiency">EFICIÊNCIA</option>
-                    <option value="general-data">DADOS GERAIS</option>
+                    {selectedCompanyData &&
+                        <>
+                            <option value="income">LUCRO</option>
+                            <option value="debt">ENDIVIDAMENTO</option>
+                            <option value="eficiency">EFICIÊNCIA</option>
+                            <option value="general-data">DADOS GERAIS</option>
+                        </>
+                    }
                 </select>
 
             </div>
+
 
             <div className='w-full flex flex-col justify-center items-center gap-2'>
                 <div className='w-full border border-white rounded p-1'>
@@ -122,15 +129,18 @@ export const StocksPage = () => {
                     )}
                 </div>
                 {
-                    selectedChart === "income" &&
+                    selectedChart !== "general-data" &&
                     <Link
-                        to='/artigos/indicadores-de-lucro'
+                        to={selectedChart === "income" ? `/artigos/indicadores-de-lucratividade`
+                            : selectedChart === "debt" ? `/artigos/indicadores-de-endividamento`
+                                : selectedChart === "eficiency" ? `/artigos/indicadores-de-eficiencia`
+                                    : null}
                         className="text-white text-sm lg:text-base"
                     >
                         Clique e aprenda a interpretar esse gráfico
                     </Link>
                 }
-                
+
             </div>
         </section >
     )

@@ -8,15 +8,15 @@ export const BalanceSheet = () => (
 
 
         {/* Recomendations */}
-        {/* <p className="indent-10 text-justify pb-2">
-            Para aproveitar melhor este conteúdo, recomendamos que você leia também os seguintes artigos.
-        </p> */}
-        {/* <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        <p className="text-center pb-2">
+            Para aproveitar melhor este conteúdo, recomendamos que leia também os seguintes artigos.
+        </p>
+        <Link to="/artigos/balanco-patrimonial" className="text-center pb-2 underline">
             DRE - Demonstração de Resultado do Exercício.
         </Link>
-        <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
             DFC - Demonstração de Fluxo de Caixa.
-        </Link> */}
+        </Link>
 
 
         {/* Intro */}
@@ -24,7 +24,7 @@ export const BalanceSheet = () => (
             As empresas listadas na bolsa são obrigadas a divulgar, trimestralmente, alguns relatórios financeiros padronizados. Estes relatórios contêm informações importantíssimas, que são necessárias para podermos elaborar nossa própria análise e decidirmos se devemos, ou não, investir naquela empresa. Por isso, é essencial saber onde encontrar estes relatórios financeiros e como extrair deles os dados relevantes.
         </p>
         <p className="indent-10 text-justify pb-2">
-            Pois bem, toda empresa possui um site de relacionamento com o investidor, e é nesse site que podemos encontrar todos os relatórios dos quais necessitamos. Neste artigo, estudaremos um pouco mais sobre o BP (Balanço Patrimonial).
+            Pois bem, toda empresa possui um site de relacionamento com o investidor, e é nesse site que podemos encontrar todos os relatórios dos quais necessitamos, normalmente eles se encontram disponíveis em "Informações Financeiras - Central de Resultados - Release ou Divulgação de Resultados". Neste artigo, estudaremos um pouco mais sobre o BP (Balanço Patrimonial).
         </p>
         <p className="indent-10 text-justify pb-8">
             O balanço patrimonial tem a finalidade de apresentar a posição financeira de uma empresa em determinada data, incluindo todos os bens, direitos, dívidas e obrigações que ela possui. Esse documento é dividido em três partes: os ativos, os passivos e o patrimônio líquido. Detalharemos cada uma delas a seguir.
