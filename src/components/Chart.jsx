@@ -54,7 +54,6 @@ export const Chart = ({ selectedChart }) => {
         })
         return Math.min(...tempVisibleAccessors)
     }
-
     const refreshYAccessors = () => {
         if (selectedChart === 'income') {
             setYAccessors([
@@ -109,7 +108,6 @@ export const Chart = ({ selectedChart }) => {
             ])
         }
     }
-
     const refreshChartType = () => {
         if (selectedChart === 'income') {
             setChartTitle('LUCRO (EM MILHÕES DE REAIS)')
@@ -122,7 +120,6 @@ export const Chart = ({ selectedChart }) => {
             setYAccessorTickFormat(() => format(",.0%"))
         }
     }
-
     const getNetDebtByEbitda = (financialData) => {
         const netDebt = Number(financialData.short_term_loans_and_financings) + Number(financialData.long_term_loans_and_financings) - Number(financialData.cash_and_cash_equivalents)
         const ebitda = Number(financialData.operating_income) + Number(financialData.depreciation_and_amortization)
@@ -133,7 +130,6 @@ export const Chart = ({ selectedChart }) => {
         
         return netDebt / ebitda
     }
-
     const getGrossDebtByEquity = (financialData) => {
         const grossDebt = Number(financialData.short_term_loans_and_financings) + Number(financialData.long_term_loans_and_financings)
         const equity = Number(financialData.equity)
@@ -143,22 +139,20 @@ export const Chart = ({ selectedChart }) => {
         }
         return grossDebt / equity
     }
-
     const getReturnOnEquity = (financialData) => {
         const returnOnEquity = Number(financialData.net_income) / Number(financialData.equity)
         return returnOnEquity
 
     }
-
     const getReturnOnAssets = (financialData) => {
         const returnOnAssets = Number(financialData.net_income) / Number(financialData.assets)
         return returnOnAssets
     }
 
 
-    // Everytime the selected company changes, this useEffect do the following:
+    // Every time the selected company changes, this useEffect do the following:
     // 1 - get the selected company general and financial data from the database 
-    // 2 - make all yAccessors visible
+    // 2 - make default yAccessors visible
     useEffect(() => {
         const getGeneralAndFinancialData = async () => {
             try {
@@ -189,7 +183,7 @@ export const Chart = ({ selectedChart }) => {
         getGeneralAndFinancialData()
     }, [code])
 
-    // change chartTitle, yAxisLabel, YAccessors, yAccessorLegend and yAccessorTickFormat everytime the selected chart changes
+    // change chartTitle, YAccessors and yAccessorTickFormat every time the selected chart changes
     useEffect(() => {
         refreshYAccessors()
         refreshChartType()

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 
 export const ArticlesPage = () => {
-    const [articles, setArticles] = useState([])
+    const [articles, setArticles] = useState(null)
 
     useEffect(() => {
         const getAllArticlesFromDatabase = async () => {
@@ -21,19 +21,19 @@ export const ArticlesPage = () => {
     //render in case of no data
     if (!articles) {
         return (
-            <div className="flex flex-col justify-center items-center gap-3">
-                <p className="text-white text-center">Carregando as informações...</p>
+            <div className="flex flex-col justify-center items-center gap-3 pt-40">
+                <p className="text-white text-center">Carregando os artigos...</p>
                 <img className="w-2/12 sm:w-1/12 rounded-lg" src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/loading.gif" alt="An animation, showing the chart is being loaded." />
             </div>
         )
     }
 
     return (
-        <section className='h-full flex flex-wrap justify-center items-center gap-x-8 px-5 lg:px-20 bg-gray-800'>
+        <section className='h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center items-center gap-x-5 px-5 lg:px-20 bg-gray-800'>
 
             {articles && articles.map(article => {
                 return (
-                    <article key={article.id} className="w-full max-w-sm min-h-[15rem] flex flex-col justify-between rounded-lg shadow-lg bg-white my-5">
+                    <article key={article.id} className="w-full justify-self-center max-w-sm min-h-[15rem] flex flex-col justify-between rounded-lg shadow-lg bg-white my-5">
                         <div className='w-full min-h-[4.5rem] flex items-center justify-center bg-blue-700 text-white text-xl font-semibold rounded-t-lg p-2'>
                             <h2 className='text-center'>{article.title}</h2>
                         </div>
