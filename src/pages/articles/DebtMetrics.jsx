@@ -4,25 +4,25 @@ export const DebtMetrics = () => (
     <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20">
 
 
-        {/* Title */}
+        {/*1 Title */}
         <h1 className="text-center text-xl font-bold py-8">Indicadores de Endividamento</h1>
 
 
-        {/* Recomendations */}
+        {/*2 Recomendations */}
         <p className="text-center pb-2">
             Para aproveitar melhor este conteúdo, recomendamos que você leia também o seguinte artigo.
         </p>
-        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
-            BP - Balanço Patrimonial.
-        </Link>
         <Link to="/artigos/demonstracao-de-resultados-do-exercicio" className="text-center pb-8 underline">
             DRE - Demonstração de Resultado do Exercício.
         </Link>
+        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
+            BP - Balanço Patrimonial.
+        </Link>        
         <Link to="/artigos/demonstracao-de-fluco-de-caixa" className="text-center pb-8 underline">
             DFC - Demonstração de Fluxo de Caixa.
         </Link>
 
-        {/* Intro */}
+        {/*6 Intro */}
         <p className="indent-10 text-justify pb-2">
             Os indicadores de endividamento são importantes para sabermos como anda a saúde financeira da empresa e, principalmente, se ela possui condições de honrar com os empréstimos e financiamentos assumidos junto a terceiros. Empresas muito endividadas costumam ter menos fôlego para manter ou aumentar sua produtividade, além disso, podem sofrer mais em períodos de crise.
         </p>
@@ -34,7 +34,7 @@ export const DebtMetrics = () => (
         </p>
 
 
-        {/* Gross Debt */}
+        {/*9 Gross Debt */}
         <h2 className="text-center font-bold pb-2">
             Dívida Bruta
         </h2>
@@ -54,7 +54,7 @@ export const DebtMetrics = () => (
         />
 
 
-        {/* Net Debt */}
+        {/*14 Net Debt */}
         <h2 className="text-center font-bold pb-2">
             Dívida Líquida
         </h2>
@@ -74,7 +74,7 @@ export const DebtMetrics = () => (
         />
 
 
-        {/* Equity */}
+        {/*19 Equity */}
         <h2 className="text-center font-bold pb-2">
             Patrimônio Líquido
         </h2>
@@ -87,7 +87,7 @@ export const DebtMetrics = () => (
             className="pb-8 lg:w-1/2 mx-auto"
         />
 
-        {/* Ebit */}
+        {/*22 Ebit */}
         <h2 className="text-center font-bold pb-2">
             Lucro operacional
         </h2>
@@ -100,7 +100,7 @@ export const DebtMetrics = () => (
             className="pb-8 lg:w-1/4 mx-auto"
         />
 
-        {/* Depreciation and amortization */}
+        {/*25Depreciation and amortization */}
         <h2 className="text-center font-bold pb-2">
             Depreciação e Amortização
         </h2>
@@ -114,7 +114,7 @@ export const DebtMetrics = () => (
         />
 
 
-        {/* Gross Debt / Equity */}
+        {/*28 Gross Debt / Equity */}
         <h2 className="text-center font-bold pb-2">
             Dívida Bruta / Patrimônio Líquido
         </h2>
@@ -137,7 +137,7 @@ export const DebtMetrics = () => (
         />
 
 
-        {/* Net Debt / EBITDA */}
+        {/*34 Net Debt / EBITDA */}
         <h2 className="text-center font-bold pb-2">
             Dívida Líquida / EBITDA
         </h2>
@@ -150,7 +150,7 @@ export const DebtMetrics = () => (
         <p className="indent-10 text-justify pb-2">
             Para encontrarmos o resultado deste indicador, devemos dividir a dívida líquida pelo EBITDA. Em termos gerais, quanto menor for o resultado, melhor, e o desejado é que ele esteja abaixo de 2, pois isso significa que a dívida líquida da empresa não representa mais que 2 anos de operações. Quando o resultado estiver acima de 2, é necessário atenção, pois o endividamento pode estar saindo do controle.
         </p>
-        <p className="indent-10 text-justify pb-2">
+        <p className="indent-10 text-justify pb-8">
             No exemplo abaixo, temos pequenos recortes do balanço patrimonial, da demonstração de resultado do exercício e da demonstração de fluxo de caixa de uma empresa. Podemos somar todos os empréstimos e financiamentos para chegarmos a uma dívida bruta de 509.496. Agora, subtraímos o caixa e equivalentes de caixa, com isso, chegamos a uma dívida líquida de 439.871. Em seguida precisaremos encontrar o ebitda, para isso, somamos o lucro operacional e as depreciações e amortizações, chegando a um valor de 697.604. Finalmente, dividimos a dívida líquida pelo ebitda, chegando ao resultado de 0,63. É um resultado desejável.
         </p>
         <img
@@ -159,20 +159,20 @@ export const DebtMetrics = () => (
             className="pb-8 lg:w-1/2 mx-auto"
         />
 
-        {/* Ending */}
+        {/*40 Ending */}
         <p className="indent-10 text-justify pb-8">
             Agora você já é capaz de colher os dados necessários e efetuar os cálculos dos indicadores de endividamento. Esse é um grande passo para poder fazer sua própria análise e decidir se vai investir, ou não, em determinada empresa.
         </p>
 
 
-        {/* Related Articles */}
+        {/*41 Related Articles */}
         <h2 className="text-center font-bold pb-2">
             Artigos relacionados
         </h2>
-        <Link to="/artigos/indicadores-de-lucratividade" className="indent-10 text-justify pb-2 underline">
+        <Link to="/artigos/indicadores-de-lucratividade" className="text-center pb-2 underline">
             Indicadores de Lucratividade.
         </Link>
-        <Link to="/artigos/indicadores-de-eficiencia" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/indicadores-de-eficiencia" className="text-center pb-8 underline">
             Indicadores de Eficiência.
         </Link>
 

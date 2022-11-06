@@ -3,20 +3,20 @@ import { Link } from "react-router-dom"
 export const IncomeMetrics = () => (
     <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20">
 
-        {/* Title */}
+        {/*1 Title */}
         <h1 className="text-center text-xl font-bold py-8">Indicadores de Lucratividade</h1>
 
 
-        {/* Recomendations */}
+        {/*2 Recomendations */}
         <p className="text-center pb-2">
             Para aproveitar melhor este conteúdo, recomendamos que leia também o seguinte artigo.
         </p>
-        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
+        <Link to="/artigos/demonstracao-de-resultados-do-exercicio" className="text-center pb-8 underline">
             DRE - Demonstração de Resultado do Exercício.
         </Link>
 
 
-        {/* Intro */}
+        {/*4 Intro */}
         <p className="indent-10 text-justify pb-2">
             Os indicadores de lucratividade são um dos mais importantes a serem observados, afinal, o objetivo econômico de toda empresa é a geração de lucro. Teoricamente, quanto maiores forem os números apresentados por estes indicadores, melhor, e o ideal é que haja uma tendência de crescimento ao longo dos anos.
         </p>
@@ -28,7 +28,7 @@ export const IncomeMetrics = () => (
         </p>
 
 
-        {/* Net Revenue */}
+        {/*7 Net Revenue */}
         <h2 className="text-center font-bold pb-2">
             Receita Líquida
         </h2>
@@ -43,7 +43,7 @@ export const IncomeMetrics = () => (
         </p>
 
 
-        {/* Operating Income */}
+        {/*11 Operating Income */}
         <h2 className="text-center font-bold pb-2">
             Lucro Operacional
         </h2>
@@ -58,7 +58,7 @@ export const IncomeMetrics = () => (
         </p>
 
 
-        {/* Net Income */}
+        {/*15 Net Income */}
         <h2 className="text-center font-bold pb-2">
             Lucro Líquido
         </h2>
@@ -76,7 +76,7 @@ export const IncomeMetrics = () => (
         </p>
 
 
-        {/* Example */}
+        {/*20 Example */}
         <p className="indent-10 text-justify pb-2">
             Abaixo temos um exemplo de uma DRE - Demonstração de Resultado do Exercício, com a receita líquida, o lucro operacional e o lucro líquido em destaque.
         </p>
@@ -87,20 +87,20 @@ export const IncomeMetrics = () => (
         />
 
 
-        {/* Ending */}
+        {/*22 Ending */}
         <p className="indent-10 text-justify pb-8">
             Agora você já é capaz de colher os dados necessários e analisar a lucratividade de uma companhia. Esse é um grande passo para poder fazer sua própria análise e decidir se vai investir, ou não, em determinada empresa.
         </p>
 
 
-        {/* Related Articles */}
+        {/*23 Related Articles */}
         <h2 className="text-center font-bold pb-2">
             Artigos relacionados
         </h2>
-        <Link to="/artigos/indicadores-de-endividamento" className="indent-10 text-justify pb-2 underline">
+        <Link to="/artigos/indicadores-de-endividamento" className="text-center pb-2 underline">
             Indicadores de Endividamento.
         </Link>
-        <Link to="/artigos/indicadores-de-eficiencia" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/indicadores-de-eficiencia" className="text-center pb-8 underline">
             Indicadores de Eficiência.
         </Link>
 

@@ -4,22 +4,23 @@ export const EficiencyMetrics = () => (
     <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20">
 
 
-        {/* Title */}
+        {/*1 Title */}
         <h1 className="text-center text-xl font-bold py-8">Indicadores de Eficiência</h1>
 
 
-        {/* Recomendations */}
+        {/*2 Recomendations */}
         <p className="text-center pb-2">
             Para aproveitar melhor este conteúdo, recomendamos que você leia também os seguintes artigos.
         </p>
-        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
-            BP - Balanço Patrimonial.
-        </Link>
         <Link to="/artigos/demonstracao-de-resultado-do-exercicio" className="text-center pb-8 underline">
             DRE - Demonstração de Resultado do Exercício.
         </Link>
+        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
+            BP - Balanço Patrimonial.
+        </Link>
+        
 
-        {/* Intro */}
+        {/*5 Intro */}
         <p className="indent-10 text-justify pb-2">
             Os indicadores de eficiência são importantes para avaliar como a empresa tem aproveitado os recursos disponíveis, esses recursos devem ser enxergados de uma maneira ampla, representando não apenas o dinheiro, mas também o tempo, mão de obra, máquinas e equipamentos, marcas e patentes, enfim, tudo que produz valor para a empresa.
         </p>
@@ -34,7 +35,7 @@ export const EficiencyMetrics = () => (
         </p>
 
 
-        {/* Net Income */}
+        {/*9 Net Income */}
         <h2 className="text-center font-bold pb-2">
             Lucro líquido
         </h2>
@@ -54,7 +55,7 @@ export const EficiencyMetrics = () => (
         />
 
 
-        {/* Equity */}
+        {/*14 Equity */}
         <h2 className="text-center font-bold pb-2">
             Patrimônio Líquido
         </h2>
@@ -68,7 +69,7 @@ export const EficiencyMetrics = () => (
         />
 
 
-        {/* Assets */}
+        {/*17 Assets */}
         <h2 className="text-center font-bold pb-2">
             Ativos
         </h2>
@@ -91,7 +92,7 @@ export const EficiencyMetrics = () => (
         />       
 
 
-        {/* Return on Equity - ROE */}
+        {/*23 Return on Equity - ROE */}
         <h2 className="text-center font-bold pb-2">
             Retorno sobre o patrimônio líquido - ROE
         </h2>
@@ -114,7 +115,7 @@ export const EficiencyMetrics = () => (
         />
 
 
-        {/* Return on Assets - ROA */}
+        {/*29 Return on Assets - ROA */}
         <h2 className="text-center font-bold pb-2">
             Retorno sobre os ativos - ROA
         </h2>
@@ -136,20 +137,20 @@ export const EficiencyMetrics = () => (
             className="pb-8 lg:w-1/2 mx-auto"
         />
 
-        {/* Ending */}
+        {/*35 Ending */}
         <p className="indent-10 text-justify pb-8">
             Agora você já é capaz de colher os dados necessários e efetuar os cálculos dos indicadores de eficiência. Esse é um grande passo para poder fazer sua própria análise e decidir se vai investir, ou não, em determinada empresa.
         </p>
 
 
-        {/* Related Articles */}
+        {/*36 Related Articles */}
         <h2 className="text-center font-bold pb-2">
             Artigos relacionados
         </h2>
-        <Link to="/artigos/indicadores-de-lucratividade" className="indent-10 text-justify pb-2 underline">
+        <Link to="/artigos/indicadores-de-lucratividade" className="text-center pb-2 underline">
             Indicadores de Lucratividade.
         </Link>
-        <Link to="/artigos/indicadores-de-endividamento" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/indicadores-de-endividamento" className="text-center pb-8 underline">
             Indicadores de Endividamento.
         </Link>
 

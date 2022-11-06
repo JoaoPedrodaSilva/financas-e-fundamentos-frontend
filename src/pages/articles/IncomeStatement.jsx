@@ -14,7 +14,6 @@ export const IncomeStatement = () => (
         <Link to="/artigos/balanco-patrimonial" className="text-center pb-2 underline">
             BP - Balanço Patrimonial.
         </Link>
-
         <Link to="/artigos/demonstracao-de-fluxo-de-caixa" className="text-center pb-8 underline">
             DFC - Demonstração de Fluxo de Caixa.
         </Link>
@@ -27,7 +26,7 @@ export const IncomeStatement = () => (
         <p className="indent-10 text-justify pb-2">
             Pois bem, toda empresa possui um site de relacionamento com o investidor, e é nesse site que podemos encontrar todos os relatórios dos quais necessitamos, normalmente eles se encontram disponíveis em "Informações Financeiras - Central de Resultados - Release ou Divulgação de Resultados". Neste artigo, estudaremos um pouco mais sobre a DRE (Demonstração de Resultado do Exercício).
         </p>
-        <p className="indent-10 text-justify pb-8">
+        <p className="indent-10 text-justify pb-2">
             A DRE tem por finalidade apresentar as operações financeiras da empresa, em um determinado período, para deixar claro se ela obteve lucro ou prejuízo. O meio utilizado para alcançar esse objetivo é a comparação entre receitas e despesas. Este relatório financeiro é uma ótima ferramenta para se identificar gargalos de produção, é possível observar em que momento a empresa está deixando a desejar.
         </p>
         <p className="indent-10 text-justify pb-8">
@@ -93,9 +92,10 @@ export const IncomeStatement = () => (
         <p className="indent-10 text-justify pb-8">
             Podemos dizer que o lucro operacional é aquele gerado, exclusivamente, pela operação do negócio, portanto, permite avaliar a capacidade que a empresa tem de gerar lucro com suas atividades-fim, ou seja, suas operações.
         </p>
+        
 
 
-        {/* Financial Expenses or Incomes */}
+        {/* 24 - Financial Expenses or Incomes */}
         <h2 className="text-center font-bold pb-2">
             Resultado Financeiro
         </h2>
@@ -137,8 +137,8 @@ export const IncomeStatement = () => (
         </p>
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/income-statement.png"
-            alt="imagem de um exemplo de balanço patrimonial"
-            className="pb-8  lg:w-1/2 mx-auto"
+            alt="Exemplo de balanço patrimonial"
+            className="pb-8 lg:w-1/4 mx-auto"
         />
 
 

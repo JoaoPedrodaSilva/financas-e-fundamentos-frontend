@@ -3,24 +3,23 @@ import {Link} from "react-router-dom"
 export const CashFlowStatement = () => (
     <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20">
 
-        {/* Title */}
+        {/*1 Title */}
         <h1 className="text-center text-xl font-bold py-8">Demonstração de Fluxo de Caixa</h1>
 
 
-        {/* Recomendations */}
+        {/*2 Recomendations */}
         <p className="text-center pb-2">
             Para aproveitar melhor este conteúdo, recomendamos que leia também os seguintes artigos.
         </p>
         <Link to="/artigos/demonstracao-de-resultados-do-exercicio" className="text-center pb-2 underline">
             DRE - Demonstração de Resultados do Exercício.
         </Link>
-
         <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
             BP - Balanço Patrimonial.
         </Link>
 
 
-        {/* Intro */}
+        {/*5 Intro */}
         <p className="indent-10 text-justify pb-2">
             As empresas listadas na bolsa são obrigadas a divulgar, trimestralmente, alguns relatórios financeiros padronizados. Estes relatórios contêm informações importantíssimas, que são necessárias para podermos elaborar nossa própria análise e decidirmos se devemos, ou não, investir naquela empresa. Por isso, é essencial saber onde encontrar estes relatórios financeiros e como extrair deles os dados relevantes.
         </p>
@@ -35,7 +34,7 @@ export const CashFlowStatement = () => (
         </p>
 
 
-        {/* Operating activities */}
+        {/*9 Operating activities */}
         <h2 className="text-center font-bold pb-2">
             Atividades Operacionais
         </h2>
@@ -44,7 +43,7 @@ export const CashFlowStatement = () => (
         </p>
 
 
-        {/* Investing activities */}
+        {/*11 Investing activities */}
         <h2 className="text-center font-bold pb-2">
             Atividades de Investimento
         </h2>
@@ -53,7 +52,7 @@ export const CashFlowStatement = () => (
         </p>
 
 
-        {/* Financing activities */}
+        {/*13 Financing activities */}
         <h2 className="text-center font-bold pb-2">
             Atividades de Financiamento
         </h2>
@@ -62,32 +61,32 @@ export const CashFlowStatement = () => (
         </p>
 
 
-        {/* Example */}
+        {/*15 Example */}
         <p className="indent-10 text-justify pb-2">
             Abaixo temos um exemplo de uma DFC - Demonstração de Fluxo de Caixa, com as atividades operacionais, de investimento e de financiamento em destaque.
         </p>
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/cash-flow-statement.png"
             alt="imagem de um exemplo de dfc - demonstração de fluxo de caixa"
-            className="pb-8 lg:w-1/2 mx-auto"
+            className="pb-8 lg:w-1/4 mx-auto"
         />
 
 
-        {/* Ending */}
+        {/*17 Ending */}
         <p className="indent-10 text-justify pb-8">
             Agora você já conhece um dos relatórios financeiros mais importantes na hora de analisar uma companhia. Esse é um grande passo para poder fazer sua própria análise e decidir se vai investir, ou não, em determinada empresa.
         </p>
 
 
-        {/* Related Articles */}
+        {/*18 Related Articles */}
         <h2 className="text-center font-bold pb-2">
             Artigos relacionados
         </h2>
-        <Link to="/artigos/balanco-patrimonial" className="text-center pb-2 underline">
-            BP - Balanço Patrimonial.
+        <Link to="/artigos/demonstracao-de-resultados-do-exercicio" className="text-center pb-2 underline">
+            DRE - Demonstração de Resultados do Exercício.
         </Link>
-        <Link to="/artigos/demonstracao-de-fluxo-de-caixa" className="text-center pb-8 underline">
-            DFC - Demonstração de Fluxo de Caixa.
+        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
+            BP - Balanço Patrimonial.
         </Link>
 
     </article>

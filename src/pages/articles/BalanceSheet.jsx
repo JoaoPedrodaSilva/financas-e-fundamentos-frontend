@@ -3,23 +3,23 @@ import { Link } from "react-router-dom"
 export const BalanceSheet = () => (
     <article className="text-white flex flex-col lg:text-lg px-5 lg:px-20">
 
-        {/* Title */}
+        {/* 1 Title */}
         <h1 className="text-center text-xl font-bold py-8">Balanço Patrimonial</h1>
 
 
-        {/* Recomendations */}
+        {/* 2 Recomendations */}
         <p className="text-center pb-2">
             Para aproveitar melhor este conteúdo, recomendamos que leia também os seguintes artigos.
         </p>
-        <Link to="/artigos/balanco-patrimonial" className="text-center pb-2 underline">
+        <Link to="/artigos/demonstracao-de-resultados-do-exercicio" className="text-center pb-2 underline">
             DRE - Demonstração de Resultado do Exercício.
         </Link>
-        <Link to="/artigos/balanco-patrimonial" className="text-center pb-8 underline">
+        <Link to="/artigos/demonstracao-de-fluxo-de-caixa" className="text-center pb-8 underline">
             DFC - Demonstração de Fluxo de Caixa.
         </Link>
 
 
-        {/* Intro */}
+        {/* 5 Intro */}
         <p className="indent-10 text-justify pb-2">
             As empresas listadas na bolsa são obrigadas a divulgar, trimestralmente, alguns relatórios financeiros padronizados. Estes relatórios contêm informações importantíssimas, que são necessárias para podermos elaborar nossa própria análise e decidirmos se devemos, ou não, investir naquela empresa. Por isso, é essencial saber onde encontrar estes relatórios financeiros e como extrair deles os dados relevantes.
         </p>
@@ -31,7 +31,7 @@ export const BalanceSheet = () => (
         </p>
 
 
-        {/* Assets */}
+        {/* 8 Assets */}
         <h2 className="text-center font-bold pb-2">
             Ativos
         </h2>
@@ -46,7 +46,7 @@ export const BalanceSheet = () => (
         </p>
 
 
-        {/* Liabilities */}
+        {/*12  Liabilities */}
         <h2 className="text-center font-bold pb-2">
             Passivos
         </h2>
@@ -61,7 +61,7 @@ export const BalanceSheet = () => (
         </p>
 
 
-        {/* Equity */}
+        {/*16 Equity */}
         <h2 className="text-center font-bold pb-2">
             Patrimônio Líquido
         </h2>
@@ -70,33 +70,33 @@ export const BalanceSheet = () => (
         </p>
 
 
-        {/* Example */}
+        {/*18 Example */}
         <p className="indent-10 text-justify pb-2">
             Abaixo temos um exemplo de um BP - Balanço Patrimonial, com a parte de ativos, passivos e patrimônio líquido em destaque.
         </p>
         <img
             src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/balance-sheet.png"
             alt="imagem de um exemplo de balanço patrimonial"
-            className="pb-8  lg:w-1/2 mx-auto"
+            className="pb-8 lg:w-1/2 mx-auto"
         />
 
 
-        {/* Ending */}
+        {/*20 Ending */}
         <p className="indent-10 text-justify pb-8">
             Agora você já conhece um dos relatórios financeiros mais importantes na hora de analisar uma companhia. Esse é um grande passo para poder fazer sua própria análise e decidir se vai investir, ou não, em determinada empresa.
         </p>
 
 
-        {/* Related Articles */}
-        {/* <h2 className="text-center font-bold pb-2">
+        {/*21 Related Articles */}
+        <h2 className="text-center font-bold pb-2">
             Artigos relacionados
-        </h2> */}
-        {/* <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        </h2>
+        <Link to="/artigos/demonstracao-de-resultados-do-exercicio" className="text-center pb-2 underline">
             DRE - Demonstração de Resultado do Exercício.
         </Link>
-        <Link to="/artigos/balanco-patrimonial" className="indent-10 text-justify pb-8 underline">
+        <Link to="/artigos/demonstracao-de-fluxo-de-caixa" className="text-center pb-2 underline">
             DFC - Demonstração de Fluxo de Caixa.
-        </Link> */}
+        </Link>
 
     </article>
 )

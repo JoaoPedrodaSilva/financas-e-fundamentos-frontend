@@ -6,8 +6,8 @@ import { AboutPage } from './pages/AboutPage'
 import { CommunityPage } from './pages/CommunityPage'
 // import { FiisPage } from './pages/FiisPage'
 import { ArticlesPage } from './pages/ArticlesPage'
-// import { DetailedArticlePage } from './pages/DetailedArticlePage'
-import { IncomeStatement } from './pages/articles/IncomeStatement'
+import { DetailedArticlePage } from './pages/DetailedArticlePage'
+// import { IncomeStatement } from './pages/articles/IncomeStatement'
 import { BalanceSheet } from './pages/articles/BalanceSheet'
 import { CashFlowStatement } from './pages/articles/CashFlowStatement'
 import { IncomeMetrics } from './pages/articles/IncomeMetrics'
@@ -26,18 +26,19 @@ const App = () => {
                         <Route path='/' element={<HomePage />} />
                         <Route path='/sobre' element={<AboutPage />} />
                         <Route path='/comunidade' element={<CommunityPage />} />
-                        {/* <Route path='/fundosimobiliarios' element={<FiisPage />} /> */}
+                        
 
                         <Route path='/artigos' element={<ArticlesPage />} />
-                        <Route path='/artigos/demonstracao-de-resultados-do-exercicio' element={<IncomeStatement />} />
+                        {/* <Route path='/artigos/demonstracao-de-resultados-do-exercicio' element={<IncomeStatement />} /> */}
                         <Route path='/artigos/balanco-patrimonial' element={<BalanceSheet />} />
                         <Route path='/artigos/demonstracao-de-fluxo-de-caixa' element={<CashFlowStatement />} />
                         <Route path='/artigos/indicadores-de-lucratividade' element={<IncomeMetrics />} />
                         <Route path='/artigos/indicadores-de-endividamento' element={<DebtMetrics />} />
                         <Route path='/artigos/indicadores-de-eficiencia' element={<EficiencyMetrics />} />
-                        {/* <Route path='/artigos/:id' element={<DetailedArticlePage />} /> */}
+                        <Route path='/artigos/:id' element={<DetailedArticlePage />} />
 
                         <Route path='/acoes/:code' element={<StocksPage />} />
+                        {/* <Route path='/fundosimobiliarios' element={<FiisPage />} /> */}
                     </Routes>
                 </div>
                 <Footer />
