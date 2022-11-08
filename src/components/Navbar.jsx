@@ -111,8 +111,8 @@ export const Navbar = () => {
                             }
                         </button>
                         {/* Submenu items*/}
-                        <div id="dropdownNavbar" className={`${showSubMenu ? 'absolute right-0 z-10 w-full lg:w-auto rounded' : 'hidden'}`}>
-                            <ul className="flex flex-col lg:flex-row items-start gap-4 px-6 py-4 bg-gray-200 shadow-lg rounded " aria-labelledby="dropdownLargeButton">
+                        <div id="dropdownNavbar" className={`${showSubMenu ? 'absolute right-0 lg:top-10 z-10 w-full lg:w-auto rounded' : 'hidden'}`}>
+                            <ul className="flex flex-col lg:flex-row items-start gap-4 px-6 py-4 bg-gray-100 lg:bg-white rounded " aria-labelledby="dropdownLargeButton">
                                 <li>
                                     <Link
                                         to={`/artigos`}

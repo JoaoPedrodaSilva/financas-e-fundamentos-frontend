@@ -61,7 +61,6 @@ export const StocksPage = () => {
                 </select>
 
                 {/* types of chart dropdown */}
-
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     onChange={event => setSelectedChart(event.target.value)}
@@ -75,6 +74,18 @@ export const StocksPage = () => {
                         </>
                     }
                 </select>
+                {
+                    selectedChart !== "general-data" &&
+                    <Link
+                        to={selectedChart === "income" ? `/artigos/17`
+                            : selectedChart === "debt" ? `/artigos/18`
+                                : selectedChart === "eficiency" ? `/artigos/19`
+                                    : null}
+                        className="text-xs sm:text-sm lg:text-lg text-center lg:text-left text-blue-500"
+                    >
+                        Clique aqui e aprenda a interpretar esse gráfico
+                    </Link>
+                }
 
             </div>
 
@@ -128,19 +139,6 @@ export const StocksPage = () => {
                         <Chart selectedChart={selectedChart} />
                     )}
                 </div>
-                {
-                    selectedChart !== "general-data" &&
-                    <Link
-                        to={selectedChart === "income" ? `/artigos/indicadores-de-lucratividade`
-                            : selectedChart === "debt" ? `/artigos/indicadores-de-endividamento`
-                                : selectedChart === "eficiency" ? `/artigos/indicadores-de-eficiencia`
-                                    : null}
-                        className="text-white text-sm lg:text-base"
-                    >
-                        Clique e aprenda a interpretar esse gráfico
-                    </Link>
-                }
-
             </div>
         </section >
     )

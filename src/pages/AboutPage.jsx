@@ -6,15 +6,15 @@ export const AboutPage = () => (
         </h1>
 
         <p className='text-white sm:text-lg lg:text-xl text-center'>
-            Ajudamos as pessoas a enxergarem as finanças e os investimentos de uma maneira mais simples.
+            Te ajudamos a enxergar as finanças e os investimentos de uma maneira mais simples.
         </p>
 
         <p className='text-white sm:text-lg lg:text-xl text-center'>
-            Mostramos como conhecer seu próprio perfil de risco e escolher o investimento mais adequado para você, sem depender de gerentes de banco ou assessores de investimento.
+            Mostramos como conhecer seu próprio perfil de risco e escolher o investimento mais adequado, sem depender de ninguém.
         </p>
 
         <p className='text-white sm:text-lg lg:text-xl text-center'>
-            Finanças e Fundamentos é sobre educação financeira, é sobre como preparar um futuro próspero sem deixar de aproveitar o presente.
+            Finanças e Fundamentos é sobre educação financeira, é sobre preparar um futuro próspero sem deixar de aproveitar o presente.
         </p>
 
     </section>

@@ -62,12 +62,12 @@ export const DetailedArticlePage = () => {
 
                 // Simple Link        
                 if (content.content_type === '6') {
-                    return <Link key={content.id} to={content.link_url} className="text-xs text-center pb-2 underline">{content.content}</Link>
+                    return <Link reloadDocument key={content.id} to={content.link_url} className="text-xs text-center pb-2 underline">{content.content}</Link>
                 }
 
                 // Last Link        
                 if (content.content_type === '7') {
-                    return <Link key={content.id} to={content.link_url} className="text-xs text-center pb-12 underline">{content.content}</Link>
+                    return <Link reloadDocument key={content.id} to={content.link_url} className="text-xs text-center pb-12 underline">{content.content}</Link>
                 }
 
                 // Portrait Image
