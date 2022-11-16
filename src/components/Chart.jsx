@@ -141,11 +141,17 @@ export const Chart = ({ selectedChart }) => {
     }
     const getReturnOnEquity = (financialData) => {
         const returnOnEquity = Number(financialData.net_income) / Number(financialData.equity)
+        if (returnOnEquity <= 0) {
+            return 0
+        }
         return returnOnEquity
 
     }
     const getReturnOnAssets = (financialData) => {
         const returnOnAssets = Number(financialData.net_income) / Number(financialData.assets)
+        if (returnOnAssets <= 0) {
+            return 0
+        }
         return returnOnAssets
     }
 

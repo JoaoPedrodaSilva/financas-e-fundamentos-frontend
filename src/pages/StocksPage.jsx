@@ -26,9 +26,9 @@ export const StocksPage = () => {
 
 
     return (
-        <section className='h-full flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-2 lg:gap-10 px-5 lg:px-20'>
+        <section className='h-full flex flex-col sm:flex-row justify-center items-center gap-2 px-5 lg:px-20'>
 
-            <div className="w-full sm:w-1/2 lg:w-3/4 lg:max-w-xl flex flex-col gap-3">
+            <div className="w-full sm:w-1/2 lg:max-w-xl flex flex-col gap-3">
 
                 {/* selected company general data (tablet and desktop only) */}
                 {selectedCompanyData && (
