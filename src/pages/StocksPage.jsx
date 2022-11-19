@@ -69,7 +69,7 @@ export const StocksPage = () => {
                         <>
                             <option value="income">LUCRO</option>
                             <option value="debt">ENDIVIDAMENTO</option>
-                            <option value="eficiency">EFICIÊNCIA</option>
+                            <option value="rentability">RENTABILIDADE</option>
                             <option value="general-data">DADOS GERAIS</option>
                         </>
                     }
@@ -79,7 +79,7 @@ export const StocksPage = () => {
                     <Link
                         to={selectedChart === "income" ? `/artigos/17`
                             : selectedChart === "debt" ? `/artigos/18`
-                                : selectedChart === "eficiency" ? `/artigos/19`
+                                : selectedChart === "rentability" ? `/artigos/19`
                                     : null}
                         className="text-xs sm:text-sm lg:text-lg text-center lg:text-left text-blue-500"
                     >

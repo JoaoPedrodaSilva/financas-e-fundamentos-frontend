@@ -91,7 +91,7 @@ export const Chart = ({ selectedChart }) => {
                     isVisible: true
                 }
             ])
-        } else if (selectedChart === 'eficiency') {
+        } else if (selectedChart === 'rentability') {
             setYAccessors([
                 {
                     accessor: d => d.returnOnEquity,
@@ -115,8 +115,8 @@ export const Chart = ({ selectedChart }) => {
         } else if (selectedChart === 'debt') {
             setChartTitle('ENDIVIDAMENTO')
             setYAccessorTickFormat(() => format(".1f"))
-        } else if (selectedChart === 'eficiency') {
-            setChartTitle('EFICIÊNCIA')
+        } else if (selectedChart === 'rentability') {
+            setChartTitle('RENTABILIDADE')
             setYAccessorTickFormat(() => format(",.0%"))
         }
     }
