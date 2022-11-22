@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { BsArrowUpCircle } from 'react-icons/bs'
 import axios from '../axios'
 
 export const DetailedArticlePage = () => {
@@ -32,7 +33,7 @@ export const DetailedArticlePage = () => {
 
     return (
         <section className='h-full flex flex-col gap-1 px-5 lg:px-20 lg:text-lg text-white bg-gray-800'>
-            
+
             {contents && contents.map(content => {
 
                 // Title        
@@ -84,6 +85,13 @@ export const DetailedArticlePage = () => {
                 return ''
 
             })}
+
+
+            <BsArrowUpCircle
+                onClick={() => window.scroll({top: 0, behavior: 'smooth'})}
+                className='self-end text-2xl'
+            />
+
 
         </section>
     )

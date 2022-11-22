@@ -17,6 +17,7 @@ export const StocksPage = () => {
                 const data = await axios.get(`/api/acoes/${code}`)
                 setAllCompanies(data.data.allCompanies)
                 setSelectedCompanyData(data.data.companyData)
+                setSelectedChart('income')
             } catch (error) {
                 console.log(error)
             }
@@ -63,17 +64,20 @@ export const StocksPage = () => {
                 {/* types of chart dropdown */}
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
+                    value={selectedChart}
                     onChange={event => setSelectedChart(event.target.value)}
                 >
                     {selectedCompanyData &&
                         <>
                             <option value="income">LUCRO</option>
-                            <option value="debt">ENDIVIDAMENTO</option>
+                            {selectedCompanyData.has_debt_chart && <option value="debt">ENDIVIDAMENTO</option>}
                             <option value="rentability">RENTABILIDADE</option>
                             <option value="general-data">DADOS GERAIS</option>
                         </>
                     }
                 </select>
+
+                {/* learn-the-chart article link */}
                 {
                     selectedChart !== "general-data" &&
                     <Link
@@ -91,6 +95,7 @@ export const StocksPage = () => {
 
 
             <div className='w-full flex flex-col justify-center items-center gap-2'>
+                {/* full general data */}
                 <div className='w-full border border-white rounded p-1'>
                     {selectedChart === 'general-data' ? (
                         <div className="w-full h-full flex flex-col text-white px-2 sm:px-4 pt-2 sm:pt-4 text-sm sm:text-base lg:text-lg">

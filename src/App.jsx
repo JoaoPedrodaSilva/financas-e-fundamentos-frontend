@@ -11,9 +11,9 @@ import { StocksPage } from './pages/StocksPage'
 const App = () => {
     return (
         <BrowserRouter>
-            <div className='flex flex-col w-screen h-screen overflow-auto overflow-x-hidden bg-gray-800'>
+            <div className='flex flex-col w-screen h-screen'>
                 <Navbar />
-                <div className='basis-full'>
+                <div className='basis-full bg-gray-800'>
                     <Routes>
                         <Route path='/' element={<HomePage />} />
                         <Route path='/sobre' element={<AboutPage />} />
