@@ -1,13 +1,13 @@
-export const XAxis = ({ xScale, innerHeight }) => (
-    xScale.ticks(5).map((tick, index) => (
-        <g key={index} transform={`translate(${xScale(tick)}, 0)`}>
+export const EixoX = ({ escalaEixoX, alturaInterna }) => (
+    escalaEixoX.ticks(5).map((tick, index) => (
+        <g key={index} transform={`translate(${escalaEixoX(tick)}, 0)`}>
             <line
                 style={{ stroke: "#373737" }}
-                y2={innerHeight}
+                y2={alturaInterna}
             />
             <text
                 style={{ textAnchor: "middle", fill: "white" }}
-                y={innerHeight}
+                y={alturaInterna}
                 dy="1.5rem"
             >
                 {(tick)}

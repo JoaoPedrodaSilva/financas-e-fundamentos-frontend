@@ -1,4 +1,4 @@
-export const Source = () => (
+export const Fonte = () => (
     <g transform={`translate(520, 410)`}>
     <text style={{ fill: "white", fontSize: "0.6rem" }}>
         <a

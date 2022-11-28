@@ -3,30 +3,30 @@ import { Link } from 'react-router-dom'
 import { GrMenu, GrClose } from 'react-icons/gr'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 
-export const Navbar = () => {
-    const [showMenu, setShowMenu] = useState(false)
-    const [showSubMenu, setShowSubMenu] = useState(false)
-    const [navbarWidth, setNavbarWidth] = useState(window.innerWidth)
+export const BarraNavegacao = () => {
+    const [mostraMenu, setMostraMenu] = useState(false)
+    const [mostraSubMenu, setMostraSubMenu] = useState(false)
+    const [larguraNavbar, setLarguraNavbar] = useState(window.innerWidth)
     const menuRef = useRef(null)
 
     //always show menu on resizing above 1024px
-    const handleResize = () => {
-        setTimeout(() => setNavbarWidth(window.innerWidth), 10)
+    const handleRedimensionamento = () => {
+        setTimeout(() => setLarguraNavbar(window.innerWidth), 10)
     }
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleRedimensionamento)
     useEffect(() => {
-        if (navbarWidth >= 1024) {
-            setShowMenu(true)
-            setShowSubMenu(false)
+        if (larguraNavbar >= 1024) {
+            setMostraMenu(true)
+            setMostraSubMenu(false)
         }
         else {
-            setShowMenu(false)
-            setShowSubMenu(false)
+            setMostraMenu(false)
+            setMostraSubMenu(false)
         }
         return () => {
-            window.removeEventListener('resize', handleResize)
+            window.removeEventListener('resize', handleRedimensionamento)
         }
-    }, [navbarWidth])
+    }, [larguraNavbar])
 
 
     return (
@@ -46,27 +46,27 @@ export const Navbar = () => {
                 aria-controls="navbar-default"
                 aria-expanded="false"
                 onClick={() => {
-                    setShowMenu(showMenu ? false : true)
-                    setShowSubMenu(false)
+                    setMostraMenu(mostraMenu ? false : true)
+                    setMostraSubMenu(false)
                 }}
             >
                 <span className="sr-only">Open main menu</span>
-                {showMenu ?
+                {mostraMenu ?
                     <GrClose className='text-xl' /> :
                     <GrMenu className='text-xl' />
                 }
             </button>
 
             {/* inline menu (desktop only) */}
-            <div ref={menuRef} className={`${showMenu ? 'absolute lg:relative top-10 lg:top-auto right-0 lg:right-auto' : 'hidden'} `} id="navbar-default">
+            <div ref={menuRef} className={`${mostraMenu ? 'absolute lg:relative top-10 lg:top-auto right-0 lg:right-auto' : 'hidden'} `} id="navbar-default">
                 <ul className="flex flex-col items-start lg:flex-row gap-4 px-6 py-4 bg-white rounded-b">
                     <li>
                         <Link
                             to={`/`}
                             className="text-md text-gray-700 rounded hover:text-blue-700"
                             onClick={() => {
-                                setShowSubMenu(false)
-                                navbarWidth < 768 && setShowMenu(false)
+                                setMostraSubMenu(false)
+                                larguraNavbar < 768 && setMostraMenu(false)
                             }}
                         >
                             Home
@@ -77,8 +77,8 @@ export const Navbar = () => {
                             to={`/sobre`}
                             className="text-md text-gray-700 rounded hover:text-blue-700"
                             onClick={() => {
-                                setShowSubMenu(false)
-                                navbarWidth < 768 && setShowMenu(false)
+                                setMostraSubMenu(false)
+                                larguraNavbar < 768 && setMostraMenu(false)
                             }}
                         >
                             Sobre
@@ -89,8 +89,8 @@ export const Navbar = () => {
                             to={`/comunidade`}
                             className="text-md text-gray-700 rounded hover:text-blue-700"
                             onClick={() => {
-                                setShowSubMenu(false)
-                                navbarWidth < 768 && setShowMenu(false)
+                                setMostraSubMenu(false)
+                                larguraNavbar < 768 && setMostraMenu(false)
                             }}
                         >
                             Comunidade
@@ -102,24 +102,24 @@ export const Navbar = () => {
                             id="dropdownNavbarLink"
                             data-dropdown-toggle="dropdownNavbar"
                             className="flex items-center gap-1 text-md text-gray-700 rounded hover:text-blue-700"
-                            onClick={() => setShowSubMenu(showSubMenu ? false : true)}
+                            onClick={() => setMostraSubMenu(mostraSubMenu ? false : true)}
                         >
                             Serviços
-                            {showSubMenu ?
+                            {mostraSubMenu ?
                                 <IoIosArrowUp className='text-xl' /> :
                                 <IoIosArrowDown className='text-xl' />
                             }
                         </button>
                         {/* Submenu items*/}
-                        <div id="dropdownNavbar" className={`${showSubMenu ? 'absolute right-0 lg:top-10 z-10 w-full lg:w-auto rounded' : 'hidden'}`}>
+                        <div id="dropdownNavbar" className={`${mostraSubMenu ? 'absolute right-0 lg:top-10 z-10 w-full lg:w-auto rounded' : 'hidden'}`}>
                             <ul className="flex flex-col lg:flex-row items-start gap-4 px-6 py-4 bg-gray-100 lg:bg-white rounded " aria-labelledby="dropdownLargeButton">
                                 <li>
                                     <Link
                                         to={`/artigos`}
                                         className="text-md text-gray-700 rounded hover:text-blue-700"
                                         onClick={() => {
-                                            setShowSubMenu(false)
-                                            navbarWidth < 768 && setShowMenu(false)
+                                            setMostraSubMenu(false)
+                                            larguraNavbar < 768 && setMostraMenu(false)
                                         }}
                                     >
                                         Artigos
@@ -130,8 +130,8 @@ export const Navbar = () => {
                                         to={`/acoes/ABEV`}
                                         className="text-md text-gray-700 rounded hover:text-blue-700"
                                         onClick={() => {
-                                            setShowSubMenu(false)
-                                            navbarWidth < 768 && setShowMenu(false)
+                                            setMostraSubMenu(false)
+                                            larguraNavbar < 768 && setMostraMenu(false)
                                         }}
                                     >
                                         Ações

@@ -1,4 +1,4 @@
-export const AboutPage = () => (
+export const Sobre = () => (
     <section className='h-full flex flex-col justify-center items-center gap-4 px-5 lg:px-20'>
 
         <h1 className='text-white text-2xl sm:text-3xl lg:text-4xl self-center text-center mb-6 sm:mb-12'>
