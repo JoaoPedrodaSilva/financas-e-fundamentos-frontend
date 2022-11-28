@@ -11,7 +11,7 @@ export const Marcadores = ({ dados, graficoSelecionado, escalaEixoX, escalaEixoY
                             d={line()
                                 .x(d => escalaEixoX(acessorioX(d)))
                                 .y(d => escalaEixoY(acessorioY.acessorio(d)))
-                                .curve(curveNatural)
+                                // .curve(curveNatural)
                                 (dados)
                             }
                             fill="none"
@@ -29,7 +29,7 @@ export const Marcadores = ({ dados, graficoSelecionado, escalaEixoX, escalaEixoY
                                 cy={escalaEixoY(acessorioY.acessorio(d))}
                                 r={4}
                             >
-                                {graficoSelecionado === "lucro" ? (
+                                {graficoSelecionado === "dre" ? (
                                     <title>
                                         {`Ano: ${acessorioX(d)}  -  ${acessorioY.legend}: R$ ${formatoAcessorioY(acessorioY.acessorio(d)).replace(",", ".")}.000,00`}
                                     </title>
