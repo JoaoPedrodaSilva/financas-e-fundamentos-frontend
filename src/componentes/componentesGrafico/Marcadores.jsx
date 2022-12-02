@@ -31,11 +31,11 @@ export const Marcadores = ({ dados, graficoSelecionado, escalaEixoX, escalaEixoY
                             >
                                 {graficoSelecionado === "dre" ? (
                                     <title>
-                                        {`Ano: ${acessorioX(d)}  -  ${acessorioY.legend}: R$ ${formatoAcessorioY(acessorioY.acessorio(d)).replace(",", ".")}.000,00`}
+                                        {`Ano: ${acessorioX(d)}  -  ${acessorioY.legenda}: R$ ${formatoAcessorioY(acessorioY.acessorio(d)).replace(",", ".")}.000,00`}
                                     </title>
                                 ) : (
                                     <title>
-                                        {`Ano: ${acessorioX(d)}  -  ${acessorioY.legend}: ${formatoAcessorioY(acessorioY.acessorio(d))}`}
+                                        {`Ano: ${acessorioX(d)}  -  ${acessorioY.legenda}: ${formatoAcessorioY(acessorioY.acessorio(d))}`}
                                     </title>
                                 )}
                             </circle>
