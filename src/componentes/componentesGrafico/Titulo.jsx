@@ -1,11 +1,7 @@
-export const Titulo = ({ tituloGrafico, nomeEmpresarial, larguraInterna }) => (
-    <g>
-        <text
-            style={{ fill: "white", textAnchor: "middle" }}
-            x={larguraInterna / 2}
-            y="-20"
-        >
+export const Titulo = ({ tituloGrafico, nomeEmpresarial,  }) => (
+    <div>
+        <h1 className="text-xs sm:text-sm text-white text-center mb-1">
             {nomeEmpresarial} - {tituloGrafico}
-        </text>
-    </g>
+        </h1>
+    </div>
 )

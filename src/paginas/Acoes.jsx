@@ -10,7 +10,7 @@ export const Acoes = () => {
     const { codigo_base } = useParams()
     const [empresas, setEmpresas] = useState(null)
     const [empresaSelecionada, setEmpresaSelecionada] = useState(null)
-    const [graficoSelecionado, setGraficoSelecionado] = useState("dre") // want to show the income chart as default
+    const [graficoSelecionado, setGraficoSelecionado] = useState("dre") // want to show the dre chart as default
 
     // get all companies from database
     useEffect(() => {
@@ -33,9 +33,9 @@ export const Acoes = () => {
 
             <div className="w-full sm:w-1/2 lg:max-w-xl flex flex-col gap-3">
 
-                {/* selected company basic registration data */}
+                {/* selected company basic registration data (tablet and desktop only) */}
                 {empresaSelecionada && (
-                    <div className="w-full sm:flex flex-col text-white px-1 lg:text-lg">
+                    <div className="w-full hidden sm:flex flex-col text-white px-1 lg:text-lg">
                         <p className="my-3 text-justify">
                             <span className="text-gray-400">Nome empresarial: </span><br />{empresaSelecionada.nome_empresarial}
                         </p>
@@ -83,14 +83,13 @@ export const Acoes = () => {
                 {/* learn-the-chart article link */}
                 {
                     (
-                        graficoSelecionado !== "dados_cadastrais" && 
+                        graficoSelecionado !== "dados_cadastrais" &&
                         graficoSelecionado !== "eficiencia" &&
                         graficoSelecionado !== "payout" &&
                         graficoSelecionado !== "liquidez"
                     ) &&
-
                     <Link
-                            to={graficoSelecionado === "dre" ? `/artigos/17`
+                        to={graficoSelecionado === "dre" ? `/artigos/17`
                             : graficoSelecionado === "endividamento" ? `/artigos/18`
                                 : graficoSelecionado === "rentabilidade" ? `/artigos/19`
                                     : null}
@@ -104,15 +103,15 @@ export const Acoes = () => {
 
 
             {/* charts and complete registration data */}
-            <div className='w-full flex flex-col justify-center items-center gap-2'>
-                <div className='w-full border border-white rounded p-1'>
+            <section className='w-full flex flex-col justify-center items-center gap-2'>
+                <div className='w-full p-1'>
                     {graficoSelecionado === 'dados_cadastrais' ? (
                         <DadosCadastrais empresaSelecionada={empresaSelecionada} />
                     ) : (
                         <Grafico graficoSelecionado={graficoSelecionado} />
                     )}
                 </div>
-            </div>
+            </section>
         </section>
     )
 }

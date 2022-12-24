@@ -9,9 +9,8 @@ import { Titulo } from "./componentesGrafico/Titulo"
 import { EixoX } from "./componentesGrafico/EixoX"
 import { EixoY } from "./componentesGrafico/EixoY"
 import { Marcadores } from "./componentesGrafico/Marcadores"
-import { Legenda } from "./componentesGrafico/Legenda"
+import { Legendas } from "./componentesGrafico/Legendas"
 import { Fonte } from "./componentesGrafico/Fonte"
-
 
 
 export const Grafico = ({ graficoSelecionado }) => {
@@ -27,12 +26,13 @@ export const Grafico = ({ graficoSelecionado }) => {
 
     const larguraSVG = 700
     const alturaSVG = 450
-    const margens = { cima: 40, direita: 60, baixo: 80, esquerda: 30 }
+    const margens = { cima: 40, direita: 60, baixo: 35, esquerda: 30 }
     const larguraInterna = larguraSVG - margens.direita - margens.esquerda
     const alturaInterna = alturaSVG - margens.cima - margens.baixo
+    const corGrade = "stroke-slate-700"
 
 
-    //declaring functions
+    //declaring general functions
     const calculaValorMaximoDominioY = (dadosFinanceirosEmpresa, acessoriosY) => {
         const tempAcessoriosVisiveis = []
         dadosFinanceirosEmpresa.map(exercicioFinanceiro => {
@@ -56,23 +56,31 @@ export const Grafico = ({ graficoSelecionado }) => {
         return Math.min(...tempAcessoriosVisiveis)
     }
     const atualizaAcessoriosY = () => {
+        const corAcessorios = ["#d6d6ff", "#4747ff", "#000066", "blue"]
+
         if (graficoSelecionado === "dre") {
             setAcessoriosY([
                 {
                     acessorio: d => d.receitaLiquida,
-                    cor: "#d6d6ff",
+                    cor: corAcessorios[0],
                     legenda: "Receita líquida",
                     estaVisivel: false
                 },
                 {
+                    acessorio: d => d.lucroBruto,
+                    cor: corAcessorios[1],
+                    legenda: "Lucro Bruto",
+                    estaVisivel: false
+                },
+                {
                     acessorio: d => d.lucroOperacional,
-                    cor: "#4747ff",
+                    cor: corAcessorios[2],
                     legenda: "Lucro operacional (EBIT)",
                     estaVisivel: true
                 },
                 {
                     acessorio: d => d.lucroLiquido,
-                    cor: "#000066",
+                    cor: corAcessorios[3],
                     legenda: "Lucro líquido",
                     estaVisivel: true
                 }
@@ -81,13 +89,13 @@ export const Grafico = ({ graficoSelecionado }) => {
             setAcessoriosY([
                 {
                     acessorio: d => d.dividaLiquidaPeloEbitda,
-                    cor: "#d6d6ff",
+                    cor: corAcessorios[0],
                     legenda: "Dívida líquida / ebitda",
                     estaVisivel: true
                 },
                 {
                     acessorio: d => d.dividaBrutaPeloPatrimonioLiquido,
-                    cor: "#4747ff",
+                    cor: corAcessorios[1],
                     legenda: "Dívida bruta / pat. líquido",
                     estaVisivel: true
                 }
@@ -96,13 +104,13 @@ export const Grafico = ({ graficoSelecionado }) => {
             setAcessoriosY([
                 {
                     acessorio: d => d.retornoPeloPatrimonioLiquido,
-                    cor: "#d6d6ff",
+                    cor: corAcessorios[0],
                     legenda: "Retorno / pat. líquido (ROE)",
                     estaVisivel: true
                 },
                 {
                     acessorio: d => d.retornoPelosAtivos,
-                    cor: "#4747ff",
+                    cor: corAcessorios[1],
                     legenda: "Retorno / ativos (ROA)",
                     estaVisivel: true
                 }
@@ -111,19 +119,19 @@ export const Grafico = ({ graficoSelecionado }) => {
             setAcessoriosY([
                 {
                     acessorio: d => d.margemBruta,
-                    cor: "#d6d6ff",
+                    cor: corAcessorios[0],
                     legenda: "Margem Bruta",
                     estaVisivel: false
                 },
                 {
                     acessorio: d => d.margemOperacional,
-                    cor: "#4747ff",
+                    cor: corAcessorios[1],
                     legenda: "Margem Operacional",
                     estaVisivel: true
                 },
                 {
                     acessorio: d => d.margemLiquida,
-                    cor: "#000066",
+                    cor: corAcessorios[2],
                     legenda: "Margem Líquida",
                     estaVisivel: true
                 }
@@ -132,7 +140,7 @@ export const Grafico = ({ graficoSelecionado }) => {
             setAcessoriosY([
                 {
                     acessorio: d => d.payout,
-                    cor: "#d6d6ff",
+                    cor: corAcessorios[0],
                     legenda: "Payout",
                     estaVisivel: true
                 }
@@ -141,28 +149,28 @@ export const Grafico = ({ graficoSelecionado }) => {
             setAcessoriosY([
                 {
                     acessorio: d => d.liquidezImediata,
-                    cor: "#d6d6ff",
+                    cor: corAcessorios[0],
                     legenda: "Liquidez Imediata",
                     estaVisivel: false
                 },
                 {
-                    acessorio: d => d.liquidezGeral,
-                    cor: "#4747ff",
-                    legenda: "Liquidez Geral",
+                    acessorio: d => d.liquidezCorrente,
+                    cor: corAcessorios[1],
+                    legenda: "Liquidez Corrente",
                     estaVisivel: true
                 },
                 {
-                    acessorio: d => d.liquidezCorrente,
-                    cor: "#000066",
-                    legenda: "Liquidez Corrente",
+                    acessorio: d => d.liquidezGeral,
+                    cor: corAcessorios[2],
+                    legenda: "Liquidez Geral",
                     estaVisivel: true
-                }
+                }                
             ])
         }
     }
     const atualizaTipoGrafico = () => {
         if (graficoSelecionado === "dre") {
-            setTituloGrafico('LUCRO (EM MILHÕES DE REAIS)')
+            setTituloGrafico('DRE (EM MILHÕES DE REAIS)')
             setFormatoAcessorioY(() => format(","))
         } else if (graficoSelecionado === 'endividamento') {
             setTituloGrafico('ENDIVIDAMENTO')
@@ -181,6 +189,8 @@ export const Grafico = ({ graficoSelecionado }) => {
             setFormatoAcessorioY(() => format(".1f"))
         }
     }
+
+    //declaring fundamentalist metric functions
     const calculaDividaLiquidaPeloEbitda = (dadosFinanceirosEmpresa) => {
         const dividaLiquida = Number(dadosFinanceirosEmpresa.emprestimos_curto_prazo) + Number(dadosFinanceirosEmpresa.emprestimos_longo_prazo) - Number(dadosFinanceirosEmpresa.caixa_e_equivalentes)
         const ebitda = Number(dadosFinanceirosEmpresa.lucro_operacional) + Number(dadosFinanceirosEmpresa.depreciacao_e_amortizacao)
@@ -260,6 +270,14 @@ export const Grafico = ({ graficoSelecionado }) => {
             return 0
         }
         return Number(liquidezImediata.toFixed(2))
+    }    
+    const calculaLiquidezCorrente = (dadosFinanceirosEmpresa) => {
+        const liquidezCorrente = Number(dadosFinanceirosEmpresa.ativo_circulante) / Number(dadosFinanceirosEmpresa.passivo_circulante)
+
+        if (liquidezCorrente <= 0) {
+            return 0
+        }
+        return Number(liquidezCorrente.toFixed(2))
     }
     const calculaLiquidezGeral = (dadosFinanceirosEmpresa) => {
         const liquidezGeral = (Number(dadosFinanceirosEmpresa.ativo_circulante) + Number(dadosFinanceirosEmpresa.ativo_realizavel_longo_prazo)) / (Number(dadosFinanceirosEmpresa.passivo_circulante) + Number(dadosFinanceirosEmpresa.passivo_nao_circulante))
@@ -269,15 +287,7 @@ export const Grafico = ({ graficoSelecionado }) => {
         }
         return Number(liquidezGeral.toFixed(2))
     }
-    const calculaLiquidezCorrente = (dadosFinanceirosEmpresa) => {
-        const liquidezCorrente = Number(dadosFinanceirosEmpresa.ativo_circulante) / Number(dadosFinanceirosEmpresa.passivo_circulante)
 
-        if (liquidezCorrente <= 0) {
-            return 0
-        }
-        return Number(liquidezCorrente.toFixed(2))
-    }
-    
 
 
     // Every time the selected company changes, this useEffect do the following:
@@ -306,8 +316,8 @@ export const Grafico = ({ graficoSelecionado }) => {
                         margemLiquida: calculaMargemLiquida(exercicioFinanceiro),
                         payout: calculaPayout(exercicioFinanceiro),
                         liquidezImediata: calculaLiquidezImediata(exercicioFinanceiro),
-                        liquidezGeral: calculaLiquidezGeral(exercicioFinanceiro),
-                        liquidezCorrente: calculaLiquidezCorrente(exercicioFinanceiro)                        
+                        liquidezCorrente: calculaLiquidezCorrente(exercicioFinanceiro),
+                        liquidezGeral: calculaLiquidezGeral(exercicioFinanceiro)                        
                     })
                 })
 
@@ -354,50 +364,55 @@ export const Grafico = ({ graficoSelecionado }) => {
 
     //rendering chart
     return (
-        <svg
-            preserveAspectRatio="xMinYMin meet"
-            viewBox={`0 0 ${larguraSVG} ${alturaSVG}`}
-        >
-            <g transform={`translate(${margens.esquerda}, ${margens.cima})`}>
-                <Titulo
-                    tituloGrafico={tituloGrafico}
-                    nomeEmpresarial={dadosCadastraisEmpresa.nome_empresarial}
-                    larguraInterna={larguraInterna}
-                />
+        <div className="flex flex-col justify-around items-center">
+            <Titulo
+                tituloGrafico={tituloGrafico}
+                nomeEmpresarial={dadosCadastraisEmpresa.nome_empresarial}
+            />
 
-                <EixoX
-                    escalaEixoX={escalaEixoX}
-                    alturaInterna={alturaInterna}
-                />
+            <svg
+                preserveAspectRatio="xMinYMin meet"
+                viewBox={`0 0 ${larguraSVG} ${alturaSVG}`}
+                className="border border-white rounded"
+            >
+                <g transform={`translate(${margens.esquerda}, ${margens.cima})`}>
+                    <EixoX
+                        escalaEixoX={escalaEixoX}
+                        alturaInterna={alturaInterna}
+                        corGrade={corGrade}
+                    />
 
-                <EixoY
-                    escalaEixoY={escalaEixoY}
-                    larguraInterna={larguraInterna}
-                    formatoAcessorioY={formatoAcessorioY}
-                />
+                    <EixoY
+                        escalaEixoY={escalaEixoY}
+                        larguraInterna={larguraInterna}
+                        formatoAcessorioY={formatoAcessorioY}
+                        corGrade={corGrade}
+                    />
 
-                <Marcadores
-                    dados={dadosFinanceirosEmpresa}
-                    graficoSelecionado={graficoSelecionado}
+                    <Marcadores
+                        dados={dadosFinanceirosEmpresa}
+                        graficoSelecionado={graficoSelecionado}
 
-                    escalaEixoX={escalaEixoX}
-                    acessorioX={acessorioX}
+                        escalaEixoX={escalaEixoX}
+                        acessorioX={acessorioX}
 
-                    escalaEixoY={escalaEixoY}
-                    acessoriosY={acessoriosY}
-                    formatoAcessorioY={formatoAcessorioY}
-                />
+                        escalaEixoY={escalaEixoY}
+                        acessoriosY={acessoriosY}
+                        formatoAcessorioY={formatoAcessorioY}
+                    />
+                </g>
+            </svg>
 
-                <Legenda
-                    acessoriosY={acessoriosY}
-                    setAcessoriosY={setAcessoriosY}
-                    calculaValorMaximoDominioY={calculaValorMaximoDominioY}
-                    graficoSelecionado={graficoSelecionado}
-                />
+            <Fonte />
 
-                <Fonte />
-            </g>
-        </svg>
+            <Legendas
+                acessoriosY={acessoriosY}
+                setAcessoriosY={setAcessoriosY}
+                calculaValorMaximoDominioY={calculaValorMaximoDominioY}
+                graficoSelecionado={graficoSelecionado}
+            />
+
+        </div>
     )
 }
 

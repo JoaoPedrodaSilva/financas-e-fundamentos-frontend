@@ -1,5 +1,5 @@
 export const DadosCadastrais = ({ empresaSelecionada }) => (
-    <section className="w-full h-full flex flex-col text-white px-2 sm:px-4 pt-2 sm:pt-4 text-sm sm:text-base lg:text-lg">
+    <section className="w-full h-full flex flex-col border border-white rounded text-white px-2 sm:px-4 pt-2 sm:pt-4 text-sm sm:text-base lg:text-lg">
         <p className="text-justify">
             <span className="text-gray-400">Nome empresarial: </span>
             {empresaSelecionada.nome_empresarial}

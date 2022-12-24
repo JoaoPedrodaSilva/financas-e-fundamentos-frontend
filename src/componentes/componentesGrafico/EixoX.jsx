@@ -1,12 +1,13 @@
-export const EixoX = ({ escalaEixoX, alturaInterna }) => (
+export const EixoX = ({ escalaEixoX, alturaInterna, corGrade }) => (
     escalaEixoX.ticks(5).map((tick, index) => (
         <g key={index} transform={`translate(${escalaEixoX(tick)}, 0)`}>
             <line
-                style={{ stroke: "#373737" }}
+                className={corGrade}
                 y2={alturaInterna}
             />
             <text
-                style={{ textAnchor: "middle", fill: "white" }}
+                className="fill-white"
+                style={{ textAnchor: "middle" }} // tailwind property for this??
                 y={alturaInterna}
                 dy="1.5rem"
             >
