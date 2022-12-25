@@ -70,11 +70,11 @@ export const Acoes = () => {
                     {empresaSelecionada &&
                         <>
                             <option value="dre">DRE (RECEITA/LUCRO)</option>
-                            {empresaSelecionada.tem_grafico_divida && <option value="endividamento">ENDIVIDAMENTO</option>}
+                            {!empresaSelecionada.instituicao_financeira && <option value="endividamento">ENDIVIDAMENTO</option>}
                             <option value="rentabilidade">RENTABILIDADE (ROE/ROA)</option>
                             <option value="eficiencia">EFICIÊNCIA (MARGENS)</option>
                             <option value="payout">PAYOUT</option>
-                            <option value="liquidez">LIQUIDEZ</option>
+                            {!empresaSelecionada.instituicao_financeira && <option value="liquidez">LIQUIDEZ</option>}
                             <option value="dados_cadastrais">DADOS CADASTRAIS</option>
                         </>
                     }

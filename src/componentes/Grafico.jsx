@@ -1,16 +1,14 @@
 import axios from "../axios"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { scaleLinear, extent, format } from "d3"
+import { scaleTime, scaleLinear, extent, format } from "d3"
 
 
-//importing chart components to build the chart
-import { Titulo } from "./componentesGrafico/Titulo"
+//importing components to build the chart
 import { EixoX } from "./componentesGrafico/EixoX"
 import { EixoY } from "./componentesGrafico/EixoY"
 import { Marcadores } from "./componentesGrafico/Marcadores"
 import { Legendas } from "./componentesGrafico/Legendas"
-import { Fonte } from "./componentesGrafico/Fonte"
 
 
 export const Grafico = ({ graficoSelecionado }) => {
@@ -25,11 +23,12 @@ export const Grafico = ({ graficoSelecionado }) => {
     const [formatoAcessorioY, setFormatoAcessorioY] = useState(null)
 
     const larguraSVG = 700
-    const alturaSVG = 450
+    const alturaSVG = 425
     const margens = { cima: 40, direita: 60, baixo: 35, esquerda: 30 }
     const larguraInterna = larguraSVG - margens.direita - margens.esquerda
     const alturaInterna = alturaSVG - margens.cima - margens.baixo
     const corGrade = "stroke-slate-700"
+
 
 
     //declaring general functions
@@ -56,7 +55,7 @@ export const Grafico = ({ graficoSelecionado }) => {
         return Math.min(...tempAcessoriosVisiveis)
     }
     const atualizaAcessoriosY = () => {
-        const corAcessorios = ["#d6d6ff", "#4747ff", "#000066", "blue"]
+        const corAcessorios = ["#eff6ff", "#93c5fd", "#2563eb", "#1e3a8a"]
 
         if (graficoSelecionado === "dre") {
             setAcessoriosY([
@@ -164,7 +163,7 @@ export const Grafico = ({ graficoSelecionado }) => {
                     cor: corAcessorios[2],
                     legenda: "Liquidez Geral",
                     estaVisivel: true
-                }                
+                }
             ])
         }
     }
@@ -210,25 +209,35 @@ export const Grafico = ({ graficoSelecionado }) => {
         }
         return Number((dividaBruta / patrimonioLiquido).toFixed(2))
     }
-    const calculaRetornoPeloPatrimonioLiquido = (dadosFinanceirosEmpresa) => {
-        const patrimonioLiquido = Number(dadosFinanceirosEmpresa.ativo_circulante) + Number(dadosFinanceirosEmpresa.ativo_nao_circulante) - Number(dadosFinanceirosEmpresa.passivo_circulante) + Number(dadosFinanceirosEmpresa.passivo_nao_circulante)
+    const calculaRetornoPeloPatrimonioLiquido = (dadosFinanceirosEmpresa, dadosCadastraisEmpresa) => {
+
+        let patrimonioLiquido = Number(dadosFinanceirosEmpresa.ativo_circulante) + Number(dadosFinanceirosEmpresa.ativo_nao_circulante) - Number(dadosFinanceirosEmpresa.passivo_circulante) + Number(dadosFinanceirosEmpresa.passivo_nao_circulante)
+
+        if (dadosCadastraisEmpresa.instituicao_financeira) {
+            patrimonioLiquido = Number(dadosFinanceirosEmpresa.patrimonio_liquido)
+        }
 
         const retornoPeloPatrimonioLiquido = Number(dadosFinanceirosEmpresa.lucro_liquido) / patrimonioLiquido
 
         if (retornoPeloPatrimonioLiquido <= 0) {
             return 0
         }
-        return Number(retornoPeloPatrimonioLiquido.toFixed(2))
 
+        return Number(retornoPeloPatrimonioLiquido.toFixed(2))
     }
-    const calculaRetornoPelosAtivos = (dadosFinanceirosEmpresa) => {
-        const ativos = Number(dadosFinanceirosEmpresa.ativo_circulante) + Number(dadosFinanceirosEmpresa.ativo_nao_circulante)
+    const calculaRetornoPelosAtivos = (dadosFinanceirosEmpresa, dadosCadastraisEmpresa) => {
+        let ativos = Number(dadosFinanceirosEmpresa.ativo_circulante) + Number(dadosFinanceirosEmpresa.ativo_nao_circulante)
+
+        if (dadosCadastraisEmpresa && dadosCadastraisEmpresa.instituicao_financeira) {
+            ativos = Number(dadosFinanceirosEmpresa.ativo_total)
+        }
 
         const retornoPelosAtivos = Number(dadosFinanceirosEmpresa.lucro_liquido) / ativos
 
         if (retornoPelosAtivos <= 0) {
             return 0
         }
+
         return Number(retornoPelosAtivos.toFixed(2))
     }
     const calculaMargemBruta = (dadosFinanceirosEmpresa) => {
@@ -270,7 +279,7 @@ export const Grafico = ({ graficoSelecionado }) => {
             return 0
         }
         return Number(liquidezImediata.toFixed(2))
-    }    
+    }
     const calculaLiquidezCorrente = (dadosFinanceirosEmpresa) => {
         const liquidezCorrente = Number(dadosFinanceirosEmpresa.ativo_circulante) / Number(dadosFinanceirosEmpresa.passivo_circulante)
 
@@ -289,7 +298,6 @@ export const Grafico = ({ graficoSelecionado }) => {
     }
 
 
-
     // Every time the selected company changes, this useEffect do the following:
     // 1 - get the selected company registration and financial data from the database 
     // 2 - make default YAccessors visible
@@ -298,30 +306,31 @@ export const Grafico = ({ graficoSelecionado }) => {
             try {
                 const results = await axios.get(`/api/acoes/${codigo_base}`)
 
+                const tempDadosCadastraisEmpresa = results.data.dadosCadastraisEmpresa
                 const tempDadosFinanceirosEmpresa = []
 
                 results.data.dadosFinanceirosEmpresa.map(exercicioFinanceiro => {
                     tempDadosFinanceirosEmpresa.push({
-                        ano: Number(exercicioFinanceiro.ano),
+                        ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
                         receitaLiquida: Number(exercicioFinanceiro.receita_liquida),
                         lucroBruto: Number(exercicioFinanceiro.lucro_bruto),
                         lucroOperacional: Number(exercicioFinanceiro.lucro_operacional),
                         lucroLiquido: Number(exercicioFinanceiro.lucro_liquido),
                         dividaLiquidaPeloEbitda: calculaDividaLiquidaPeloEbitda(exercicioFinanceiro),
                         dividaBrutaPeloPatrimonioLiquido: calculaDividaBrutaPeloPatrimonioLiquido(exercicioFinanceiro),
-                        retornoPeloPatrimonioLiquido: calculaRetornoPeloPatrimonioLiquido(exercicioFinanceiro),
-                        retornoPelosAtivos: calculaRetornoPelosAtivos(exercicioFinanceiro),
+                        retornoPeloPatrimonioLiquido: calculaRetornoPeloPatrimonioLiquido(exercicioFinanceiro, tempDadosCadastraisEmpresa),
+                        retornoPelosAtivos: calculaRetornoPelosAtivos(exercicioFinanceiro, tempDadosCadastraisEmpresa),
                         margemBruta: calculaMargemBruta(exercicioFinanceiro),
                         margemOperacional: calculaMargemOperacional(exercicioFinanceiro),
                         margemLiquida: calculaMargemLiquida(exercicioFinanceiro),
                         payout: calculaPayout(exercicioFinanceiro),
                         liquidezImediata: calculaLiquidezImediata(exercicioFinanceiro),
                         liquidezCorrente: calculaLiquidezCorrente(exercicioFinanceiro),
-                        liquidezGeral: calculaLiquidezGeral(exercicioFinanceiro)                        
+                        liquidezGeral: calculaLiquidezGeral(exercicioFinanceiro)
                     })
                 })
 
-                setDadosCadastraisEmpresa(results.data.dadosCadastraisEmpresa)
+                setDadosCadastraisEmpresa(tempDadosCadastraisEmpresa)
                 setDadosFinanceirosEmpresa(tempDadosFinanceirosEmpresa)
                 atualizaAcessoriosY()
 
@@ -339,6 +348,7 @@ export const Grafico = ({ graficoSelecionado }) => {
     }, [graficoSelecionado])
 
 
+
     //render in case of no data
     if (!dadosCadastraisEmpresa || !dadosFinanceirosEmpresa) {
         return (
@@ -350,11 +360,10 @@ export const Grafico = ({ graficoSelecionado }) => {
     }
 
 
-    //declaring scales
-    const escalaEixoX = scaleLinear()
+    // declaring scales
+    const escalaEixoX = scaleTime()
         .domain(extent(dadosFinanceirosEmpresa, acessorioX))
         .range([0, larguraInterna])
-        .nice()
 
     const escalaEixoY = scaleLinear()
         .domain([calculaValorMinimoDominioY(dadosFinanceirosEmpresa, acessoriosY), calculaValorMaximoDominioY(dadosFinanceirosEmpresa, acessoriosY)])
@@ -365,11 +374,14 @@ export const Grafico = ({ graficoSelecionado }) => {
     //rendering chart
     return (
         <div className="flex flex-col justify-around items-center">
-            <Titulo
-                tituloGrafico={tituloGrafico}
-                nomeEmpresarial={dadosCadastraisEmpresa.nome_empresarial}
-            />
 
+            {/* Title */}
+            <h1 className="text-xs sm:text-base lg:text-xl text-white text-center mb-1">
+                {dadosCadastraisEmpresa.nome_empresarial} - {tituloGrafico}
+            </h1>
+
+
+            {/* Plotting area */}
             <svg
                 preserveAspectRatio="xMinYMin meet"
                 viewBox={`0 0 ${larguraSVG} ${alturaSVG}`}
@@ -403,8 +415,20 @@ export const Grafico = ({ graficoSelecionado }) => {
                 </g>
             </svg>
 
-            <Fonte />
 
+            {/* Source */}
+            <div className="flex self-end pr-2 text-white text-[0.4rem] mb-3">
+                <a
+                    href="https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Fonte: B3 S.A. - Brasil, Bolsa, Balcão
+                </a>
+            </div>
+
+
+            {/* Legends */}
             <Legendas
                 acessoriosY={acessoriosY}
                 setAcessoriosY={setAcessoriosY}

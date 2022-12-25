@@ -1,6 +1,6 @@
 export const EixoY = ({ escalaEixoY, larguraInterna, formatoAcessorioY, corGrade }) => (
 
-    escalaEixoY.ticks(8).map((tick, index) => (
+    escalaEixoY.ticks().map((tick, index) => (
         <g key={index} transform={`translate(${larguraInterna}, ${escalaEixoY(tick)})`}>
             <line
                 className={corGrade}

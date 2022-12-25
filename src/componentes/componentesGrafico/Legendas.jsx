@@ -16,7 +16,7 @@ export const Legendas = ({ acessoriosY, setAcessoriosY }) => {
             {acessoriosY.map((acessorioY, indice) => (
                 <div
                     key={indice}
-                    className={`w-full flex items-center justify-center gap-2 cursor-pointer rounded-md px-1 text-xs sm:text-sm ${acessorioY.estaVisivel ? "opacity-100" : "opacity-30"} ${indice === 0 ? "text-black" : "text-white"}`}
+                    className={`w-full flex items-center justify-center gap-2 cursor-pointer rounded-md p-1 text-xs sm:text-sm ${acessorioY.estaVisivel ? "opacity-100" : "opacity-30"} ${indice < 2 ? "text-black" : "text-white"}`}
                     onClick={() => alteraVisibilidade(acessorioY)}
                     style={{ backgroundColor: acessorioY.cor }}
                 >

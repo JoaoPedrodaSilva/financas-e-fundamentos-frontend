@@ -1,5 +1,6 @@
 export const EixoX = ({ escalaEixoX, alturaInterna, corGrade }) => (
-    escalaEixoX.ticks(5).map((tick, index) => (
+    escalaEixoX.ticks().map((tick, index) => (
+        
         <g key={index} transform={`translate(${escalaEixoX(tick)}, 0)`}>
             <line
                 className={corGrade}
@@ -11,7 +12,7 @@ export const EixoX = ({ escalaEixoX, alturaInterna, corGrade }) => (
                 y={alturaInterna}
                 dy="1.5rem"
             >
-                {(tick)}
+                {tick.getFullYear()}
             </text>
         </g>
     ))
