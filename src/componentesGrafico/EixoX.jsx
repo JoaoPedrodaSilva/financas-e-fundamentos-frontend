@@ -7,7 +7,7 @@ export const EixoX = ({ escalaEixoX, alturaInterna, corGrade }) => (
                 y2={alturaInterna}
             />
             <text
-                className="fill-white"
+                className="fill-white text-xs sm:text-sm"
                 style={{ textAnchor: "middle" }} // tailwind property for this??
                 y={alturaInterna}
                 dy="1.5rem"

@@ -137,6 +137,18 @@ export const BarraNavegacao = () => {
                                         Ações
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link
+                                        to={`/macroeconomia/IPCA`}
+                                        className="text-md text-gray-700 rounded hover:text-blue-700"
+                                        onClick={() => {
+                                            setMostraSubMenu(false)
+                                            larguraNavbar < 768 && setMostraMenu(false)
+                                        }}
+                                    >
+                                        Macroeconomia
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                     </li>
