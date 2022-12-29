@@ -8,7 +8,6 @@ import { Legendas } from "./Legendas"
 
 export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValores }) => {
 
-    //declaring states and variables    
     const acessorioX = d => d.ano
     const [acessoriosY, setAcessoriosY] = useState([])
     const [configuracoesGrafico, setConfiguracoesGrafico] = useState(null)
@@ -18,6 +17,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
     const margens = { cima: 40, direita: 60, baixo: 35, esquerda: 30 }
     const larguraInterna = larguraSVG - margens.direita - margens.esquerda
     const alturaInterna = alturaSVG - margens.cima - margens.baixo
+    const larguraColuna = larguraInterna / historicoValores.length * 0.7
     const corGrade = "stroke-slate-700"
 
 
@@ -51,6 +51,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                 tipo: "linha",
                 titulo: `${dadosCadastrais.nome_empresarial} - DRE (EM MILHÕES DE REAIS)`,
                 fonteDados: "B3 S.A. - Brasil, Bolsa, Balcão",
+                urlFonteDados: "https://www.b3.com.br/pt_br/",
                 formatoAcessorioY: () => format(",")
             })
             setAcessoriosY([
@@ -84,7 +85,8 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                 tipo: "linha",
                 titulo: `${dadosCadastrais.nome_empresarial} - ENDIVIDAMENTO`,
                 fonteDados: "B3 S.A. - Brasil, Bolsa, Balcão",
-                formatoAcessorioY: () => format(".1f")
+                urlFonteDados: "https://www.b3.com.br/pt_br/",
+                formatoAcessorioY: () => format(".2f")
             })
             setAcessoriosY([
                 {
@@ -105,6 +107,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                 tipo: "linha",
                 titulo: `${dadosCadastrais.nome_empresarial} - RENTABILIDADE`,
                 fonteDados: "B3 S.A. - Brasil, Bolsa, Balcão",
+                urlFonteDados: "https://www.b3.com.br/pt_br/",
                 formatoAcessorioY: () => format(",.0%")
             })
             setAcessoriosY([
@@ -126,6 +129,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                 tipo: "linha",
                 titulo: `${dadosCadastrais.nome_empresarial} - EFICIÊNCIA`,
                 fonteDados: "B3 S.A. - Brasil, Bolsa, Balcão",
+                urlFonteDados: "https://www.b3.com.br/pt_br/",
                 formatoAcessorioY: () => format(",.0%")
             })
             setAcessoriosY([
@@ -150,9 +154,10 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
             ])
         } else if (indicadorSelecionado === 'payout') {
             setConfiguracoesGrafico({
-                tipo: "linha",
+                tipo: "coluna",
                 titulo: `${dadosCadastrais.nome_empresarial} - PAYOUT`,
                 fonteDados: "B3 S.A. - Brasil, Bolsa, Balcão",
+                urlFonteDados: "https://www.b3.com.br/pt_br/",
                 formatoAcessorioY: () => format(",.0%")
             })
             setAcessoriosY([
@@ -168,7 +173,8 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                 tipo: "linha",
                 titulo: `${dadosCadastrais.nome_empresarial} - LIQUIDEZ`,
                 fonteDados: "B3 S.A. - Brasil, Bolsa, Balcão",
-                formatoAcessorioY: () => format(".1f")
+                urlFonteDados: "https://www.b3.com.br/pt_br/",
+                formatoAcessorioY: () => format(".2f")
             })
             setAcessoriosY([
                 {
@@ -195,7 +201,8 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                 tipo: "coluna",
                 titulo: `IPCA`,
                 fonteDados: "IBGE - Instituto Brasileiro de Geografia e Estatística",
-                formatoAcessorioY: () => format(",.0%")
+                urlFonteDados: "https://www.ibge.gov.br/",
+                formatoAcessorioY: () => format(",.1%")
             })
             setAcessoriosY([
                 {
@@ -210,13 +217,30 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                 tipo: "coluna",
                 titulo: `SELIC`,
                 fonteDados: "BCB - Banco Central do Brasil",
-                formatoAcessorioY: () => format(",.0%")
+                urlFonteDados: "https://www.bcb.gov.br/",
+                formatoAcessorioY: () => format(",.1%")
             })
             setAcessoriosY([
                 {
                     acessorio: d => d.valor,
                     cor: corAcessorios[0],
                     legenda: "SELIC",
+                    estaVisivel: true
+                }
+            ])
+        } else if (indicadorSelecionado === 'EMBI+') {
+            setConfiguracoesGrafico({
+                tipo: "coluna",
+                titulo: `EMBI+`,
+                fonteDados: "IPEA - Instituto de Pesquisa Econômica Aplicada",
+                urlFonteDados: "https://www.ipea.gov.br/portal/",
+                formatoAcessorioY: () => format(".0f")
+            })
+            setAcessoriosY([
+                {
+                    acessorio: d => d.valor,
+                    cor: corAcessorios[0],
+                    legenda: "EMBI+",
                     estaVisivel: true
                 }
             ])
@@ -229,9 +253,16 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
     }, [dadosCadastrais, indicadorSelecionado])
 
 
-    const escalaEixoX = scaleTime()
-        .domain(extent(historicoValores, acessorioX))
-        .range([0, larguraInterna])
+    let escalaEixoX
+    if (configuracoesGrafico && configuracoesGrafico.tipo === "linha") {
+        escalaEixoX = scaleTime()
+            .domain(extent(historicoValores, acessorioX))
+            .range([0, larguraInterna])
+    } else if (configuracoesGrafico && configuracoesGrafico.tipo === "coluna") {
+        escalaEixoX = scaleTime()
+            .domain(extent(historicoValores, acessorioX))
+            .range([larguraColuna / 2, larguraInterna - larguraColuna / 2])
+    }
 
     const escalaEixoY = scaleLinear()
         .domain([calculaValorMinimoDominioY(historicoValores, acessoriosY), calculaValorMaximoDominioY(historicoValores, acessoriosY)])
@@ -277,10 +308,12 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
 
                             escalaEixoX={escalaEixoX}
                             acessorioX={acessorioX}
+                            larguraColuna={larguraColuna}
 
                             escalaEixoY={escalaEixoY}
                             acessoriosY={acessoriosY}
                             formatoAcessorioY={configuracoesGrafico.formatoAcessorioY()}
+                            alturaInterna={alturaInterna}
                         />
                     </g>
                 </svg>
@@ -289,7 +322,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                 {/* Source */}
                 <div className="flex self-end pr-2 text-white text-[0.4rem] mb-3">
                     <a
-                        href="https://www.b3.com.br/pt_br/produtos-e-servicos/negociacao/renda-variavel/empresas-listadas.htm"
+                        href={configuracoesGrafico.urlFonteDados}
                         target="_blank"
                         rel="noopener noreferrer"
                     >

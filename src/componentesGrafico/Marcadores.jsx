@@ -1,6 +1,9 @@
 import { line } from "d3"
 
-export const Marcadores = ({ dados, configuracoesGrafico, indicadorSelecionado, escalaEixoX, acessorioX, escalaEixoY, acessoriosY, formatoAcessorioY }) => (
+export const Marcadores = ({
+    dados, configuracoesGrafico, indicadorSelecionado,
+    escalaEixoX, acessorioX, larguraColuna,
+    escalaEixoY, acessoriosY, formatoAcessorioY, alturaInterna }) => (
     <>
         {configuracoesGrafico.tipo === "linha" &&
             acessoriosY.map((acessorioY, indice) => (
@@ -52,10 +55,10 @@ export const Marcadores = ({ dados, configuracoesGrafico, indicadorSelecionado, 
                             <rect
                                 key={i}
                                 fill={acessorioY.cor}                             
-                                x={escalaEixoX(acessorioX(d)) - 4.5}
+                                x={escalaEixoX(acessorioX(d)) - (larguraColuna / 2)}
                                 y={escalaEixoY(acessorioY.acessorio(d))}
-                                width={10}
-                                height={325 - escalaEixoY(acessorioY.acessorio(d))}
+                                width={larguraColuna}
+                                height={alturaInterna - escalaEixoY(acessorioY.acessorio(d))}
                             >
                                 <title>
                                     {`Ano: ${acessorioX(d).getFullYear()}  -  ${acessorioY.legenda}: ${formatoAcessorioY(acessorioY.acessorio(d))}`}

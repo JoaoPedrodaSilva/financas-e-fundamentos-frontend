@@ -18,7 +18,7 @@ export const ArtigoDetalhado = () => {
             }
         }
         fetchConteudos()
-        
+
     }, [])
 
 
@@ -64,12 +64,20 @@ export const ArtigoDetalhado = () => {
 
                 // Simple Link        
                 if (conteudo.tipo_conteudo === '6') {
-                    return <Link reloadDocument key={conteudo.id} to={conteudo.url_link} className="text-xs text-center pb-2 underline">{conteudo.conteudo}</Link>
+                    return (
+                        <div key={conteudo.id} className='flex items-center justify-center'>
+                            <Link reloadDocument to={conteudo.url_link} className="text-xs text-center pb-2 underline">{conteudo.conteudo}</Link>
+                        </div>
+                    )
                 }
 
                 // Last Link        
                 if (conteudo.tipo_conteudo === '7') {
-                    return <Link reloadDocument key={conteudo.id} to={conteudo.url_link} className="text-xs text-center pb-12 underline">{conteudo.conteudo}</Link>
+                    return (
+                        <div key={conteudo.id} className='flex items-center justify-center pb-10'>
+                            <Link reloadDocument to={conteudo.url_link} className="text-xs text-center pb-2 underline">{conteudo.conteudo}</Link>
+                        </div>
+                    )
                 }
 
                 // Portrait Image
@@ -90,7 +98,7 @@ export const ArtigoDetalhado = () => {
 
             {/* back to top button */}
             <BsArrowUpCircle
-                onClick={() => window.scroll({top: 0, behavior: 'smooth'})}
+                onClick={() => window.scroll({ top: 0, behavior: 'smooth' })}
                 className='self-end text-2xl cursor-pointer'
             />
 

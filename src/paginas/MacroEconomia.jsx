@@ -15,12 +15,22 @@ export const MacroEconomia = () => {
             const results = await axios.get(`/api/macroeconomia/${indicadorParametro}`)
             const indicadores = results.data.indicadores
             const dadosCadastrais = indicadores.filter(indicador => indicador.indicador === indicadorParametro)[0]
-            const historicoValores = results.data.historicoValoresIndicadorMacroeconomico.map(exercicioFinanceiro => (
-                {
-                    ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
-                    valor: Number(exercicioFinanceiro.valor / 100)
-                }
-            ))
+            let historicoValores
+            if (dadosCadastrais.indicador === "EMBI+") {
+                historicoValores = results.data.historicoValoresIndicadorMacroeconomico.map(exercicioFinanceiro => (
+                    {
+                        ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
+                        valor: Number(exercicioFinanceiro.valor)
+                    }
+                ))
+            } else if (dadosCadastrais.indicador === "IPCA" || dadosCadastrais.indicador === "SELIC") {
+                historicoValores = results.data.historicoValoresIndicadorMacroeconomico.map(exercicioFinanceiro => (
+                    {
+                        ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
+                        valor: Number(exercicioFinanceiro.valor) / 100
+                    }
+                ))
+            }
 
             setIndicadores(indicadores)
             setIndicadorSelecionado({ dadosCadastrais, historicoValores })
@@ -52,7 +62,7 @@ export const MacroEconomia = () => {
                 >
                     {indicadores && indicadores.map(indicador => (
                         <option key={indicador.id} value={indicador.indicador}>
-                            {`${indicador.indicador} - ${indicador.descricao_curta}`}
+                            {`${indicador.indicador} (${indicador.descricao_curta})`}
                         </option>
                     ))}
                 </select>
