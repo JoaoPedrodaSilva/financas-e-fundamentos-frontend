@@ -16,7 +16,7 @@ export const MacroEconomia = () => {
             const indicadores = results.data.indicadores
             const dadosCadastrais = indicadores.filter(indicador => indicador.indicador === indicadorParametro)[0]
             let historicoValores
-            if (dadosCadastrais.indicador === "EMBI+") {
+            if (dadosCadastrais.indicador === "EMBI+" || dadosCadastrais.indicador === "IBOV") {
                 historicoValores = results.data.historicoValoresIndicadorMacroeconomico.map(exercicioFinanceiro => (
                     {
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),

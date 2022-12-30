@@ -34,6 +34,10 @@ export const Marcadores = ({
                                     <title>
                                         {`Ano: ${acessorioX(d).getFullYear()}  -  ${acessorioY.legenda}: R$ ${formatoAcessorioY(acessorioY.acessorio(d)).replace(",", ".")}.000,00`}
                                     </title>
+                                ) : indicadorSelecionado === "IBOV" ? (
+                                    <title>
+                                        {`Ano: ${acessorioX(d).getFullYear()}  -  ${acessorioY.legenda}: ${formatoAcessorioY(acessorioY.acessorio(d)).replace(",", ".")}`}
+                                    </title>
                                 ) : (
                                     <title>
                                             {`Ano: ${acessorioX(d).getFullYear()}  -  ${acessorioY.legenda}: ${formatoAcessorioY(acessorioY.acessorio(d))}`}
@@ -60,9 +64,16 @@ export const Marcadores = ({
                                 width={larguraColuna}
                                 height={alturaInterna - escalaEixoY(acessorioY.acessorio(d))}
                             >
-                                <title>
-                                    {`Ano: ${acessorioX(d).getFullYear()}  -  ${acessorioY.legenda}: ${formatoAcessorioY(acessorioY.acessorio(d))}`}
-                                </title>
+                                {console.log(indicadorSelecionado)}
+                                {indicadorSelecionado === "EMBI+" ? (
+                                    <title>
+                                        {`Ano: ${acessorioX(d).getFullYear()}  -  ${acessorioY.legenda}: ${formatoAcessorioY(acessorioY.acessorio(d)).replace(",", ".")}`}
+                                    </title>
+                                ) : (
+                                    <title>
+                                        {`Ano: ${acessorioX(d).getFullYear()}  -  ${acessorioY.legenda}: ${formatoAcessorioY(acessorioY.acessorio(d))}`}
+                                    </title>
+                                )}
                             </rect>
                         ))}
                     </g>

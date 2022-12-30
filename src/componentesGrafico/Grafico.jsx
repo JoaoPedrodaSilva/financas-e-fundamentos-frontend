@@ -234,13 +234,29 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                 titulo: `EMBI+`,
                 fonteDados: "IPEA - Instituto de Pesquisa Econômica Aplicada",
                 urlFonteDados: "https://www.ipea.gov.br/portal/",
-                formatoAcessorioY: () => format(".0f")
+                formatoAcessorioY: () => format(",")
             })
             setAcessoriosY([
                 {
                     acessorio: d => d.valor,
                     cor: corAcessorios[0],
                     legenda: "EMBI+",
+                    estaVisivel: true
+                }
+            ])
+        } else if (indicadorSelecionado === 'IBOV') {
+            setConfiguracoesGrafico({
+                tipo: "linha",
+                titulo: `IBOV`,
+                fonteDados: "B3 S.A. - Brasil, Bolsa, Balcão",
+                urlFonteDados: "https://www.b3.com.br/pt_br/",
+                formatoAcessorioY: () => format(",")
+            })
+            setAcessoriosY([
+                {
+                    acessorio: d => d.valor,
+                    cor: corAcessorios[0],
+                    legenda: "IBOV",
                     estaVisivel: true
                 }
             ])
@@ -320,7 +336,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
 
 
                 {/* Source */}
-                <div className="flex self-end pr-2 text-white text-[0.4rem] mb-3">
+                <div className="flex self-end pr-2 text-white text-[0.4rem] sm:text-xs mb-3">
                     <a
                         href={configuracoesGrafico.urlFonteDados}
                         target="_blank"
