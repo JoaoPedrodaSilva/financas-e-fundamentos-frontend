@@ -15,22 +15,13 @@ export const MacroEconomia = () => {
             const results = await axios.get(`/api/macroeconomia/${indicadorParametro}`)
             const indicadores = results.data.indicadores
             const dadosCadastrais = indicadores.filter(indicador => indicador.indicador === indicadorParametro)[0]
-            let historicoValores
-            if (dadosCadastrais.indicador === "EMBI+" || dadosCadastrais.indicador === "IBOV") {
-                historicoValores = results.data.historicoValoresIndicadorMacroeconomico.map(exercicioFinanceiro => (
-                    {
-                        ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
-                        valor: Number(exercicioFinanceiro.valor)
-                    }
-                ))
-            } else if (dadosCadastrais.indicador === "IPCA" || dadosCadastrais.indicador === "SELIC") {
-                historicoValores = results.data.historicoValoresIndicadorMacroeconomico.map(exercicioFinanceiro => (
-                    {
-                        ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
-                        valor: Number(exercicioFinanceiro.valor) / 100
-                    }
-                ))
-            }
+            const historicoValores = results.data.historicoValoresIndicadorMacroeconomico.map(exercicioFinanceiro => (
+                {
+                    ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
+                    valor: Number(exercicioFinanceiro.valor)
+                }
+            ))
+
 
             setIndicadores(indicadores)
             setIndicadorSelecionado({ dadosCadastrais, historicoValores })
@@ -69,7 +60,7 @@ export const MacroEconomia = () => {
 
                 {/* selected metric long description */}
                 {indicadorSelecionado && (
-                    <div className="w-full sm:flex flex-col text-white px-1 lg:text-lg">
+                    <div className="w-full sm:flex flex-col text-white px-1 text-xs lg:text-lg">
                         <p className="my-3 text-justify">
                             <span className="text-gray-400">Descrição: </span><br />{indicadorSelecionado.dadosCadastrais.descricao_longa}
                         </p>

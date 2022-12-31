@@ -12,7 +12,7 @@ export const EixoY = ({ escalaEixoY, larguraInterna, formatoAcessorioY, corGrade
                 dx="0.5rem"
                 dy="0.3rem"
             > 
-                {formatoAcessorioY(tick).replace(",", ".")}
+                {formatoAcessorioY(tick)}
             </text>
         </g>
     ))

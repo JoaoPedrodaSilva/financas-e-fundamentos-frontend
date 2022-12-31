@@ -39,7 +39,7 @@ const retornoPeloPatrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
         return 0
     }
 
-    return Number(retornoPeloPatrimonioLiquido.toFixed(2))
+    return Number(retornoPeloPatrimonioLiquido.toFixed(4))
 }
 const retornoPelosAtivos = (dadosFinanceiros, dadosCadastrais) => {
     let ativos = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante)
@@ -54,7 +54,7 @@ const retornoPelosAtivos = (dadosFinanceiros, dadosCadastrais) => {
         return 0
     }
 
-    return Number(retornoPelosAtivos.toFixed(2))
+    return Number(retornoPelosAtivos.toFixed(4))
 }
 const margemBruta = (dadosFinanceiros) => {
     const margemBruta = Number(dadosFinanceiros.lucro_bruto) / Number(dadosFinanceiros.receita_liquida)
@@ -62,7 +62,7 @@ const margemBruta = (dadosFinanceiros) => {
     if (margemBruta <= 0) {
         return 0
     }
-    return Number(margemBruta.toFixed(2))
+    return Number(margemBruta.toFixed(4))
 }
 const margemOperacional = (dadosFinanceiros) => {
     const margemOperacional = Number(dadosFinanceiros.lucro_operacional) / Number(dadosFinanceiros.receita_liquida)
@@ -70,7 +70,7 @@ const margemOperacional = (dadosFinanceiros) => {
     if (margemOperacional <= 0) {
         return 0
     }
-    return Number(margemOperacional.toFixed(2))
+    return Number(margemOperacional.toFixed(4))
 }
 const margemLiquida = (dadosFinanceiros) => {
     const margemLiquida = Number(dadosFinanceiros.lucro_liquido) / Number(dadosFinanceiros.receita_liquida)
@@ -78,7 +78,7 @@ const margemLiquida = (dadosFinanceiros) => {
     if (margemLiquida <= 0) {
         return 0
     }
-    return Number(margemLiquida.toFixed(2))
+    return Number(margemLiquida.toFixed(4))
 }
 const payout = (dadosFinanceiros) => {
     const payout = Number(dadosFinanceiros.provento_distribuido) / Number(dadosFinanceiros.lucro_liquido)
@@ -86,7 +86,7 @@ const payout = (dadosFinanceiros) => {
     if (payout <= 0) {
         return 0
     }
-    return Number(payout.toFixed(2))
+    return Number(payout.toFixed(4))
 }
 const liquidezImediata = (dadosFinanceiros, dadosCadastrais) => {
     if (dadosCadastrais.instituicao_financeira) {
