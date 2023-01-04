@@ -70,7 +70,7 @@ export const BarraNavegacao = () => {
                 className={`${mostraMenu ? 'absolute lg:relative top-10 lg:top-auto right-0 lg:right-auto z-50' : 'hidden'} `}
                 id="navbar-default"
             >
-                <ul className="flex flex-col items-start lg:flex-row gap-4 px-6 py-4 bg-white rounded-b">
+                <ul className="flex flex-col items-start lg:flex-row gap-4 px-8 py-4 bg-white rounded-b">
                     <li>
                         <Link
                             to={`/`}
