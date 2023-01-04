@@ -4,7 +4,7 @@ export const Rodape = () => (
             &copy;Copyright. Finanças e Fundamentos - {new Date().getFullYear()}
         </p>
         <a href="https://joaopedrodeveloper.com" target='_blank' rel='noreferrer'>
-            Desenvolvido por João Pedro Software Developer
+            Desenvolvido por João Pedro Web Developer
         </a>
     </footer>
 )

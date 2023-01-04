@@ -32,7 +32,6 @@ export const BarraNavegacao = () => {
     return (
         <nav
             onMouseLeave={() => {
-                console.log('out')
                 setMostraSubMenu(false)
                 larguraNavbar < 1024 && setMostraMenu(false)
             }}
