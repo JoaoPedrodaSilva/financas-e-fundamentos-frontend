@@ -30,13 +30,19 @@ export const BarraNavegacao = () => {
 
 
     return (
-        <nav className="flex justify-between items-center gap-8 px-5 lg:px-20 py-2 lg:py-1 bg-white">
+        <nav
+            onMouseLeave={() => {
+                setMostraSubMenu(false)
+                larguraNavbar < 768 && setMostraMenu(false)
+            }}
+            className="flex justify-between items-center gap-8 px-5 lg:px-20 py-2 lg:py-1 bg-white">
 
             {/* brand */}
             <Link to={`/`} className="flex items-center justify-center gap-1">
                 <img src='https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/logo.png' className="w-6 sm:w-8 lg:w-10" alt="Logotipo do Finanças e Fundamentos, uma moeda amarela com duas letras efes, uma de cabeça para cima e outra de cabeça para baixo." />
                 <span className="self-center text-base sm:text-lg lg:text-xl font-semibold">Finanças e Fundamentos</span>
             </Link>
+
 
             {/* hamburger menu icon (mobile and tablet only) */}
             <button
@@ -58,7 +64,11 @@ export const BarraNavegacao = () => {
             </button>
 
             {/* inline menu (desktop only) */}
-            <div ref={menuRef} className={`${mostraMenu ? 'absolute lg:relative top-10 lg:top-auto right-0 lg:right-auto z-50' : 'hidden'} `} id="navbar-default">
+            <div
+                ref={menuRef}
+                className={`${mostraMenu ? 'absolute lg:relative top-10 lg:top-auto right-0 lg:right-auto z-50' : 'hidden'} `}
+                id="navbar-default"
+            >
                 <ul className="flex flex-col items-start lg:flex-row gap-4 px-6 py-4 bg-white rounded-b">
                     <li>
                         <Link
@@ -110,6 +120,7 @@ export const BarraNavegacao = () => {
                                 <IoIosArrowDown className='text-xl' />
                             }
                         </button>
+
                         {/* Submenu items*/}
                         <div id="dropdownNavbar" className={`${mostraSubMenu ? 'absolute right-0 lg:top-10 z-50 w-full lg:w-auto rounded' : 'hidden'}`}>
                             <ul className="flex flex-col lg:flex-row items-start gap-4 px-6 py-4 bg-gray-100 lg:bg-white rounded " aria-labelledby="dropdownLargeButton">
