@@ -58,7 +58,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
 
         if (indicadorSelecionado === "dre") {
             setConfiguracoesGrafico({
-                tipo: "linha",
+                tipo: "coluna",
                 titulo: `${dadosCadastrais.nome_empresarial} - DRE (EM MILHÕES DE REAIS)`,
                 urlFonteDados: "https://www.b3.com.br/pt_br/",
                 formatoAcessorioY: {
@@ -172,7 +172,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
             ])
         } else if (indicadorSelecionado === 'payout') {
             setConfiguracoesGrafico({
-                tipo: "coluna",
+                tipo: "linha",
                 titulo: `${dadosCadastrais.nome_empresarial} - PAYOUT`,
                 urlFonteDados: "https://www.b3.com.br/pt_br/",
                 formatoAcessorioY: {
@@ -220,7 +220,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
             ])
         } else if (indicadorSelecionado === 'IPCA') {
             setConfiguracoesGrafico({
-                tipo: "coluna",
+                tipo: "linha",
                 titulo: `IPCA`,
                 urlFonteDados: "https://www.ibge.gov.br/",
                 formatoAcessorioY: {
@@ -238,7 +238,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
             ])
         } else if (indicadorSelecionado === 'SELIC') {
             setConfiguracoesGrafico({
-                tipo: "coluna",
+                tipo: "linha",
                 titulo: `SELIC`,
                 urlFonteDados: "https://www.bcb.gov.br/",
                 formatoAcessorioY: {
@@ -383,7 +383,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
 
 
                 {/* Source */}
-                <div className="flex self-end pr-2 text-white text-[0.4rem] sm:text-xs mb-3">
+                <div className="flex self-end pr-2 text-white text-[0.5rem] lg:text-sm mb-3">
                     <a
                         href={configuracoesGrafico.urlFonteDados}
                         target="_blank"
@@ -400,6 +400,8 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
                     setAcessoriosY={setAcessoriosY}
                 />
 
+
+                {/* Tooltip */}
                 {configuracoesTooltip && configuracoesTooltip.estaVisivel &&
                     <Tooltip
                         configuracoesTooltip={configuracoesTooltip}

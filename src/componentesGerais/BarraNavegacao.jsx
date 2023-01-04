@@ -139,7 +139,7 @@ export const BarraNavegacao = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        to={`/macroeconomia/IPCA`}
+                                        to={`/macroeconomia/DÓLAR EUA`}
                                         className="text-md text-gray-700 rounded hover:text-blue-700"
                                         onClick={() => {
                                             setMostraSubMenu(false)

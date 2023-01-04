@@ -67,7 +67,7 @@ export const Marcadores = ({
             {configuracoesGrafico.tipo === "coluna" &&
                 acessoriosY.map((acessorioY, indice) => (
                     acessorioY.estaVisivel && (
-                        <g key={indice}>
+                        <g key={indice} transform={`translate(${indice * 17.5}, 0)`}>
                             {historicoValores.map((d, i) => (
                                 <rect
                                     key={i}
@@ -77,7 +77,7 @@ export const Marcadores = ({
                                     fill={acessorioY.cor}
                                     x={escalaEixoX(acessorioX(d)) - (larguraColuna / 2)}
                                     y={escalaEixoY(acessorioY.acessorio(d))}
-                                    width={larguraColuna}
+                                    width={larguraColuna / acessoriosY.length}
                                     height={alturaInterna - escalaEixoY(acessorioY.acessorio(d))}
                                 />
                             ))}
