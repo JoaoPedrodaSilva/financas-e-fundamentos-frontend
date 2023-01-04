@@ -294,7 +294,7 @@ export const Grafico = ({ indicadorSelecionado, dadosCadastrais, historicoValore
             setConfiguracoesGrafico({
                 tipo: "linha",
                 titulo: `DÓLAR EUA`,
-                urlFonteDados: "https://www.b3.com.br/pt_br/",
+                urlFonteDados: "https://www.bcb.gov.br/",
                 formatoAcessorioY: {
                     eixoY: () => locale.format(".2f"),
                     tooltip: () => locale.format("$.2f")
