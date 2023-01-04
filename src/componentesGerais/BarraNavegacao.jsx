@@ -58,7 +58,7 @@ export const BarraNavegacao = () => {
             </button>
 
             {/* inline menu (desktop only) */}
-            <div ref={menuRef} className={`${mostraMenu ? 'absolute lg:relative top-10 lg:top-auto right-0 lg:right-auto' : 'hidden'} `} id="navbar-default">
+            <div ref={menuRef} className={`${mostraMenu ? 'absolute lg:relative top-10 lg:top-auto right-0 lg:right-auto z-50' : 'hidden'} `} id="navbar-default">
                 <ul className="flex flex-col items-start lg:flex-row gap-4 px-6 py-4 bg-white rounded-b">
                     <li>
                         <Link
@@ -111,12 +111,12 @@ export const BarraNavegacao = () => {
                             }
                         </button>
                         {/* Submenu items*/}
-                        <div id="dropdownNavbar" className={`${mostraSubMenu ? 'absolute right-0 lg:top-10 z-10 w-full lg:w-auto rounded' : 'hidden'}`}>
+                        <div id="dropdownNavbar" className={`${mostraSubMenu ? 'absolute right-0 lg:top-10 z-50 w-full lg:w-auto rounded' : 'hidden'}`}>
                             <ul className="flex flex-col lg:flex-row items-start gap-4 px-6 py-4 bg-gray-100 lg:bg-white rounded " aria-labelledby="dropdownLargeButton">
                                 <li>
                                     <Link
                                         to={`/artigos`}
-                                        className="text-md text-gray-700 rounded hover:text-blue-700"
+                                        className="text-md text-gray-700 rounded hover:text-blue-700 z-50"
                                         onClick={() => {
                                             setMostraSubMenu(false)
                                             larguraNavbar < 768 && setMostraMenu(false)
@@ -128,7 +128,7 @@ export const BarraNavegacao = () => {
                                 <li>
                                     <Link
                                         to={`/acoes/ABEV`}
-                                        className="text-md text-gray-700 rounded hover:text-blue-700"
+                                        className="text-md text-gray-700 rounded hover:text-blue-700 z-50"
                                         onClick={() => {
                                             setMostraSubMenu(false)
                                             larguraNavbar < 768 && setMostraMenu(false)
@@ -140,7 +140,7 @@ export const BarraNavegacao = () => {
                                 <li>
                                     <Link
                                         to={`/macroeconomia/DÓLAR EUA`}
-                                        className="text-md text-gray-700 rounded hover:text-blue-700"
+                                        className="text-md text-gray-700 rounded hover:text-blue-700 z-50"
                                         onClick={() => {
                                             setMostraSubMenu(false)
                                             larguraNavbar < 768 && setMostraMenu(false)
