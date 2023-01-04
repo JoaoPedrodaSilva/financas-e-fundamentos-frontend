@@ -32,8 +32,9 @@ export const BarraNavegacao = () => {
     return (
         <nav
             onMouseLeave={() => {
+                console.log('out')
                 setMostraSubMenu(false)
-                larguraNavbar < 768 && setMostraMenu(false)
+                larguraNavbar < 1024 && setMostraMenu(false)
             }}
             className="flex justify-between items-center gap-8 px-5 lg:px-20 py-2 lg:py-1 bg-white">
 
@@ -76,7 +77,7 @@ export const BarraNavegacao = () => {
                             className="text-md text-gray-700 rounded hover:text-blue-700"
                             onClick={() => {
                                 setMostraSubMenu(false)
-                                larguraNavbar < 768 && setMostraMenu(false)
+                                larguraNavbar < 1024 && setMostraMenu(false)
                             }}
                         >
                             Home
@@ -88,7 +89,7 @@ export const BarraNavegacao = () => {
                             className="text-md text-gray-700 rounded hover:text-blue-700"
                             onClick={() => {
                                 setMostraSubMenu(false)
-                                larguraNavbar < 768 && setMostraMenu(false)
+                                larguraNavbar < 1024 && setMostraMenu(false)
                             }}
                         >
                             Sobre
@@ -100,7 +101,7 @@ export const BarraNavegacao = () => {
                             className="text-md text-gray-700 rounded hover:text-blue-700"
                             onClick={() => {
                                 setMostraSubMenu(false)
-                                larguraNavbar < 768 && setMostraMenu(false)
+                                larguraNavbar < 1024 && setMostraMenu(false)
                             }}
                         >
                             Comunidade
@@ -130,7 +131,7 @@ export const BarraNavegacao = () => {
                                         className="text-md text-gray-700 rounded hover:text-blue-700 z-50"
                                         onClick={() => {
                                             setMostraSubMenu(false)
-                                            larguraNavbar < 768 && setMostraMenu(false)
+                                            larguraNavbar < 1024 && setMostraMenu(false)
                                         }}
                                     >
                                         Artigos
@@ -142,7 +143,7 @@ export const BarraNavegacao = () => {
                                         className="text-md text-gray-700 rounded hover:text-blue-700 z-50"
                                         onClick={() => {
                                             setMostraSubMenu(false)
-                                            larguraNavbar < 768 && setMostraMenu(false)
+                                            larguraNavbar < 1024 && setMostraMenu(false)
                                         }}
                                     >
                                         Ações
@@ -154,7 +155,7 @@ export const BarraNavegacao = () => {
                                         className="text-md text-gray-700 rounded hover:text-blue-700 z-50"
                                         onClick={() => {
                                             setMostraSubMenu(false)
-                                            larguraNavbar < 768 && setMostraMenu(false)
+                                            larguraNavbar < 1024 && setMostraMenu(false)
                                         }}
                                     >
                                         Macroeconomia
