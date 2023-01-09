@@ -48,8 +48,8 @@ export const Acoes = () => {
                 setEmpresaSelecionada({ dadosCadastrais, historicoValores })
 
                 if (dadosCadastrais.instituicao_financeira &&
-                    indicadorSelecionado === "endividamento" ||
-                    indicadorSelecionado === "liquidez") {
+                    (indicadorSelecionado === "endividamento" ||
+                    indicadorSelecionado === "liquidez")) {
                     setIndicadorSelecionado("dre")
                 }
 
