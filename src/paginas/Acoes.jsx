@@ -21,15 +21,16 @@ export const Acoes = () => {
                 const results = await axios.get(`/api/acoes/${codigoBaseParametro}`)
                 const empresas = results.data.empresas
                 const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]
+
                 const historicoValores = results.data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
                     const { dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemLiquida, payout, liquidezImediata, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
 
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
-                        receitaLiquida: Number(exercicioFinanceiro.receita_liquida),
-                        lucroBruto: Number(exercicioFinanceiro.lucro_bruto),
-                        lucroOperacional: Number(exercicioFinanceiro.lucro_operacional),
-                        lucroLiquido: Number(exercicioFinanceiro.lucro_liquido),
+                        receitaLiquida: Math.round(Number(exercicioFinanceiro.receita_liquida / 1000)),
+                        lucroBruto: Math.round(Number(exercicioFinanceiro.lucro_bruto / 1000)),
+                        lucroOperacional: Math.round(Number(exercicioFinanceiro.lucro_operacional / 1000)),
+                        lucroLiquido: Math.round(Number(exercicioFinanceiro.lucro_liquido / 1000)),
                         dividaLiquidaPeloEbitda: dividaLiquidaPeloEbitda,
                         dividaBrutaPeloPatrimonioLiquido: dividaBrutaPeloPatrimonioLiquido,
                         retornoPeloPatrimonioLiquido: retornoPeloPatrimonioLiquido,
@@ -47,9 +48,8 @@ export const Acoes = () => {
                 setEmpresas(empresas)
                 setEmpresaSelecionada({ dadosCadastrais, historicoValores })
 
-                if (dadosCadastrais.instituicao_financeira &&
-                    (indicadorSelecionado === "endividamento" ||
-                    indicadorSelecionado === "liquidez")) {
+                if (dadosCadastrais.instituicao_financeira && (indicadorSelecionado === "endividamento" || indicadorSelecionado === "liquidez") ||
+                    historicoValores[historicoValores.length - 1].receitaLiquida === 0) {
                     setIndicadorSelecionado("dre")
                 }
 
@@ -75,6 +75,7 @@ export const Acoes = () => {
     return (
         <section className='h-full flex flex-col sm:flex-row justify-center items-center gap-2 px-5 lg:px-20'>
             <section className="w-full sm:w-1/2 lg:max-w-xl flex flex-col gap-3">
+
 
                 {/* selected company basic registration data (tablet and desktop only) */}
                 {empresaSelecionada && (
@@ -117,7 +118,7 @@ export const Acoes = () => {
                             <option value="dre">DRE (RECEITA/LUCRO)</option>
                             {!empresaSelecionada.dadosCadastrais.instituicao_financeira && <option value="endividamento">ENDIVIDAMENTO</option>}
                             <option value="rentabilidade">RENTABILIDADE (ROE/ROA)</option>
-                            <option value="eficiencia">EFICIÊNCIA (MARGENS)</option>
+                            {empresaSelecionada.historicoValores[empresaSelecionada.historicoValores.length - 1].receitaLiquida && <option value="eficiencia">EFICIÊNCIA (MARGENS)</option>}
                             <option value="payout">PAYOUT</option>
                             {!empresaSelecionada.dadosCadastrais.instituicao_financeira && <option value="liquidez">LIQUIDEZ</option>}
                             <option value="dados_cadastrais">DADOS CADASTRAIS</option>
