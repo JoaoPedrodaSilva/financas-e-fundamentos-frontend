@@ -6,11 +6,11 @@ export const PaginaInicial = () => (
         </h1>
 
         <p className='text-white text-lg sm:text-xl lg:text-2xl text-center'>
-            Planejamento financeiro moderno e gestão de investimentos independente.
+            Planejamento financeiro moderno e gestão de ativos independente.
         </p>
         
         <p className='text-white text-lg sm:text-xl lg:text-2xl text-center'>
-            Aprenda a escolher seus próprios investimentos!
+            Escolha seus próprios investimentos!
         </p>
 
     </section>
