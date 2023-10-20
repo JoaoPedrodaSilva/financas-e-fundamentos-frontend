@@ -3,6 +3,7 @@ import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams, Link } from "react-router-dom"
 import { Grafico } from "../componentesGrafico/Grafico"
+import { BarChart } from "../GraficoChartJs/BarChart"
 import { DadosCadastrais } from "../componentesGerais/DadosCadastrais"
 
 
@@ -125,20 +126,6 @@ export const Acoes = () => {
                         </>
                     }
                 </select>
-
-
-                {/* learn-the-chart article link */}
-                {indicadorSelecionado !== "dados_cadastrais" && indicadorSelecionado !== "eficiencia" && indicadorSelecionado !== "payout" && indicadorSelecionado !== "liquidez" && (
-                    <Link
-                        to={indicadorSelecionado === "dre" ? `/artigos/17`
-                            : indicadorSelecionado === "endividamento" ? `/artigos/18`
-                                : indicadorSelecionado === "rentabilidade" ? `/artigos/19`
-                                    : null}
-                        className="text-xs sm:text-sm lg:text-lg text-center lg:text-left text-blue-500"
-                    >
-                        Clique aqui e aprenda a interpretar esse gráfico
-                    </Link>)}
-
             </section>
 
 
@@ -153,6 +140,11 @@ export const Acoes = () => {
                             dadosCadastrais={empresaSelecionada.dadosCadastrais}
                             historicoValores={empresaSelecionada.historicoValores}
                         />
+                        // <BarChart
+                        //     indicadorSelecionado={indicadorSelecionado}
+                        //     dadosCadastrais={empresaSelecionada.dadosCadastrais}
+                        //     historicoValores={empresaSelecionada.historicoValores}
+                        // />
                     )}
                 </div>
             </section>
