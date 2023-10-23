@@ -1,15 +1,21 @@
 import axios from "../axios"
 import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
-import { useNavigate, useParams, Link } from "react-router-dom"
-import { Grafico } from "../componentesGrafico/Grafico"
-import { BarChart } from "../GraficoChartJs/BarChart"
+import { useNavigate, useParams } from "react-router-dom"
+import { GraficoDREBarras } from "../graficosAcoes/GraficoDREBarras"
+import { GraficoDREArea } from "../graficosAcoes/GraficoDREArea"
+import { GraficoEndividamento } from "../graficosAcoes/GraficoEndividamento"
+import { GraficoRentabilidade } from "../graficosAcoes/GraficoRentabilidade"
+import { GraficoEficiencia } from "../graficosAcoes/GraficoEficiencia"
+import { GraficoPayout } from "../graficosAcoes/GraficoPayout"
+import { GraficoLiquidez } from "../graficosAcoes/GraficoLiquidez"
 import { DadosCadastrais } from "../componentesGerais/DadosCadastrais"
 
 
 export const Acoes = () => {
     const navigate = useNavigate()
     const { codigoBaseParametro } = useParams(null)
+    const [barras, setBarras] = useState(true)
     const [empresas, setEmpresas] = useState(null)
     const [empresaSelecionada, setEmpresaSelecionada] = useState("")
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("dre") // want to show the dre chart as default
@@ -131,21 +137,69 @@ export const Acoes = () => {
 
             {/* charts and complete registration data */}
             <section className='w-full flex flex-col justify-center items-center gap-2'>
-                <div className='w-full p-1'>
-                    {indicadorSelecionado === 'dados_cadastrais' ? (
-                        <DadosCadastrais dadosCadastrais={empresaSelecionada.dadosCadastrais} />
-                    ) : (
-                        <Grafico
-                            indicadorSelecionado={indicadorSelecionado}
-                            dadosCadastrais={empresaSelecionada.dadosCadastrais}
-                            historicoValores={empresaSelecionada.historicoValores}
-                        />
-                        // <BarChart
-                        //     indicadorSelecionado={indicadorSelecionado}
-                        //     dadosCadastrais={empresaSelecionada.dadosCadastrais}
-                        //     historicoValores={empresaSelecionada.historicoValores}
-                        // />
-                    )}
+                <div className='w-full p-1 border border-white rounded'>
+                    {(() => {
+                        switch (indicadorSelecionado) {
+                            case "dados_cadastrais":
+                                return (
+                                    <DadosCadastrais dadosCadastrais={empresaSelecionada.dadosCadastrais} />
+                                )
+                            case "dre":
+                                return (
+                                    <GraficoDREBarras
+                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
+                                        historicoValores={empresaSelecionada.historicoValores}
+                                    />
+                                )
+                            case "endividamento":
+                                return (
+                                    <GraficoEndividamento
+                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
+                                        historicoValores={empresaSelecionada.historicoValores}
+                                    />
+                                )
+                            case "rentabilidade":
+                                return (
+                                    <GraficoRentabilidade
+                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
+                                        historicoValores={empresaSelecionada.historicoValores}
+                                    />
+                                )
+                            case "eficiencia":
+                                return (
+                                    <GraficoEficiencia
+                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
+                                        historicoValores={empresaSelecionada.historicoValores}
+                                    />
+                                )
+                            case "payout":
+                                return (
+                                    <GraficoPayout
+                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
+                                        historicoValores={empresaSelecionada.historicoValores}
+                                    />
+                                )
+                            case "liquidez":
+                                return (
+                                    <GraficoLiquidez
+                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
+                                        historicoValores={empresaSelecionada.historicoValores}
+                                    />
+                                )
+                            default:
+                                return (
+                                    <GraficoDREBarras
+                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
+                                        historicoValores={empresaSelecionada.historicoValores}
+                                    />
+                                )
+                        }
+                    })()}
+                </div>
+                <div className='w-full text-white text-right text-xs'>
+                    <a href="https://www.b3.com.br" target='_blank' rel='noreferrer'>
+                        Fonte: B3 - Brasil, Bolsa, Balcão
+                    </a>
                 </div>
             </section>
         </section>

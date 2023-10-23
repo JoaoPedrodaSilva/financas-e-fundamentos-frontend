@@ -1,6 +1,6 @@
 import axios from "../axios"
 import { useState, useEffect } from "react"
-import { Grafico } from "../componentesGrafico/Grafico"
+import { GraficoMacroeconomia } from "../graficosMacroeconomia/GraficoMacroeconomia"
 import { useNavigate, useParams, Link } from "react-router-dom"
 
 export const MacroEconomia = () => {
@@ -67,14 +67,13 @@ export const MacroEconomia = () => {
                     </div>
                 )}
 
-
-                {/* TODO - learn-the-chart article link */}
+                
             </section>
 
-            {/* charts and complete registration data */}
+            {/* charts */}
             <section className='w-full flex flex-col justify-center items-center gap-2'>
                 <div className='w-full p-1'>
-                    <Grafico
+                    <GraficoMacroeconomia
                         indicadorSelecionado={indicadorSelecionado.dadosCadastrais.indicador}
                         dadosCadastrais={indicadorSelecionado.dadosCadastrais}
                         historicoValores={indicadorSelecionado.historicoValores}
