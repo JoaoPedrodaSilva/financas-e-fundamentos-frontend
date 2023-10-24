@@ -2,8 +2,7 @@ import axios from "../axios"
 import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { GraficoDREBarras } from "../graficosAcoes/GraficoDREBarras"
-import { GraficoDREArea } from "../graficosAcoes/GraficoDREArea"
+import { GraficoDRE } from "../graficosAcoes/GraficoDRE"
 import { GraficoEndividamento } from "../graficosAcoes/GraficoEndividamento"
 import { GraficoRentabilidade } from "../graficosAcoes/GraficoRentabilidade"
 import { GraficoEficiencia } from "../graficosAcoes/GraficoEficiencia"
@@ -30,7 +29,7 @@ export const Acoes = () => {
                 const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]
 
                 const historicoValores = results.data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
-                    const { dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemLiquida, payout, liquidezImediata, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
+                    const { dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemLiquida, payout, liquidezImediata, liquidezCorrente, liquidezGeral, ativoTotal, patrimonioLiquido } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
 
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
@@ -48,15 +47,16 @@ export const Acoes = () => {
                         payout: payout,
                         liquidezImediata: liquidezImediata,
                         liquidezCorrente: liquidezCorrente,
-                        liquidezGeral: liquidezGeral
+                        liquidezGeral: liquidezGeral,
+                        ativoTotal: ativoTotal,
+                        patrimonioLiquido: patrimonioLiquido
                     })
                 })
 
                 setEmpresas(empresas)
                 setEmpresaSelecionada({ dadosCadastrais, historicoValores })
 
-                if (dadosCadastrais.instituicao_financeira && (indicadorSelecionado === "endividamento" || indicadorSelecionado === "liquidez") ||
-                    historicoValores[historicoValores.length - 1].receitaLiquida === 0) {
+                if (dadosCadastrais.instituicao_financeira && (indicadorSelecionado === "endividamento" || indicadorSelecionado === "liquidez")) {
                     setIndicadorSelecionado("dre")
                 }
 
@@ -146,7 +146,7 @@ export const Acoes = () => {
                                 )
                             case "dre":
                                 return (
-                                    <GraficoDREBarras
+                                    <GraficoDRE
                                         dadosCadastrais={empresaSelecionada.dadosCadastrais}
                                         historicoValores={empresaSelecionada.historicoValores}
                                     />

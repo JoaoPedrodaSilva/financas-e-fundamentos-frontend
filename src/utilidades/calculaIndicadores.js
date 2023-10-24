@@ -124,6 +124,25 @@ const liquidezGeral = (dadosFinanceiros, dadosCadastrais) => {
     }
     return Number(liquidezGeral.toFixed(2))
 }
+const ativoTotal = (dadosFinanceiros, dadosCadastrais) => {
+    let ativoTotal = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante)
+
+    if (dadosCadastrais && dadosCadastrais.instituicao_financeira) {
+        ativoTotal = Number(dadosFinanceiros.ativo_total)
+    }
+
+    return Math.round(Number(ativoTotal / 1000))  
+}
+const patrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
+
+    let patrimonioLiquido = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante) - Number(dadosFinanceiros.passivo_circulante) + Number(dadosFinanceiros.passivo_nao_circulante)
+
+    if (dadosCadastrais.instituicao_financeira) {
+        patrimonioLiquido = Number(dadosFinanceiros.patrimonio_liquido)
+    }
+
+    return Math.round(Number(patrimonioLiquido / 1000))
+}
 
 
 export const calculaIndicadores = (dadosFinanceiros, dadosCadastrais) => ({
@@ -137,5 +156,7 @@ export const calculaIndicadores = (dadosFinanceiros, dadosCadastrais) => ({
     payout: payout(dadosFinanceiros),
     liquidezImediata: liquidezImediata(dadosFinanceiros, dadosCadastrais),
     liquidezCorrente: liquidezCorrente(dadosFinanceiros, dadosCadastrais),
-    liquidezGeral: liquidezGeral(dadosFinanceiros, dadosCadastrais)
+    liquidezGeral: liquidezGeral(dadosFinanceiros, dadosCadastrais),
+    ativoTotal: ativoTotal(dadosFinanceiros, dadosCadastrais),
+    patrimonioLiquido: patrimonioLiquido(dadosFinanceiros, dadosCadastrais)
 })

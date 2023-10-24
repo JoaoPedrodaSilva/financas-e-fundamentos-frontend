@@ -26,7 +26,7 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
         <div className='w-full'>
             {dadosFinanceiros &&
                 <Line
-                className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/logo.png)] bg-center bg-no-repeat'
+                className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
                     data={dadosFinanceiros}
                     options={{
                         borderWidth: 3,
@@ -38,10 +38,23 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                             intersect: false
                         },
                         scales: {
+                            x: {
+                                ticks: {
+                                    color: "white",
+                                },
+                                grid: {
+                                    // color: "rgba(255,255,255,0.05)"
+                                    color: "transparent"
+                                }
+                            },
                             y: {
                                 position: 'right',
                                 ticks: {
-                                    maxTicksLimit: 6
+                                    maxTicksLimit: 6,
+                                    color: "white",
+                                },
+                                grid: {
+                                    color: "rgba(255,255,255,0.05)"
                                 }
                             }
                         },
@@ -53,7 +66,13 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                             },
                             legend: {
                                 labels: {
-                                    padding: 25
+                                    padding: 25,
+                                    color: "white"
+                                }
+                            },
+                            plugins: {
+                                colors: {
+                                    forceOverride: true
                                 }
                             }
                         }
