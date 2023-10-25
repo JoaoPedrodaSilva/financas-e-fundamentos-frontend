@@ -5,7 +5,7 @@ import { Chart as ChartJS } from "chart.js/auto"
 export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
 
     //states
-    const cores = ["#eff6ff", "#93c5fd", "#2563eb", "#1e3a8a"]
+    const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
 
 

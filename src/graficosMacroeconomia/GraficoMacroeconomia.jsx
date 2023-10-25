@@ -6,7 +6,7 @@ export const GraficoMacroeconomia = ({ indicadorSelecionado, dadosCadastrais, hi
     console.log(dadosCadastrais)
 
     //states
-    const cores = ["#eff6ff", "#93c5fd", "#2563eb", "#1e3a8a"]
+    const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
 
 

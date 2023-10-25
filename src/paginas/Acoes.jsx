@@ -6,7 +6,7 @@ import { GraficoDRE } from "../graficosAcoes/GraficoDRE"
 import { GraficoEndividamento } from "../graficosAcoes/GraficoEndividamento"
 import { GraficoRentabilidade } from "../graficosAcoes/GraficoRentabilidade"
 import { GraficoEficiencia } from "../graficosAcoes/GraficoEficiencia"
-import { GraficoPayout } from "../graficosAcoes/GraficoPayout"
+import { GraficoPayout } from "../graficosAcoes/GraficoMomento"
 import { GraficoLiquidez } from "../graficosAcoes/GraficoLiquidez"
 import { DadosCadastrais } from "../componentesGerais/DadosCadastrais"
 
@@ -14,7 +14,6 @@ import { DadosCadastrais } from "../componentesGerais/DadosCadastrais"
 export const Acoes = () => {
     const navigate = useNavigate()
     const { codigoBaseParametro } = useParams(null)
-    const [barras, setBarras] = useState(true)
     const [empresas, setEmpresas] = useState(null)
     const [empresaSelecionada, setEmpresaSelecionada] = useState("")
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("dre") // want to show the dre chart as default
@@ -29,14 +28,17 @@ export const Acoes = () => {
                 const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]
 
                 const historicoValores = results.data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
-                    const { dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemLiquida, payout, liquidezImediata, liquidezCorrente, liquidezGeral, ativoTotal, patrimonioLiquido } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
+                    const { ativoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral  } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
 
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
-                        receitaLiquida: Math.round(Number(exercicioFinanceiro.receita_liquida / 1000)),
-                        lucroBruto: Math.round(Number(exercicioFinanceiro.lucro_bruto / 1000)),
-                        lucroOperacional: Math.round(Number(exercicioFinanceiro.lucro_operacional / 1000)),
-                        lucroLiquido: Math.round(Number(exercicioFinanceiro.lucro_liquido / 1000)),
+                        ativoTotal: ativoTotal,
+                        patrimonioLiquido: patrimonioLiquido,
+                        receitaLiquida: receitaLiquida,
+                        lucroBruto: lucroBruto,
+                        lucroOperacional: lucroOperacional,
+                        lucroAntesTributos: lucroAntesTributos,
+                        lucroLiquido: lucroLiquido,
                         dividaLiquidaPeloEbitda: dividaLiquidaPeloEbitda,
                         dividaBrutaPeloPatrimonioLiquido: dividaBrutaPeloPatrimonioLiquido,
                         retornoPeloPatrimonioLiquido: retornoPeloPatrimonioLiquido,
@@ -44,12 +46,13 @@ export const Acoes = () => {
                         margemBruta: margemBruta,
                         margemOperacional: margemOperacional,
                         margemLiquida: margemLiquida,
+                        capexPeloFCO: capexPeloFCO,
+                        capexPelaDA: capexPelaDA,
                         payout: payout,
                         liquidezImediata: liquidezImediata,
+                        liquidezSeca: liquidezSeca,
                         liquidezCorrente: liquidezCorrente,
-                        liquidezGeral: liquidezGeral,
-                        ativoTotal: ativoTotal,
-                        patrimonioLiquido: patrimonioLiquido
+                        liquidezGeral: liquidezGeral                        
                     })
                 })
 
@@ -126,7 +129,7 @@ export const Acoes = () => {
                             {!empresaSelecionada.dadosCadastrais.instituicao_financeira && <option value="endividamento">ENDIVIDAMENTO</option>}
                             <option value="rentabilidade">RENTABILIDADE (ROE/ROA)</option>
                             {empresaSelecionada.historicoValores[empresaSelecionada.historicoValores.length - 1].receitaLiquida && <option value="eficiencia">EFICIÊNCIA (MARGENS)</option>}
-                            <option value="payout">PAYOUT</option>
+                            <option value="momento">MOMENTO</option>
                             {!empresaSelecionada.dadosCadastrais.instituicao_financeira && <option value="liquidez">LIQUIDEZ</option>}
                             <option value="dados_cadastrais">DADOS CADASTRAIS</option>
                         </>
@@ -172,7 +175,7 @@ export const Acoes = () => {
                                         historicoValores={empresaSelecionada.historicoValores}
                                     />
                                 )
-                            case "payout":
+                            case "momento":
                                 return (
                                     <GraficoPayout
                                         dadosCadastrais={empresaSelecionada.dadosCadastrais}

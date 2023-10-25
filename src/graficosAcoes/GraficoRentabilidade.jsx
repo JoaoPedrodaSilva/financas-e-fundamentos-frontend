@@ -5,7 +5,7 @@ import { Chart as ChartJS } from "chart.js/auto"
 export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
 
     //states
-    const cores = ["#eff6ff", "#93c5fd", "#2563eb", "#1e3a8a"]
+    const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
 
 
@@ -107,7 +107,6 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                                             return `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
                                         }
                                     }
-                                    // label: context => `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
                                 }
                             },
                             legend: {

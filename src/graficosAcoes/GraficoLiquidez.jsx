@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Line } from "react-chartjs-2"
+import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
 export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
 
     //states
-    const cores = ["#eff6ff", "#93c5fd", "#2563eb", "#1e3a8a"]
+    const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
 
 
@@ -19,16 +19,22 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[0]
             },
             {
-                label: "Liquidez Corrente",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezCorrente),
+                label: "Liquidez Seca",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezSeca),
                 backgroundColor: cores[1],
                 borderColor: cores[1]
             },
             {
-                label: "Liquidez Geral",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
+                label: "Liquidez Corrente",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezCorrente),
                 backgroundColor: cores[2],
                 borderColor: cores[2]
+            },
+            {
+                label: "Liquidez Geral",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
+                backgroundColor: cores[3],
+                borderColor: cores[3]
             }]
         })
     }, [dadosCadastrais])
@@ -37,17 +43,16 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
     return (
         <div className='w-full'>
             {dadosFinanceiros &&
-                <Line
-                className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
+                <Bar
+                    className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
                     data={dadosFinanceiros}
                     options={{
-                        borderWidth: 3,
-                        tension: 0.4,
-                        radius: 3,
-                        hoverRadius: 4,
+                        borderWidth: 0,
+                        borderRadius: 10,
+                        categoryPercentage: .7,
+                        barPercentage: 1,
                         interaction: {
-                            mode: 'index',
-                            intersect: false
+                            mode: 'index'
                         },
                         scales: {
                             x: {
@@ -73,7 +78,7 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             tooltip: {
                                 callbacks: {
-                                    label: context => `${context.dataset.label}: ${context.raw}`
+                                    label: context => `${context.dataset.label}: R$ ${context.raw} milhões`
                                 }
                             },
                             legend: {
