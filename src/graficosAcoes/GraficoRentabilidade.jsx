@@ -17,6 +17,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.retornoPeloPatrimonioLiquido),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
+                borderWidth: 3,
                 yAxisID: 'y',
             },
             {
@@ -24,6 +25,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.retornoPelosAtivos),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
+                borderWidth: 3,
                 yAxisID: 'y',
             },
             {
@@ -32,6 +34,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
                 backgroundColor: cores[2],
                 borderColor: cores[2],
+                borderWidth: 0,
                 yAxisID: 'y1',
             },
             {
@@ -40,6 +43,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoTotal),
                 backgroundColor: cores[3],
                 borderColor: cores[3],
+                borderWidth: 0,
                 yAxisID: 'y1',
             }]
         })
@@ -53,9 +57,9 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                     className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
                     data={dadosFinanceiros}
                     options={{
-                        borderWidth: 3,
+                        responsive: true,
                         tension: 0.4,
-                        radius: 3,
+                        radius: 2,
                         hoverRadius: 4,
                         borderRadius: 10,
                         categoryPercentage: .7,

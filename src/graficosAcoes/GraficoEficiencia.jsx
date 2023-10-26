@@ -41,9 +41,10 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                 className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
                     data={dadosFinanceiros}
                     options={{
+                        responsive: true,
                         borderWidth: 3,
                         tension: 0.4,
-                        radius: 3,
+                        radius: 2,
                         hoverRadius: 4,
                         interaction: {
                             mode: 'index',

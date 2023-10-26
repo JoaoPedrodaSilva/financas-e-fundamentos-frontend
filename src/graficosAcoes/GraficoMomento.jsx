@@ -16,24 +16,24 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                 {
                     label: "Payout",
                     data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.payout),
-                    backgroundColor: cores[2],
-                    borderColor: cores[2],
-                    yAxisID: 'y',
+                    backgroundColor: cores[0],
+                    borderColor: cores[0],
+                    borderWidth: 3
                 }, {
                     label: "CAPEX/FCO",
                     type: "bar",
                     data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.capexPeloFCO),
-                    backgroundColor: cores[0],
-                    borderColor: cores[0],
-                    yAxisID: 'y1',
+                    backgroundColor: cores[1],
+                    borderColor: cores[1],
+                    borderWidth: 0
                 },
                 {
                     label: "CAPEX/D&A",
                     data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.capexPelaDA),
                     type: "bar",
-                    backgroundColor: cores[1],
-                    borderColor: cores[1],
-                    yAxisID: 'y1',
+                    backgroundColor: cores[2],
+                    borderColor: cores[2],
+                    borderWidth: 0
                 }]
         })
     }, [dadosCadastrais])
@@ -46,9 +46,9 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
                     data={dadosFinanceiros}
                     options={{
-                        borderWidth: 3,
+                        responsive: true,
                         tension: 0.4,
-                        radius: 3,
+                        radius: 2,
                         hoverRadius: 4,
                         borderRadius: 10,
                         categoryPercentage: .7,
@@ -69,17 +69,6 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                             },
                             y: {
                                 position: 'right',
-                                ticks: {
-                                    maxTicksLimit: 6,
-                                    color: "white",
-                                },
-                                grid: {
-                                    // color: "rgba(255,255,255,0.05)"
-                                    color: "transparent"
-                                }
-                            },
-                            y1: {
-                                position: 'left',
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",

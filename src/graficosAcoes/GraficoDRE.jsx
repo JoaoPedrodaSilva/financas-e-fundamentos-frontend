@@ -81,6 +81,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                     className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
                     data={dadosFinanceiros}
                     options={{
+                        responsive: true,
                         borderWidth: 0,
                         borderRadius: 10,
                         categoryPercentage: .7,

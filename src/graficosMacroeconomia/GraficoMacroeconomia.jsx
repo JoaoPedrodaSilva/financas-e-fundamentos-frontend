@@ -3,8 +3,7 @@ import { Line } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
 export const GraficoMacroeconomia = ({ indicadorSelecionado, dadosCadastrais, historicoValores }) => {
-    console.log(dadosCadastrais)
-
+    
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
@@ -30,9 +29,10 @@ export const GraficoMacroeconomia = ({ indicadorSelecionado, dadosCadastrais, hi
                 className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
                     data={dadosFinanceiros}
                     options={{
+                        responsive: true,
                         borderWidth: 3,
                         tension: 0.4,
-                        radius: 3,
+                        radius: 2,
                         hoverRadius: 4,
                         interaction: {
                             mode: 'index',

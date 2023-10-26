@@ -32,27 +32,27 @@ export const Acoes = () => {
 
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
-                        ativoTotal: ativoTotal,
-                        patrimonioLiquido: patrimonioLiquido,
-                        receitaLiquida: receitaLiquida,
-                        lucroBruto: lucroBruto,
-                        lucroOperacional: lucroOperacional,
-                        lucroAntesTributos: lucroAntesTributos,
-                        lucroLiquido: lucroLiquido,
-                        dividaLiquidaPeloEbitda: dividaLiquidaPeloEbitda,
-                        dividaBrutaPeloPatrimonioLiquido: dividaBrutaPeloPatrimonioLiquido,
-                        retornoPeloPatrimonioLiquido: retornoPeloPatrimonioLiquido,
-                        retornoPelosAtivos: retornoPelosAtivos,
-                        margemBruta: margemBruta,
-                        margemOperacional: margemOperacional,
-                        margemLiquida: margemLiquida,
-                        capexPeloFCO: capexPeloFCO,
-                        capexPelaDA: capexPelaDA,
-                        payout: payout,
-                        liquidezImediata: liquidezImediata,
-                        liquidezSeca: liquidezSeca,
-                        liquidezCorrente: liquidezCorrente,
-                        liquidezGeral: liquidezGeral                        
+                        ativoTotal,
+                        patrimonioLiquido,
+                        receitaLiquida,
+                        lucroBruto,
+                        lucroOperacional,
+                        lucroAntesTributos,
+                        lucroLiquido,
+                        dividaLiquidaPeloEbitda,
+                        dividaBrutaPeloPatrimonioLiquido,
+                        retornoPeloPatrimonioLiquido,
+                        retornoPelosAtivos,
+                        margemBruta,
+                        margemOperacional,
+                        margemLiquida,
+                        capexPeloFCO,
+                        capexPelaDA,
+                        payout,
+                        liquidezImediata,
+                        liquidezSeca,
+                        liquidezCorrente,
+                        liquidezGeral                        
                     })
                 })
 
@@ -140,7 +140,7 @@ export const Acoes = () => {
 
             {/* charts and complete registration data */}
             <section className='w-full flex flex-col justify-center items-center gap-2'>
-                <div className='w-full p-1 border border-white rounded'>
+                <div className='relative w-full p-1 border border-white rounded'>
                     {(() => {
                         switch (indicadorSelecionado) {
                             case "dados_cadastrais":
