@@ -79,7 +79,7 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             tooltip: {
                                 callbacks: {
-                                    label: context => `${context.dataset.label}: R$ ${context.raw} milhões`
+                                    label: context => `${context.dataset.label}: ${context.raw}`
                                 }
                             },
                             legend: {

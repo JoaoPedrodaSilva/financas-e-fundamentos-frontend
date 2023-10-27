@@ -10,7 +10,7 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
 
 
     useEffect(() => {
-        setDadosFinanceiros({
+        historicoValores[historicoValores.length - 1].capexPelaDA !== Infinity && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [
                 {
@@ -33,6 +33,25 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     type: "bar",
                     backgroundColor: cores[2],
                     borderColor: cores[2],
+                    borderWidth: 0
+                }]
+        })
+
+        historicoValores[historicoValores.length - 1].capexPelaDA === Infinity && setDadosFinanceiros({
+            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            datasets: [
+                {
+                    label: "Payout",
+                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.payout),
+                    backgroundColor: cores[0],
+                    borderColor: cores[0],
+                    borderWidth: 3
+                }, {
+                    label: "CAPEX/FCO",
+                    type: "bar",
+                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.capexPeloFCO),
+                    backgroundColor: cores[1],
+                    borderColor: cores[1],
                     borderWidth: 0
                 }]
         })
