@@ -10,7 +10,7 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
 
 
     useEffect(() => {
-        historicoValores[historicoValores.length - 1].capexPelaDA !== Infinity && setDadosFinanceiros({
+        historicoValores[historicoValores.length - 1].capexPelaDA !== null && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [
                 {
@@ -37,7 +37,7 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                 }]
         })
 
-        historicoValores[historicoValores.length - 1].capexPelaDA === Infinity && setDadosFinanceiros({
+        historicoValores[historicoValores.length - 1].capexPelaDA === null && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [
                 {

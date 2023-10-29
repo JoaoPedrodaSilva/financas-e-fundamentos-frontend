@@ -10,7 +10,7 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
 
 
     useEffect(() => {
-        setDadosFinanceiros({
+        historicoValores[historicoValores.length - 1].liquidezSeca !== null && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: "Liquidez Imediata",
@@ -35,6 +35,28 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
                 backgroundColor: cores[3],
                 borderColor: cores[3]
+            }]
+        })
+
+        historicoValores[historicoValores.length - 1].liquidezSeca === null && setDadosFinanceiros({
+            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            datasets: [{
+                label: "Liquidez Imediata",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezImediata),
+                backgroundColor: cores[0],
+                borderColor: cores[0]
+            },
+            {
+                label: "Liquidez Corrente",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezCorrente),
+                backgroundColor: cores[1],
+                borderColor: cores[1]
+            },
+            {
+                label: "Liquidez Geral",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
+                backgroundColor: cores[2],
+                borderColor: cores[2]
             }]
         })
     }, [dadosCadastrais])

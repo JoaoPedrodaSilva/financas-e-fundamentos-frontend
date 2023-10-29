@@ -25,16 +25,16 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[1]
             },
             {
-                label: "Lucro Operacional (EBIT)",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
+                label: "Lucro Antes dos Tributos",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                 backgroundColor: cores[2],
                 borderColor: cores[2]
             },
             {
                 label: "Lucro Líquido",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
-                backgroundColor: cores[4],
-                borderColor: cores[4]
+                backgroundColor: cores[3],
+                borderColor: cores[3]
             }]
         })
 

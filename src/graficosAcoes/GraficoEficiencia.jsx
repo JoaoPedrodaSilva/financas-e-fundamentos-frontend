@@ -10,7 +10,7 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
 
 
     useEffect(() => {
-        setDadosFinanceiros({
+        historicoValores[historicoValores.length - 1].margemOperacional !== null && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: "Margem Bruta",
@@ -21,6 +21,34 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
             {
                 label: "Margem Operacional",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemOperacional),
+                backgroundColor: cores[1],
+                borderColor: cores[1]
+            },
+            {
+                label: "Margem Antes dos Tributos",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
+                backgroundColor: cores[2],
+                borderColor: cores[2]
+            },
+            {
+                label: "Margem Líquida",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemLiquida),
+                backgroundColor: cores[3],
+                borderColor: cores[3]
+            }]
+        })
+
+        historicoValores[historicoValores.length - 1].margemOperacional === null && setDadosFinanceiros({
+            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            datasets: [{
+                label: "Margem Bruta",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemBruta),
+                backgroundColor: cores[0],
+                borderColor: cores[0]
+            },
+            {
+                label: "Margem Antes dos Tributos",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
                 backgroundColor: cores[1],
                 borderColor: cores[1]
             },
@@ -38,7 +66,7 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
         <div className='w-full'>
             {dadosFinanceiros &&
                 <Line
-                className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
+                    className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
                     data={dadosFinanceiros}
                     options={{
                         responsive: true,
