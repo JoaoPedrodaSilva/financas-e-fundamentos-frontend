@@ -137,6 +137,10 @@ const margemLiquida = (dadosFinanceiros) => {
     return Number(margemLiquida.toFixed(4))
 }
 const capexPeloFCO = (dadosFinanceiros) => {
+    if (dadosFinanceiros.despesas_capital === null) {
+        return null
+    }
+
     let capexPeloFCO = Number(dadosFinanceiros.despesas_capital) / Number(dadosFinanceiros.caixa_liquido_operacional)
 
     return Number(capexPeloFCO.toFixed(4))

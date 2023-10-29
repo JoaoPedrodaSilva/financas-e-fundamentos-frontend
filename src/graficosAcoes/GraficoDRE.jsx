@@ -9,36 +9,8 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
 
 
-    useEffect(() => {        
-        dadosCadastrais.instituicao_financeira && setDadosFinanceiros({
-            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
-            datasets: [{
-                label: "Receita Líquida",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
-                backgroundColor: cores[0],
-                borderColor: cores[0]
-            },
-            {
-                label: "Lucro Bruto",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
-                backgroundColor: cores[1],
-                borderColor: cores[1]
-            },
-            {
-                label: "Lucro Antes dos Tributos",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
-                backgroundColor: cores[2],
-                borderColor: cores[2]
-            },
-            {
-                label: "Lucro Líquido",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
-                backgroundColor: cores[3],
-                borderColor: cores[3]
-            }]
-        })
-
-        !dadosCadastrais.instituicao_financeira && setDadosFinanceiros({
+    useEffect(() => {
+        !dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: "Receita Líquida",
@@ -71,6 +43,57 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[4]
             }]
         })
+
+        dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
+            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            datasets: [{
+                label: "Receita Líquida",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
+                backgroundColor: cores[0],
+                borderColor: cores[0]
+            },
+            {
+                label: "Lucro Bruto",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
+                backgroundColor: cores[1],
+                borderColor: cores[1]
+            },
+            {
+                label: "Lucro Antes dos Tributos",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
+                backgroundColor: cores[2],
+                borderColor: cores[2]
+            },
+            {
+                label: "Lucro Líquido",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                backgroundColor: cores[3],
+                borderColor: cores[3]
+            }]
+        })
+
+        dadosCadastrais.instituicao_financeira && dadosCadastrais.holding && setDadosFinanceiros({
+            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            datasets: [{
+                label: "Lucro Operacional",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
+                backgroundColor: cores[0],
+                borderColor: cores[0]
+            },
+            {
+                label: "Lucro Antes dos Tributos",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
+                backgroundColor: cores[1],
+                borderColor: cores[1]
+            },
+            {
+                label: "Lucro Líquido",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                backgroundColor: cores[2],
+                borderColor: cores[2]
+            }]
+        })
+
     }, [dadosCadastrais])
 
 

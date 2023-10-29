@@ -55,6 +55,18 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     borderWidth: 0
                 }]
         })
+
+        historicoValores[historicoValores.length - 1].capexPeloFCO === null && setDadosFinanceiros({
+            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            datasets: [
+                {
+                    label: "Payout",
+                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.payout),
+                    backgroundColor: cores[0],
+                    borderColor: cores[0],
+                    borderWidth: 3
+                }]
+        })
     }, [dadosCadastrais])
 
 

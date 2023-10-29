@@ -28,7 +28,7 @@ export const Acoes = () => {
                 const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]
 
                 const historicoValores = results.data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
-                    const { ativoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral  } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
+                    const { ativoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
 
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
@@ -53,7 +53,7 @@ export const Acoes = () => {
                         liquidezImediata,
                         liquidezSeca,
                         liquidezCorrente,
-                        liquidezGeral                        
+                        liquidezGeral
                     })
                 })
 
@@ -127,11 +127,17 @@ export const Acoes = () => {
                     {empresaSelecionada &&
                         <>
                             <option value="dre">DRE (RECEITA/LUCRO)</option>
+
                             {!empresaSelecionada.dadosCadastrais.instituicao_financeira && <option value="endividamento">ENDIVIDAMENTO</option>}
+
                             <option value="rentabilidade">RENTABILIDADE (ROE/ROA)</option>
-                            {empresaSelecionada.historicoValores[empresaSelecionada.historicoValores.length - 1].receitaLiquida && <option value="eficiencia">EFICIÊNCIA (MARGENS)</option>}
+
+                            {!empresaSelecionada.dadosCadastrais.holding && <option value="eficiencia">EFICIÊNCIA (MARGENS)</option>}
+
                             <option value="momento">MOMENTO</option>
+
                             {!empresaSelecionada.dadosCadastrais.instituicao_financeira && <option value="liquidez">LIQUIDEZ</option>}
+
                             <option value="dados_cadastrais">DADOS CADASTRAIS</option>
                         </>
                     }
@@ -192,7 +198,7 @@ export const Acoes = () => {
                                 )
                             default:
                                 return (
-                                    <GraficoDREBarras
+                                    <GraficoDRE
                                         dadosCadastrais={empresaSelecionada.dadosCadastrais}
                                         historicoValores={empresaSelecionada.historicoValores}
                                     />
