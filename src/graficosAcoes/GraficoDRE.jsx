@@ -127,6 +127,12 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
+                                    callback: value => value.toLocaleString().replace(",", ".")
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Milhões de R$",
+                                    color: "white"
                                 },
                                 grid: {
                                     color: "rgba(255,255,255,0.05)"
@@ -136,7 +142,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             tooltip: {
                                 callbacks: {
-                                    label: context => `${context.dataset.label}: R$ ${context.raw} milhões`
+                                    label: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString().replace(",", ".")} milhões`
                                 }
                             },
                             legend: {

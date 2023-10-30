@@ -93,6 +93,7 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
+                                    callback: value => `${value * 100}%`
                                 },
                                 grid: {
                                     color: "rgba(255,255,255,0.05)"

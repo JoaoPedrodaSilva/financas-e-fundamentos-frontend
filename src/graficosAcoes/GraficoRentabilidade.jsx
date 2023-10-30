@@ -83,6 +83,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
+                                    callback: value => `${value * 100}%`
                                 },
                                 grid: {
                                     // color: "rgba(255,255,255,0.05)"
@@ -94,10 +95,16 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
+                                    callback: value => value.toLocaleString().replace(",", ".")
                                 },
                                 grid: {
                                     color: "rgba(255,255,255,0.05)"
-                                }
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Milhões de R$",
+                                    color: "white"
+                                },
                             }
                         },
                         plugins: {
@@ -106,7 +113,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                                     label: context => {
                                         console.log(context)
                                         if (context.dataset.type === "bar") {
-                                            return `${context.dataset.label}: R$ ${context.raw} milhões`
+                                            return `${context.dataset.label}: R$ ${context.raw.toLocaleString().replace(",", ".")} milhões`
                                         } else {
                                             return `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
                                         }
