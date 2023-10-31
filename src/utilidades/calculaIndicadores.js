@@ -1,7 +1,7 @@
 const ativoTotal = (dadosFinanceiros, dadosCadastrais) => {
     let ativoTotal = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante)
 
-    if (dadosCadastrais && dadosCadastrais.instituicao_financeira) {
+    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
         ativoTotal = Number(dadosFinanceiros.ativo_total)
     }
 
@@ -11,7 +11,7 @@ const patrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
 
     let patrimonioLiquido = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante) - Number(dadosFinanceiros.passivo_circulante) + Number(dadosFinanceiros.passivo_nao_circulante)
 
-    if (dadosCadastrais.instituicao_financeira) {
+    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
         patrimonioLiquido = Number(dadosFinanceiros.patrimonio_liquido)
     }
 
@@ -73,7 +73,7 @@ const retornoPeloPatrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
 
     let patrimonioLiquido = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante) - Number(dadosFinanceiros.passivo_circulante) + Number(dadosFinanceiros.passivo_nao_circulante)
 
-    if (dadosCadastrais.instituicao_financeira) {
+    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
         patrimonioLiquido = Number(dadosFinanceiros.patrimonio_liquido)
     }
 
@@ -88,7 +88,7 @@ const retornoPeloPatrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
 const retornoPelosAtivos = (dadosFinanceiros, dadosCadastrais) => {
     let ativos = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante)
 
-    if (dadosCadastrais && dadosCadastrais.instituicao_financeira) {
+    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
         ativos = Number(dadosFinanceiros.ativo_total)
     }
 

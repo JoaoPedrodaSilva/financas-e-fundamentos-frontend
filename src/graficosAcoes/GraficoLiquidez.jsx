@@ -16,25 +16,29 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                 label: "Liquidez Imediata",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezImediata),
                 backgroundColor: cores[0],
-                borderColor: cores[0]
+                borderColor: cores[0],
+                hidden: false
             },
             {
                 label: "Liquidez Seca",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezSeca),
                 backgroundColor: cores[1],
-                borderColor: cores[1]
+                borderColor: cores[1],
+                hidden: true
             },
             {
                 label: "Liquidez Corrente",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezCorrente),
                 backgroundColor: cores[2],
-                borderColor: cores[2]
+                borderColor: cores[2],
+                hidden: false
             },
             {
                 label: "Liquidez Geral",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
                 backgroundColor: cores[3],
-                borderColor: cores[3]
+                borderColor: cores[3],
+                hidden: false
             }]
         })
 
@@ -44,19 +48,22 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                 label: "Liquidez Imediata",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezImediata),
                 backgroundColor: cores[0],
-                borderColor: cores[0]
+                borderColor: cores[0],
+                hidden: false
             },
             {
                 label: "Liquidez Corrente",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezCorrente),
                 backgroundColor: cores[1],
-                borderColor: cores[1]
+                borderColor: cores[1],
+                hidden: false
             },
             {
                 label: "Liquidez Geral",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
                 backgroundColor: cores[2],
-                borderColor: cores[2]
+                borderColor: cores[2],
+                hidden: false
             }]
         })
     }, [dadosCadastrais])

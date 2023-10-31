@@ -128,7 +128,7 @@ export const Acoes = () => {
                         <>
                             <option value="dre">DRE (RECEITA/LUCRO)</option>
 
-                            {!empresaSelecionada.dadosCadastrais.instituicao_financeira && <option value="endividamento">ENDIVIDAMENTO</option>}
+                            {!empresaSelecionada.dadosCadastrais.instituicao_financeira && !empresaSelecionada.dadosCadastrais.holding && <option value="endividamento">ENDIVIDAMENTO</option>}
 
                             <option value="rentabilidade">RENTABILIDADE (ROE/ROA)</option>
 
@@ -136,7 +136,7 @@ export const Acoes = () => {
 
                             <option value="momento">MOMENTO</option>
 
-                            {!empresaSelecionada.dadosCadastrais.instituicao_financeira && <option value="liquidez">LIQUIDEZ</option>}
+                        {!empresaSelecionada.dadosCadastrais.instituicao_financeira && !empresaSelecionada.dadosCadastrais.holding && <option value="liquidez">LIQUIDEZ</option>}
 
                             <option value="dados_cadastrais">DADOS CADASTRAIS</option>
                         </>

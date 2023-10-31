@@ -18,14 +18,16 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.payout),
                     backgroundColor: cores[0],
                     borderColor: cores[0],
-                    borderWidth: 3
+                    borderWidth: 3,
+                    hidden: false
                 }, {
                     label: "CAPEX/FCO",
                     type: "bar",
                     data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.capexPeloFCO),
                     backgroundColor: cores[1],
                     borderColor: cores[1],
-                    borderWidth: 0
+                    borderWidth: 0,
+                    hidden: false
                 },
                 {
                     label: "CAPEX/D&A",
@@ -33,7 +35,8 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     type: "bar",
                     backgroundColor: cores[2],
                     borderColor: cores[2],
-                    borderWidth: 0
+                    borderWidth: 0,
+                    hidden: false
                 }]
         })
 
@@ -45,14 +48,16 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.payout),
                     backgroundColor: cores[0],
                     borderColor: cores[0],
-                    borderWidth: 3
+                    borderWidth: 3,
+                    hidden: false
                 }, {
                     label: "CAPEX/FCO",
                     type: "bar",
                     data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.capexPeloFCO),
                     backgroundColor: cores[1],
                     borderColor: cores[1],
-                    borderWidth: 0
+                    borderWidth: 0,
+                    hidden: false
                 }]
         })
 
@@ -64,7 +69,8 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.payout),
                     backgroundColor: cores[0],
                     borderColor: cores[0],
-                    borderWidth: 3
+                    borderWidth: 3,
+                    hidden: false
                 }]
         })
     }, [dadosCadastrais])

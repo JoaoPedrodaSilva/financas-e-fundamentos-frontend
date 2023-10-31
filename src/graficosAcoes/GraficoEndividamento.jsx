@@ -16,13 +16,15 @@ export const GraficoEndividamento = ({ dadosCadastrais, historicoValores }) => {
                 label: "Dívida Líquida / Ebitda",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.dividaLiquidaPeloEbitda),
                 backgroundColor: cores[0],
-                borderColor: cores[0]
+                borderColor: cores[0],
+                hidden: false
             },
             {
                 label: "Dívida Bruta / Patrimônio Líquido",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.dividaBrutaPeloPatrimonioLiquido),
                 backgroundColor: cores[1],
-                borderColor: cores[1]
+                borderColor: cores[1],
+                hidden: false
             }]
         })
     }, [dadosCadastrais])

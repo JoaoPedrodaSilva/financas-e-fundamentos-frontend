@@ -16,25 +16,29 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                 label: "Margem Bruta",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemBruta),
                 backgroundColor: cores[0],
-                borderColor: cores[0]
+                borderColor: cores[0],
+                hidden: false
             },
             {
                 label: "Margem Operacional",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemOperacional),
                 backgroundColor: cores[1],
-                borderColor: cores[1]
+                borderColor: cores[1],
+                hidden: false
             },
             {
                 label: "Margem Antes dos Tributos",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
                 backgroundColor: cores[2],
-                borderColor: cores[2]
+                borderColor: cores[2],
+                hidden: true
             },
             {
                 label: "Margem Líquida",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemLiquida),
                 backgroundColor: cores[3],
-                borderColor: cores[3]
+                borderColor: cores[3],
+                hidden: false
             }]
         })
 
@@ -44,19 +48,22 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                 label: "Margem Bruta",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemBruta),
                 backgroundColor: cores[0],
-                borderColor: cores[0]
+                borderColor: cores[0],
+                hidden: false
             },
             {
                 label: "Margem Antes dos Tributos",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
                 backgroundColor: cores[1],
-                borderColor: cores[1]
+                borderColor: cores[1],
+                hidden: false
             },
             {
                 label: "Margem Líquida",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemLiquida),
                 backgroundColor: cores[2],
-                borderColor: cores[2]
+                borderColor: cores[2],
+                hidden: false
             }]
         })
     }, [dadosCadastrais])

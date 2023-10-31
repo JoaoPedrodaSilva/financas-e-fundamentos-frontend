@@ -16,31 +16,36 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                 label: "Receita Líquida",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
                 backgroundColor: cores[0],
-                borderColor: cores[0]
+                borderColor: cores[0],
+                hidden: true
             },
             {
                 label: "Lucro Bruto",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
                 backgroundColor: cores[1],
-                borderColor: cores[1]
+                borderColor: cores[1],
+                hidden: true
             },
             {
                 label: "Lucro Operacional (EBIT)",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
                 backgroundColor: cores[2],
-                borderColor: cores[2]
+                borderColor: cores[2],
+                hidden: false
             },
             {
                 label: "Lucro Antes dos Tributos",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                 backgroundColor: cores[3],
-                borderColor: cores[3]
+                borderColor: cores[3],
+                hidden: false
             },
             {
                 label: "Lucro Líquido",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                 backgroundColor: cores[4],
-                borderColor: cores[4]
+                borderColor: cores[4],
+                hidden: false
             }]
         })
 
@@ -50,47 +55,54 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                 label: "Receita Líquida",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
                 backgroundColor: cores[0],
-                borderColor: cores[0]
+                borderColor: cores[0],
+                hidden: true
             },
             {
                 label: "Lucro Bruto",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
                 backgroundColor: cores[1],
-                borderColor: cores[1]
+                borderColor: cores[1],
+                hidden: false
             },
             {
                 label: "Lucro Antes dos Tributos",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                 backgroundColor: cores[2],
-                borderColor: cores[2]
+                borderColor: cores[2],
+                hidden: false
             },
             {
                 label: "Lucro Líquido",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                 backgroundColor: cores[3],
-                borderColor: cores[3]
+                borderColor: cores[3],
+                hidden: false
             }]
         })
 
-        dadosCadastrais.instituicao_financeira && dadosCadastrais.holding && setDadosFinanceiros({
+        dadosCadastrais.holding && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: "Lucro Operacional",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
                 backgroundColor: cores[0],
-                borderColor: cores[0]
+                borderColor: cores[0],
+                hidden: false
             },
             {
                 label: "Lucro Antes dos Tributos",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                 backgroundColor: cores[1],
-                borderColor: cores[1]
+                borderColor: cores[1],
+                hidden: false
             },
             {
                 label: "Lucro Líquido",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                 backgroundColor: cores[2],
-                borderColor: cores[2]
+                borderColor: cores[2],
+                hidden: false
             }]
         })
 
@@ -141,6 +153,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                         },
                         plugins: {
                             tooltip: {
+                                // bodyColor: "red",
                                 callbacks: {
                                     label: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString().replace(",", ".")} milhões`
                                 }

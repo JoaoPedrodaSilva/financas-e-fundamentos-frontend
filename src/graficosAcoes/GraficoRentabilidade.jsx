@@ -19,6 +19,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[0],
                 borderWidth: 3,
                 yAxisID: 'y',
+                hidden: false
             },
             {
                 label: "ROA",
@@ -27,24 +28,37 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[1],
                 borderWidth: 3,
                 yAxisID: 'y',
+                hidden: true
+            },
+            {
+                label: "Lucro Líquido",
+                type: "bar",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                backgroundColor: cores[2],
+                borderColor: cores[2],
+                borderWidth: 0,
+                yAxisID: 'y1',
+                hidden: false
             },
             {
                 label: "Patrimônio Líquido",
                 type: "bar",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
-                backgroundColor: cores[2],
-                borderColor: cores[2],
+                backgroundColor: cores[3],
+                borderColor: cores[3],
                 borderWidth: 0,
                 yAxisID: 'y1',
+                hidden: false
             },
             {
                 label: "Ativos",
                 type: "bar",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoTotal),
-                backgroundColor: cores[3],
-                borderColor: cores[3],
+                backgroundColor: cores[4],
+                borderColor: cores[4],
                 borderWidth: 0,
                 yAxisID: 'y1',
+                hidden: true
             }]
         })
     }, [dadosCadastrais])
