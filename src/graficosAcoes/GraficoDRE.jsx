@@ -105,7 +105,6 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                 hidden: false
             }]
         })
-
     }, [dadosCadastrais])
 
 
@@ -130,8 +129,9 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                                     color: "white",
                                 },
                                 grid: {
-                                    // color: "rgba(255,255,255,0.05)"
-                                    color: "transparent"
+                                    // color: "rgba(255,255,255,0.05)",
+                                    display: false,
+                                    // drawBorder: false
                                 }
                             },
                             y: {
@@ -139,7 +139,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
-                                    callback: value => value.toLocaleString().replace(",", ".")
+                                    callback: value => value.toLocaleString("pt-BR")
                                 },
                                 title: {
                                     display: true,
@@ -153,9 +153,8 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                         },
                         plugins: {
                             tooltip: {
-                                // bodyColor: "red",
                                 callbacks: {
-                                    label: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString().replace(",", ".")} milhões`
+                                    label: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
                                 }
                             },
                             legend: {

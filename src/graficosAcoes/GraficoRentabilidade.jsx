@@ -97,7 +97,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
-                                    callback: value => `${value * 100}%`
+                                    callback: value => `${(value * 100).toFixed(0)}%`
                                 },
                                 grid: {
                                     // color: "rgba(255,255,255,0.05)"
@@ -109,7 +109,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
-                                    callback: value => value.toLocaleString().replace(",", ".")
+                                    callback: value => value.toLocaleString("pt-BR")
                                 },
                                 grid: {
                                     color: "rgba(255,255,255,0.05)"
@@ -125,11 +125,10 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                             tooltip: {
                                 callbacks: {
                                     label: context => {
-                                        console.log(context)
                                         if (context.dataset.type === "bar") {
-                                            return `${context.dataset.label}: R$ ${context.raw.toLocaleString().replace(",", ".")} milhões`
+                                            return `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
                                         } else {
-                                            return `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
+                                            return `${context.dataset.label}: ${(Math.round(context.raw * 100)).toFixed(0)}%`
                                         }
                                     }
                                 }

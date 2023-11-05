@@ -109,7 +109,7 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
-                                    callback: value => `${value * 100}%`
+                                    callback: value => `${(value * 100).toFixed(0)}%`
                                 },
                                 grid: {
                                     color: "rgba(255,255,255,0.05)"
