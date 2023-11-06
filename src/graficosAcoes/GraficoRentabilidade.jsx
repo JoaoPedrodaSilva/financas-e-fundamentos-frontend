@@ -130,7 +130,8 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                                         } else {
                                             return `${context.dataset.label}: ${(Math.round(context.raw * 100)).toFixed(0)}%`
                                         }
-                                    }
+                                    },
+                                    labelTextColor: context => context.raw < 0 ? "red" : "white"
                                 }
                             },
                             legend: {

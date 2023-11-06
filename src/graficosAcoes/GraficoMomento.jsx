@@ -119,7 +119,9 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             tooltip: {
                                 callbacks: {
-                                    label: context => `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
+                                    label: context => context.raw !== null ?
+                                        `${context.dataset.label}: ${Math.round(context.raw * 100)}%` :
+                                        `${context.dataset.label}: Dados não disponibilizados pela empresa`
                                 }
                             },
                             legend: {

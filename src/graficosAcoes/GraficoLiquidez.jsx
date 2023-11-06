@@ -69,12 +69,45 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
     }, [dadosCadastrais])
 
 
+    //no data available plugin
+    const dadosNaoDisponibilizados = {
+        id: "dadosNaoDisponibilizados",
+        afterDatasetsDraw: ((chart, args, plugins) => {
+            const {
+                ctx,
+                data,
+                chartArea: { top, right, bottom, left, width, height },
+                scales: { x, y }
+            } = chart
+
+            ctx.save()
+
+            const barWidth = width / data.labels.length / 4 * 0.7
+
+            data.datasets.map(set => {
+                set.data.map((datapoint, index) => {
+                    if (!datapoint) {
+                        ctx.fillStyle = "transparent"
+                        ctx.fillRect(x.getPixelForValue(index) - barWidth, bottom, barWidth, - height / 10)
+
+                        ctx.font = "bold 16px sans-serif"
+                        ctx.textAlign = "right"
+                        ctx.fillStyle = "white"
+                        ctx.fillText("*", x.getPixelForValue(index), height * 1.05)
+                    }
+                })
+            })
+        })
+    }
+
+
     return (
         <div className='w-full'>
             {dadosFinanceiros &&
                 <Bar
                     className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
                     data={dadosFinanceiros}
+                    // plugins={[dadosNaoDisponibilizados]}
                     options={{
                         responsive: true,
                         borderWidth: 0,
@@ -108,7 +141,9 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             tooltip: {
                                 callbacks: {
-                                    label: context => `${context.dataset.label}: ${context.raw}`
+                                    label: context => context.raw !== null ?
+                                        `${context.dataset.label}: ${context.raw}` :
+                                        `${context.dataset.label}: Dados não disponibilizados pela empresa`
                                 }
                             },
                             legend: {

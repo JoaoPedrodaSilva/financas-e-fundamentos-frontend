@@ -154,7 +154,8 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             tooltip: {
                                 callbacks: {
-                                    label: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                                    label: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`,
+                                    labelTextColor: context => context.raw < 0 ? "red" : "white"
                                 }
                             },
                             legend: {
