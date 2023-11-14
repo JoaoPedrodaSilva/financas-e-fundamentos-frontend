@@ -5,7 +5,7 @@ import { Chart as ChartJS } from "chart.js/auto"
 export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
 
     //states
-    const cores = ["#9999ff", "#ccccff", "#ff3232", "#ff7f7f", "#ffb2b2"]
+    const cores = ["#ccccff", "#9999ff", "#ff7f7f", "#ff3232", "#ffb2b2"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
 
 
@@ -13,36 +13,35 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
         !dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
-                label: "Ativo Não Circulante",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoNaoCirculante),
+                label: "Ativo Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoCirculante),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
-                hidden: false,
+                hidden: true,
                 borderRadius: 0,
                 stack: "stack 0"
             },
             {
-                label: "Ativo Circulante",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoCirculante),
+                label: "Ativo Não Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoNaoCirculante),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
                 hidden: false,
                 borderRadius: 10,
                 stack: "stack 0"
             },
-
             {
-                label: "Passivo Não Circulante",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoNaoCirculante),
+                label: "Passivo Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoCirculante),
                 backgroundColor: cores[2],
                 borderColor: cores[2],
-                hidden: false,
+                hidden: true,
                 borderRadius: 0,
                 stack: "stack 1"
             },
             {
-                label: "Passivo Circulante",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoCirculante),
+                label: "Passivo Não Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoNaoCirculante),
                 backgroundColor: cores[3],
                 borderColor: cores[3],
                 hidden: false,

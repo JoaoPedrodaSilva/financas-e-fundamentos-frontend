@@ -144,6 +144,10 @@ const capexPeloFCO = (dadosFinanceiros) => {
 
     let capexPeloFCO = Number(dadosFinanceiros.despesas_capital) / Number(dadosFinanceiros.caixa_liquido_operacional)
 
+    if (capexPeloFCO <= 0) {
+        return 0
+    }
+
     return Number(capexPeloFCO.toFixed(4))
 }
 const capexPelaDA = (dadosFinanceiros) => {
@@ -152,6 +156,10 @@ const capexPelaDA = (dadosFinanceiros) => {
     }
 
     let capexPelaDA = Number(dadosFinanceiros.despesas_capital) / Number(dadosFinanceiros.depreciacao_e_amortizacao)
+
+    if (capexPelaDA <= 0) {
+        return 0
+    }
 
     return Number(capexPelaDA.toFixed(4))
 }

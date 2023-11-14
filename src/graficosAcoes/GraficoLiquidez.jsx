@@ -24,7 +24,7 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezSeca),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
-                hidden: true
+                hidden: false
             },
             {
                 label: "Liquidez Corrente",
