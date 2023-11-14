@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
+export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
 
     //states
-    const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
+    const cores = ["#9999ff", "#ccccff", "#ff3232", "#ff7f7f", "#ffb2b2"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
 
 
@@ -13,96 +13,50 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
         !dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
-                label: "Receita Líquida",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
+                label: "Ativo Não Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoNaoCirculante),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
-                hidden: true
+                hidden: false,
+                borderRadius: 0,
+                stack: "stack 0"
             },
             {
-                label: "Lucro Bruto",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
+                label: "Ativo Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoCirculante),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
-                hidden: true
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 0"
             },
+
             {
-                label: "Lucro Operacional (EBIT)",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
+                label: "Passivo Não Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoNaoCirculante),
                 backgroundColor: cores[2],
                 borderColor: cores[2],
-                hidden: false
+                hidden: false,
+                borderRadius: 0,
+                stack: "stack 1"
             },
             {
-                label: "Lucro Antes dos Tributos",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
+                label: "Passivo Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoCirculante),
                 backgroundColor: cores[3],
                 borderColor: cores[3],
-                hidden: false
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 1"
             },
             {
-                label: "Lucro Líquido",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                label: "Patrimonio Líquido",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
                 backgroundColor: cores[4],
                 borderColor: cores[4],
-                hidden: false
-            }]
-        })
-
-        dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
-            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
-            datasets: [{
-                label: "Receita Líquida",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
-                backgroundColor: cores[0],
-                borderColor: cores[0],
-                hidden: true
-            },
-            {
-                label: "Lucro Bruto",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
-                backgroundColor: cores[1],
-                borderColor: cores[1],
-                hidden: false
-            },
-            {
-                label: "Lucro Antes dos Tributos",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
-                backgroundColor: cores[2],
-                borderColor: cores[2],
-                hidden: false
-            },
-            {
-                label: "Lucro Líquido",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
-                backgroundColor: cores[3],
-                borderColor: cores[3],
-                hidden: false
-            }]
-        })
-
-        dadosCadastrais.holding && setDadosFinanceiros({
-            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
-            datasets: [{
-                label: "Lucro Operacional",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
-                backgroundColor: cores[0],
-                borderColor: cores[0],
-                hidden: false
-            },
-            {
-                label: "Lucro Antes dos Tributos",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
-                backgroundColor: cores[1],
-                borderColor: cores[1],
-                hidden: false
-            },
-            {
-                label: "Lucro Líquido",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
-                backgroundColor: cores[2],
-                borderColor: cores[2],
-                hidden: false
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 2"
             }]
         })
     }, [dadosCadastrais])
@@ -125,6 +79,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                         },
                         scales: {
                             x: {
+                                stacked: true,
                                 ticks: {
                                     color: "white",
                                 },
@@ -134,6 +89,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                             },
                             y: {
                                 position: 'right',
+                                stacked: true,
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",

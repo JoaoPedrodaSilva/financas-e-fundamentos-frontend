@@ -3,6 +3,7 @@ import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { GraficoDRE } from "../graficosAcoes/GraficoDRE"
+import { GraficoBP } from "../graficosAcoes/GraficoBP"
 import { GraficoEndividamento } from "../graficosAcoes/GraficoEndividamento"
 import { GraficoRentabilidade } from "../graficosAcoes/GraficoRentabilidade"
 import { GraficoEficiencia } from "../graficosAcoes/GraficoEficiencia"
@@ -25,14 +26,18 @@ export const Acoes = () => {
             try {
                 const results = await axios.get(`/api/acoes/${codigoBaseParametro}`)
                 const empresas = results.data.empresas
-                const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]
+                const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]                
 
                 const historicoValores = results.data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
-                    const { ativoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
+                    const { ativoCirculante, ativoNaoCirculante, ativoTotal, passivoCirculante, passivoNaoCirculante, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
 
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
+                        ativoCirculante,
+                        ativoNaoCirculante,
                         ativoTotal,
+                        passivoCirculante,
+                        passivoNaoCirculante,
                         patrimonioLiquido,
                         receitaLiquida,
                         lucroBruto,
@@ -128,6 +133,8 @@ export const Acoes = () => {
                         <>
                             <option value="dre">DRE (RECEITA/LUCRO)</option>
 
+                            <option value="bp">BALANÇO PATRIMONIAL</option>
+
                             {!empresaSelecionada.dadosCadastrais.instituicao_financeira && !empresaSelecionada.dadosCadastrais.holding && <option value="endividamento">ENDIVIDAMENTO</option>}
 
                             <option value="rentabilidade">RENTABILIDADE (ROE/ROA)</option>
@@ -136,7 +143,7 @@ export const Acoes = () => {
 
                             <option value="momento">MOMENTO</option>
 
-                        {!empresaSelecionada.dadosCadastrais.instituicao_financeira && !empresaSelecionada.dadosCadastrais.holding && <option value="liquidez">LIQUIDEZ</option>}
+                            {!empresaSelecionada.dadosCadastrais.instituicao_financeira && !empresaSelecionada.dadosCadastrais.holding && <option value="liquidez">LIQUIDEZ</option>}
 
                             <option value="dados_cadastrais">DADOS CADASTRAIS</option>
                         </>
@@ -157,6 +164,13 @@ export const Acoes = () => {
                             case "dre":
                                 return (
                                     <GraficoDRE
+                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
+                                        historicoValores={empresaSelecionada.historicoValores}
+                                    />
+                                )
+                            case "bp":
+                                return (
+                                    <GraficoBP
                                         dadosCadastrais={empresaSelecionada.dadosCadastrais}
                                         historicoValores={empresaSelecionada.historicoValores}
                                     />

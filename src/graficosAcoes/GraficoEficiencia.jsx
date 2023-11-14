@@ -91,8 +91,7 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                                     color: "white",
                                 },
                                 grid: {
-                                    // color: "rgba(255,255,255,0.05)"
-                                    color: "transparent"
+                                    display: false,
                                 }
                             },
                             y: {

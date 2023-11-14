@@ -89,11 +89,11 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                     if (!datapoint) {
                         ctx.fillStyle = "transparent"
                         ctx.fillRect(x.getPixelForValue(index) - barWidth, bottom, barWidth, - height / 10)
-
-                        ctx.font = "bold 16px sans-serif"
+                        
+                        ctx.font = `bold ${width / 35}px sans-serif`
                         ctx.textAlign = "right"
                         ctx.fillStyle = "white"
-                        ctx.fillText("*", x.getPixelForValue(index), height * 1.05)
+                        ctx.fillText("i", x.getPixelForValue(index) - 10, height * 1.05)
                     }
                 })
             })
@@ -123,8 +123,7 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                                     color: "white",
                                 },
                                 grid: {
-                                    // color: "rgba(255,255,255,0.05)"
-                                    color: "transparent"
+                                    display: false,
                                 }
                             },
                             y: {

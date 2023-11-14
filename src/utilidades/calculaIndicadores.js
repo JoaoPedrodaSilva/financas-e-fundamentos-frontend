@@ -1,83 +1,83 @@
-const ativoTotal = (dadosFinanceiros, dadosCadastrais) => {
-    let ativoTotal = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante)
-
-    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
-        ativoTotal = Number(dadosFinanceiros.ativo_total)
-    }
-
-    return Math.round(Number(ativoTotal / 1000))
+// Balanço Patrimonial
+const ativoCirculante = (dadosFinanceiros) => {
+    return Math.round(Number(dadosFinanceiros.ativo_circulante / 1000))
 }
-const patrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
-
-    let patrimonioLiquido = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante) - Number(dadosFinanceiros.passivo_circulante) + Number(dadosFinanceiros.passivo_nao_circulante)
-
-    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
-        patrimonioLiquido = Number(dadosFinanceiros.patrimonio_liquido)
-    }
-
-    return Math.round(Number(patrimonioLiquido / 1000))
+const ativoNaoCirculante = (dadosFinanceiros) => {
+    return Math.round(Number(dadosFinanceiros.ativo_nao_circulante / 1000))
 }
+const ativoTotal = (dadosFinanceiros) => {
+    return Math.round(Number(dadosFinanceiros.ativo_total / 1000))
+}
+const passivoCirculante = (dadosFinanceiros) => {
+    return Math.round(Number(dadosFinanceiros.passivo_circulante / 1000))
+}
+const passivoNaoCirculante = (dadosFinanceiros) => {
+    return Math.round(Number(dadosFinanceiros.passivo_nao_circulante / 1000))
+}
+const passivoTotal = (dadosFinanceiros) => {
+    return Math.round(Number(dadosFinanceiros.passivo_total / 1000))
+}
+const patrimonioLiquido = (dadosFinanceiros) => {
+    return Math.round(Number(dadosFinanceiros.patrimonio_liquido / 1000))
+}
+
+
+// Demonstração de Resultado do Exercício
 const receitaLiquida = (dadosFinanceiros) => {
-    let receitaLiquida = Number(dadosFinanceiros.receita_liquida)
-
-    return Math.round(Number(receitaLiquida / 1000))
+    return Math.round(Number(dadosFinanceiros.receita_liquida / 1000))
 }
 const lucroBruto = (dadosFinanceiros) => {
-    let lucroBruto = Number(dadosFinanceiros.lucro_bruto)
-
-    return Math.round(Number(lucroBruto / 1000))
+    return Math.round(Number(dadosFinanceiros.lucro_bruto / 1000))
 }
 const lucroOperacional = (dadosFinanceiros) => {
-    let lucroOperacional = Number(dadosFinanceiros.lucro_operacional)
-
-    return Math.round(Number(lucroOperacional / 1000))
+    return Math.round(Number(dadosFinanceiros.lucro_operacional / 1000))
 }
 const lucroAntesTributos = (dadosFinanceiros) => {
-    let lucroAntesTributos = Number(dadosFinanceiros.lucro_antes_tributos)
-
-    return Math.round(Number(lucroAntesTributos / 1000))
+    return Math.round(Number(dadosFinanceiros.lucro_antes_tributos / 1000))
 }
 const lucroLiquido = (dadosFinanceiros) => {
-    let lucroLiquido = Number(dadosFinanceiros.lucro_liquido)
-
-    return Math.round(Number(lucroLiquido / 1000))
+    return Math.round(Number(dadosFinanceiros.lucro_liquido / 1000))
 }
+
+
+// Endividamento
 const dividaLiquidaPeloEbitda = (dadosFinanceiros, dadosCadastrais) => {
-    if (dadosCadastrais.instituicao_financeira) {
-        return 0
+    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
+        return null
     }
 
     const dividaLiquida = Number(dadosFinanceiros.emprestimos_curto_prazo) + Number(dadosFinanceiros.emprestimos_longo_prazo) - Number(dadosFinanceiros.caixa_e_equivalentes)
     const ebitda = Number(dadosFinanceiros.lucro_operacional) + Number(dadosFinanceiros.depreciacao_e_amortizacao)
 
-    if (dividaLiquida <= 0 || ebitda <= 0) {
+    if (dividaLiquida <= 0) {
+        return 0
+    }
+
+    if (ebitda <= 0) {
         return 0
     }
 
     return Number((dividaLiquida / ebitda).toFixed(2))
 }
 const dividaBrutaPeloPatrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
-    if (dadosCadastrais.instituicao_financeira) {
-        return 0
+    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
+        return null
     }
 
     const dividaBruta = Number(dadosFinanceiros.emprestimos_curto_prazo) + Number(dadosFinanceiros.emprestimos_longo_prazo)
-    const patrimonioLiquido = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante) - Number(dadosFinanceiros.passivo_circulante) + Number(dadosFinanceiros.passivo_nao_circulante)
+    const patrimonioLiquido = Number(dadosFinanceiros.patrimonio_liquido)
 
     if (patrimonioLiquido <= 0) {
         return 0
     }
+
     return Number((dividaBruta / patrimonioLiquido).toFixed(2))
 }
-const retornoPeloPatrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
 
-    let patrimonioLiquido = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante) - Number(dadosFinanceiros.passivo_circulante) + Number(dadosFinanceiros.passivo_nao_circulante)
 
-    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
-        patrimonioLiquido = Number(dadosFinanceiros.patrimonio_liquido)
-    }
-
-    const retornoPeloPatrimonioLiquido = Number(dadosFinanceiros.lucro_liquido) / patrimonioLiquido
+// Rentabilidade
+const retornoPeloPatrimonioLiquido = (dadosFinanceiros) => {
+    const retornoPeloPatrimonioLiquido = Number(dadosFinanceiros.lucro_liquido) / Number(dadosFinanceiros.patrimonio_liquido)
 
     if (retornoPeloPatrimonioLiquido <= 0) {
         return 0
@@ -85,14 +85,8 @@ const retornoPeloPatrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
 
     return Number(retornoPeloPatrimonioLiquido.toFixed(4))
 }
-const retornoPelosAtivos = (dadosFinanceiros, dadosCadastrais) => {
-    let ativos = Number(dadosFinanceiros.ativo_circulante) + Number(dadosFinanceiros.ativo_nao_circulante)
-
-    if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
-        ativos = Number(dadosFinanceiros.ativo_total)
-    }
-
-    const retornoPelosAtivos = Number(dadosFinanceiros.lucro_liquido) / ativos
+const retornoPelosAtivos = (dadosFinanceiros) => {
+    const retornoPelosAtivos = Number(dadosFinanceiros.lucro_liquido) / Number(dadosFinanceiros.ativo_total)
 
     if (retornoPelosAtivos <= 0) {
         return 0
@@ -100,12 +94,16 @@ const retornoPelosAtivos = (dadosFinanceiros, dadosCadastrais) => {
 
     return Number(retornoPelosAtivos.toFixed(4))
 }
+
+
+// Eficiência
 const margemBruta = (dadosFinanceiros) => {
     const margemBruta = Number(dadosFinanceiros.lucro_bruto) / Number(dadosFinanceiros.receita_liquida)
 
     if (margemBruta <= 0) {
         return 0
     }
+
     return Number(margemBruta.toFixed(4))
 }
 const margemOperacional = (dadosFinanceiros) => {
@@ -136,6 +134,9 @@ const margemLiquida = (dadosFinanceiros) => {
     }
     return Number(margemLiquida.toFixed(4))
 }
+
+
+// Momento
 const capexPeloFCO = (dadosFinanceiros) => {
     if (dadosFinanceiros.despesas_capital === null) {
         return null
@@ -162,6 +163,9 @@ const payout = (dadosFinanceiros) => {
     }
     return Number(payout.toFixed(4))
 }
+
+
+// Liquidez
 const liquidezImediata = (dadosFinanceiros, dadosCadastrais) => {
     if (dadosCadastrais.instituicao_financeira) {
         return null
@@ -172,6 +176,7 @@ const liquidezImediata = (dadosFinanceiros, dadosCadastrais) => {
     if (liquidezImediata <= 0) {
         return 0
     }
+    
     return Number(liquidezImediata.toFixed(2))
 }
 const liquidezSeca = (dadosFinanceiros, dadosCadastrais) => {
@@ -184,6 +189,7 @@ const liquidezSeca = (dadosFinanceiros, dadosCadastrais) => {
     if (liquidezSeca <= 0) {
         return 0
     }
+
     return Number(liquidezSeca.toFixed(2))
 }
 const liquidezCorrente = (dadosFinanceiros, dadosCadastrais) => {
@@ -196,6 +202,7 @@ const liquidezCorrente = (dadosFinanceiros, dadosCadastrais) => {
     if (liquidezCorrente <= 0) {
         return 0
     }
+
     return Number(liquidezCorrente.toFixed(2))
 }
 const liquidezGeral = (dadosFinanceiros, dadosCadastrais) => {
@@ -208,30 +215,48 @@ const liquidezGeral = (dadosFinanceiros, dadosCadastrais) => {
     if (liquidezGeral <= 0) {
         return 0
     }
+
     return Number(liquidezGeral.toFixed(2))
 }
 
 
-
 export const calculaIndicadores = (dadosFinanceiros, dadosCadastrais) => ({
-    ativoTotal: ativoTotal(dadosFinanceiros, dadosCadastrais),
-    patrimonioLiquido: patrimonioLiquido(dadosFinanceiros, dadosCadastrais),
+    //Balanço Patrimonial
+    ativoCirculante: ativoCirculante(dadosFinanceiros),
+    ativoNaoCirculante: ativoNaoCirculante(dadosFinanceiros),
+    ativoTotal: ativoTotal(dadosFinanceiros),
+    passivoCirculante: passivoCirculante(dadosFinanceiros),
+    passivoNaoCirculante: passivoNaoCirculante(dadosFinanceiros),
+    passivoTotal: passivoTotal(dadosFinanceiros),
+    patrimonioLiquido: patrimonioLiquido(dadosFinanceiros),
+
+    // Demonstração de Resultado do Exercício
     receitaLiquida: receitaLiquida(dadosFinanceiros),
     lucroBruto: lucroBruto(dadosFinanceiros),
     lucroOperacional: lucroOperacional(dadosFinanceiros),
     lucroAntesTributos: lucroAntesTributos(dadosFinanceiros),
     lucroLiquido: lucroLiquido(dadosFinanceiros),
+
+    // Endividamento
     dividaLiquidaPeloEbitda: dividaLiquidaPeloEbitda(dadosFinanceiros, dadosCadastrais),
     dividaBrutaPeloPatrimonioLiquido: dividaBrutaPeloPatrimonioLiquido(dadosFinanceiros, dadosCadastrais),
-    retornoPeloPatrimonioLiquido: retornoPeloPatrimonioLiquido(dadosFinanceiros, dadosCadastrais),
-    retornoPelosAtivos: retornoPelosAtivos(dadosFinanceiros, dadosCadastrais),
+
+    // Rentabilidade
+    retornoPeloPatrimonioLiquido: retornoPeloPatrimonioLiquido(dadosFinanceiros),
+    retornoPelosAtivos: retornoPelosAtivos(dadosFinanceiros),
+
+    // Eficiência
     margemBruta: margemBruta(dadosFinanceiros),
     margemOperacional: margemOperacional(dadosFinanceiros),
     margemAntesTributos: margemAntesTributos(dadosFinanceiros),
     margemLiquida: margemLiquida(dadosFinanceiros),
+
+    // Momento
     capexPeloFCO: capexPeloFCO(dadosFinanceiros),
     capexPelaDA: capexPelaDA(dadosFinanceiros),
     payout: payout(dadosFinanceiros),
+
+    // Liquidez
     liquidezImediata: liquidezImediata(dadosFinanceiros, dadosCadastrais),
     liquidezSeca: liquidezSeca(dadosFinanceiros, dadosCadastrais),
     liquidezCorrente: liquidezCorrente(dadosFinanceiros, dadosCadastrais),
