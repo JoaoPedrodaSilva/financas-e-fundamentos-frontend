@@ -17,14 +17,16 @@ export const GraficoEndividamento = ({ dadosCadastrais, historicoValores }) => {
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.dividaLiquidaPeloEbitda),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
-                hidden: false
+                hidden: false,
+                pointStyle: "rectRounded"
             },
             {
                 label: "Dívida Bruta / Patrimônio Líquido",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.dividaBrutaPeloPatrimonioLiquido),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
-                hidden: false
+                hidden: false,
+                pointStyle: "rectRounded"
             }]
         })
     }, [dadosCadastrais])
@@ -66,15 +68,26 @@ export const GraficoEndividamento = ({ dadosCadastrais, historicoValores }) => {
                             }
                         },
                         plugins: {
+                            title: {
+                                display: true,
+                                text: `${dadosCadastrais.codigo_base} - ENDIVIDAMENTO`,
+                                color: "white",
+                                font: {
+                                    size: 16
+                                }
+                            },
                             tooltip: {
                                 callbacks: {
                                     label: context => `${context.dataset.label}: ${context.raw}`
                                 }
                             },
                             legend: {
+                                position: "bottom",
                                 labels: {
-                                    padding: 25,
-                                    color: "white"
+                                    padding: 15,
+                                    color: "white",
+                                    usePointStyle: true,
+                                    pointStyleWidth: 30
                                 }
                             },
                             plugins: {

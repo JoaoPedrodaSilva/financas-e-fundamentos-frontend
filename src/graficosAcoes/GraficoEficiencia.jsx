@@ -17,28 +17,32 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemBruta),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
-                hidden: false
+                hidden: false,
+                pointStyle: "line"
             },
             {
                 label: "Margem Operacional",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemOperacional),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
-                hidden: false
+                hidden: false,
+                pointStyle: "line"
             },
             {
                 label: "Margem Antes dos Tributos",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
                 backgroundColor: cores[2],
                 borderColor: cores[2],
-                hidden: true
+                hidden: true,
+                pointStyle: "line"
             },
             {
                 label: "Margem Líquida",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemLiquida),
                 backgroundColor: cores[3],
                 borderColor: cores[3],
-                hidden: false
+                hidden: false,
+                pointStyle: "line"
             }]
         })
 
@@ -49,21 +53,24 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemBruta),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
-                hidden: false
+                hidden: false,
+                pointStyle: "line"
             },
             {
                 label: "Margem Antes dos Tributos",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
-                hidden: false
+                hidden: false,
+                pointStyle: "line"
             },
             {
                 label: "Margem Líquida",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemLiquida),
                 backgroundColor: cores[2],
                 borderColor: cores[2],
-                hidden: false
+                hidden: false,
+                pointStyle: "line"
             }]
         })
     }, [dadosCadastrais])
@@ -107,15 +114,26 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                             }
                         },
                         plugins: {
+                            title: {
+                                display: true,
+                                text: `${dadosCadastrais.codigo_base} - EFICIÊNCIA`,
+                                color: "white",
+                                font: {
+                                    size: 16
+                                }
+                            },
                             tooltip: {
                                 callbacks: {
                                     label: context => `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
                                 }
                             },
                             legend: {
+                                position: "bottom",
                                 labels: {
-                                    padding: 25,
-                                    color: "white"
+                                    padding: 15,
+                                    color: "white",
+                                    usePointStyle: true,
+                                    pointStyleWidth: 30
                                 }
                             },
                             plugins: {

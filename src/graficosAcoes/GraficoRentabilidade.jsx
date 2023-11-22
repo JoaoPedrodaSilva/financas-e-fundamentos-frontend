@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Line } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
+import { DadosCadastrais } from '../componentesGerais/DadosCadastrais'
 
 export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
 
@@ -19,7 +20,8 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[0],
                 borderWidth: 3,
                 yAxisID: 'y',
-                hidden: false
+                hidden: false,
+                pointStyle: "line"
             },
             {
                 label: "ROA",
@@ -28,7 +30,8 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[1],
                 borderWidth: 3,
                 yAxisID: 'y',
-                hidden: true
+                hidden: true,
+                pointStyle: "line"
             },
             {
                 label: "Lucro Líquido",
@@ -38,7 +41,8 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[2],
                 borderWidth: 0,
                 yAxisID: 'y1',
-                hidden: false
+                hidden: false,
+                pointStyle: "rectRounded"
             },
             {
                 label: "Patrimônio Líquido",
@@ -48,7 +52,8 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[3],
                 borderWidth: 0,
                 yAxisID: 'y1',
-                hidden: false
+                hidden: false,
+                pointStyle: "rectRounded"
             },
             {
                 label: "Ativos",
@@ -58,7 +63,8 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[4],
                 borderWidth: 0,
                 yAxisID: 'y1',
-                hidden: true
+                hidden: true,
+                pointStyle: "rectRounded"
             }]
         })
     }, [dadosCadastrais])
@@ -121,6 +127,14 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                             }
                         },
                         plugins: {
+                            title: {
+                                display: true,
+                                text: `${dadosCadastrais.codigo_base} - RENTABILIDADE`,
+                                color: "white",
+                                font: {
+                                    size: 16
+                                }
+                            },
                             tooltip: {
                                 callbacks: {
                                     label: context => {
@@ -134,9 +148,12 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                                 }
                             },
                             legend: {
+                                position: "bottom",
                                 labels: {
-                                    padding: 25,
-                                    color: "white"
+                                    padding: 15,
+                                    color: "white",
+                                    usePointStyle: true,
+                                    pointStyleWidth: 30
                                 }
                             },
                             plugins: {

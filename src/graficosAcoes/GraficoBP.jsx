@@ -19,7 +19,8 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[0],
                 hidden: true,
                 borderRadius: 0,
-                stack: "stack 0"
+                stack: "stack 0",
+                pointStyle: "rectRounded"
             },
             {
                 label: "Ativo Não Circulante",
@@ -28,7 +29,8 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[1],
                 hidden: false,
                 borderRadius: 10,
-                stack: "stack 0"
+                stack: "stack 0",
+                pointStyle: "rectRounded"
             },
             {
                 label: "Passivo Circulante",
@@ -37,7 +39,8 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[2],
                 hidden: true,
                 borderRadius: 0,
-                stack: "stack 1"
+                stack: "stack 1",
+                pointStyle: "rectRounded"
             },
             {
                 label: "Passivo Não Circulante",
@@ -46,7 +49,8 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[3],
                 hidden: false,
                 borderRadius: 10,
-                stack: "stack 1"
+                stack: "stack 1",
+                pointStyle: "rectRounded"
             },
             {
                 label: "Patrimonio Líquido",
@@ -55,7 +59,8 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                 borderColor: cores[4],
                 hidden: false,
                 borderRadius: 10,
-                stack: "stack 2"
+                stack: "stack 2",
+                pointStyle: "rectRounded"
             }]
         })
     }, [dadosCadastrais])
@@ -105,6 +110,14 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                             }
                         },
                         plugins: {
+                            title: {
+                                display: true,
+                                text: `${dadosCadastrais.codigo_base} - BALANÇO PATRIMONIAL`,
+                                color: "white",
+                                font: {
+                                    size: 16
+                                }
+                            },
                             tooltip: {
                                 callbacks: {
                                     label: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`,
@@ -112,9 +125,12 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                                 }
                             },
                             legend: {
+                                position: "bottom",
                                 labels: {
-                                    padding: 25,
-                                    color: "white"
+                                    padding: 15,
+                                    color: "white",
+                                    usePointStyle: true,
+                                    pointStyleWidth: 30
                                 }
                             },
                             plugins: {

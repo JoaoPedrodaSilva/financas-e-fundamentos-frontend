@@ -19,7 +19,8 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     backgroundColor: cores[0],
                     borderColor: cores[0],
                     borderWidth: 3,
-                    hidden: false
+                    hidden: false,
+                    pointStyle: "line"
                 }, {
                     label: "CAPEX/FCO",
                     type: "bar",
@@ -27,7 +28,8 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     backgroundColor: cores[1],
                     borderColor: cores[1],
                     borderWidth: 0,
-                    hidden: false
+                    hidden: false,
+                    pointStyle: "rectRounded"
                 },
                 {
                     label: "CAPEX/D&A",
@@ -36,7 +38,8 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     backgroundColor: cores[2],
                     borderColor: cores[2],
                     borderWidth: 0,
-                    hidden: false
+                    hidden: false,
+                    pointStyle: "rectRounded"
                 }]
         })
 
@@ -49,7 +52,8 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     backgroundColor: cores[0],
                     borderColor: cores[0],
                     borderWidth: 3,
-                    hidden: false
+                    hidden: false,
+                    pointStyle: "line"
                 }, {
                     label: "CAPEX/FCO",
                     type: "bar",
@@ -57,7 +61,8 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     backgroundColor: cores[1],
                     borderColor: cores[1],
                     borderWidth: 0,
-                    hidden: false
+                    hidden: false,
+                    pointStyle: "rectRounded"
                 }]
         })
 
@@ -70,7 +75,8 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                     backgroundColor: cores[0],
                     borderColor: cores[0],
                     borderWidth: 3,
-                    hidden: false
+                    hidden: false,
+                    pointStyle: "line"
                 }]
         })
     }, [dadosCadastrais])
@@ -116,6 +122,14 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                             }
                         },
                         plugins: {
+                            title: {
+                                display: true,
+                                text: `${dadosCadastrais.codigo_base} - MOMENTO`,
+                                color: "white",
+                                font: {
+                                    size: 16
+                                }
+                            },
                             tooltip: {
                                 callbacks: {
                                     label: context => context.raw !== null ?
@@ -124,10 +138,13 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                                 }
                             },
                             legend: {
-                                labels: {
-                                    padding: 25,
-                                    color: "white"
-                                }
+                                position: "bottom",
+                                labels: {                                    
+                                    padding: 15,
+                                    color: "white",
+                                    usePointStyle: true,
+                                    pointStyleWidth: 30
+                                }                                
                             },
                             plugins: {
                                 colors: {
