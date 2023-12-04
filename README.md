@@ -1,1 +1,1 @@
-Finanças e Fundamentos project. Changing or test.
+Finanças e Fundamentos project.
