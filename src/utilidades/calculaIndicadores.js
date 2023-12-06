@@ -77,6 +77,10 @@ const dividaBrutaPeloPatrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => 
 
 // Rentabilidade
 const retornoPeloPatrimonioLiquido = (dadosFinanceiros) => {
+    if (dadosFinanceiros.lucro_liquido <= 0) {
+        return 0
+    }
+
     const retornoPeloPatrimonioLiquido = Number(dadosFinanceiros.lucro_liquido) / Number(dadosFinanceiros.patrimonio_liquido)
 
     if (retornoPeloPatrimonioLiquido <= 0) {
@@ -86,6 +90,10 @@ const retornoPeloPatrimonioLiquido = (dadosFinanceiros) => {
     return Number(retornoPeloPatrimonioLiquido.toFixed(4))
 }
 const retornoPelosAtivos = (dadosFinanceiros) => {
+    if (dadosFinanceiros.lucro_liquido <= 0) {
+        return 0
+    }
+    
     const retornoPelosAtivos = Number(dadosFinanceiros.lucro_liquido) / Number(dadosFinanceiros.ativo_total)
 
     if (retornoPelosAtivos <= 0) {

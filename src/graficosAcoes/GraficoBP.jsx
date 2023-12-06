@@ -10,7 +10,7 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
 
 
     useEffect(() => {
-        !dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
+        !dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding || dadosCadastrais.holding && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: "Ativo Circulante",
@@ -20,7 +20,7 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                 hidden: true,
                 borderRadius: 0,
                 stack: "stack 0",
-                pointStyle: "rectRounded"
+                pointStyle: "rectRounded"                
             },
             {
                 label: "Ativo Não Circulante",
@@ -45,6 +45,40 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
             {
                 label: "Passivo Não Circulante",
                 data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoNaoCirculante),
+                backgroundColor: cores[3],
+                borderColor: cores[3],
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 1",
+                pointStyle: "rectRounded"
+            },
+            {
+                label: "Patrimonio Líquido",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
+                backgroundColor: cores[4],
+                borderColor: cores[4],
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 2",
+                pointStyle: "rectRounded"
+            }]
+        })
+
+        dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
+            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            datasets: [{
+                label: "Ativo Total",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoTotal),
+                backgroundColor: cores[1],
+                borderColor: cores[1],
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 0",
+                pointStyle: "rectRounded"                
+            },
+            {
+                label: "Passivo Total",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoTotal),
                 backgroundColor: cores[3],
                 borderColor: cores[3],
                 hidden: false,

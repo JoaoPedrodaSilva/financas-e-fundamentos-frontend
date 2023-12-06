@@ -161,8 +161,8 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                                 }
                             },
                             legend: {
-                                labels: {
-                                    position: "bottom",
+                                position: "bottom",
+                                labels: {                                    
                                     padding: 15,
                                     color: "white",
                                     usePointStyle: true,

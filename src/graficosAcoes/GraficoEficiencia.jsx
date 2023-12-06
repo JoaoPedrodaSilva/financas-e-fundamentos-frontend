@@ -86,8 +86,8 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                         responsive: true,
                         borderWidth: 3,
                         tension: 0.4,
-                        radius: 2,
-                        hoverRadius: 4,
+                        radius: 0,
+                        hoverRadius: 0,
                         interaction: {
                             mode: 'index',
                             intersect: false
