@@ -1,4 +1,4 @@
-// Balanço Patrimonial
+// Balanço Patrimonial - Balance Sheet
 const ativoCirculante = (dadosFinanceiros) => {
     return Math.round(Number(dadosFinanceiros.ativo_circulante / 1000))
 }
@@ -22,7 +22,7 @@ const patrimonioLiquido = (dadosFinanceiros) => {
 }
 
 
-// Demonstração de Resultado do Exercício
+// Demonstração de Resultado do Exercício - Income Statement
 const receitaLiquida = (dadosFinanceiros) => {
     return Math.round(Number(dadosFinanceiros.receita_liquida / 1000))
 }
@@ -40,7 +40,7 @@ const lucroLiquido = (dadosFinanceiros) => {
 }
 
 
-// Endividamento
+// Endividamento - Debt
 const dividaLiquidaPeloEbitda = (dadosFinanceiros, dadosCadastrais) => {
     if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
         return null
