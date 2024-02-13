@@ -1,4 +1,3 @@
-import axios from "../axios"
 import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -17,18 +16,17 @@ export const Acoes = () => {
     const { codigoBaseParametro } = useParams(null)
     const [empresas, setEmpresas] = useState(null)
     const [empresaSelecionada, setEmpresaSelecionada] = useState("")
-    const [indicadorSelecionado, setIndicadorSelecionado] = useState("dre") // want to show the dre chart as default
+    const [indicadorSelecionado, setIndicadorSelecionado] = useState("dre") // want to show the dre chart as default - quero mostrar o grádico de DRE como padrão
 
 
-    // get all companies from database
     useEffect(() => {
-        const fetchEmpresas = async () => {
-            try {
-                const results = await axios.get(`/api/acoes/${codigoBaseParametro}`)
-                const empresas = results.data.empresas
-                const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]                
+        fetch(`${import.meta.env.VITE_API_URL_PROD}/api/acoes/${codigoBaseParametro}`)
+            .then(response => response.json())
+            .then(data => {
+                const empresas = data.empresas
+                const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]
 
-                const historicoValores = results.data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
+                const historicoValores = data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
                     const { ativoCirculante, ativoNaoCirculante, ativoTotal, passivoCirculante, passivoNaoCirculante, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
 
                     return ({
@@ -64,16 +62,11 @@ export const Acoes = () => {
 
                 setEmpresas(empresas)
                 setEmpresaSelecionada({ dadosCadastrais, historicoValores })
-
                 if (dadosCadastrais.instituicao_financeira && (indicadorSelecionado === "endividamento" || indicadorSelecionado === "liquidez")) {
                     setIndicadorSelecionado("dre")
                 }
-
-            } catch (error) {
-                console.error(error)
-            }
-        }
-        fetchEmpresas()
+            })
+            .catch(error => console.error(error))
     }, [codigoBaseParametro])
 
 
@@ -82,20 +75,21 @@ export const Acoes = () => {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
                 <p className="text-white text-center">Carregando as informações...</p>
-                <img className="w-2/12 sm:w-1/12 rounded-lg" src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/loading.gif" alt="Carregando as informações..." />
+                <img className="w-1/12 rounded-lg" src="https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/loading.gif" alt="Carregando as informações..." />
             </div>
         )
     }
 
 
     return (
-        <section className='h-full flex flex-col sm:flex-row justify-center items-center gap-2 px-5 lg:px-20'>
-            <section className="w-full sm:w-1/2 lg:max-w-xl flex flex-col gap-3">
+        <section className='h-full flex flex-row justify-center items-center gap-2 px-5 lg:px-20'>
+            <section className="w-full lg:max-w-xl flex flex-col gap-3">
 
 
-                {/* selected company basic registration data (tablet and desktop only) */}
+                {/* selected company basic registration data */}
+                {/* dados cadastrais da empresa selecionada */}
                 {empresaSelecionada && (
-                    <div className="w-full hidden sm:flex flex-col text-white px-1 lg:text-lg">
+                    <div className="w-full flex flex-col text-white px-1 lg:text-lg">
                         <p className="my-3 text-justify">
                             <span className="text-gray-400">Nome empresarial: </span><br />{empresaSelecionada.dadosCadastrais.nome_empresarial}
                         </p>
@@ -110,6 +104,7 @@ export const Acoes = () => {
 
 
                 {/* companies dropdown */}
+                {/* dropdown das empresas */}
                 <select
                     className="w-full lg:max-w-md shadow rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={empresaSelecionada && empresaSelecionada.dadosCadastrais.codigo_base}
@@ -124,6 +119,7 @@ export const Acoes = () => {
 
 
                 {/* types of chart dropdown */}
+                {/* dropdown dos tipos de gráficos */}
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={indicadorSelecionado}
@@ -153,6 +149,7 @@ export const Acoes = () => {
 
 
             {/* charts and complete registration data */}
+            {/* gráficos e dados cadastrais completos */}
             <section className='w-full flex flex-col justify-center items-center gap-2'>
                 <div className='relative w-full p-1 border border-white rounded'>
                     {(() => {
