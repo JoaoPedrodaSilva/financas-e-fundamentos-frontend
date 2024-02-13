@@ -27,7 +27,7 @@ export const Acoes = () => {
                 const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]
 
                 const historicoValores = data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
-                    const { ativoCirculante, ativoNaoCirculante, ativoTotal, passivoCirculante, passivoNaoCirculante, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
+                    const { ativoCirculante, ativoNaoCirculante, ativoTotal, passivoCirculante, passivoNaoCirculante, passivoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
 
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
@@ -36,6 +36,7 @@ export const Acoes = () => {
                         ativoTotal,
                         passivoCirculante,
                         passivoNaoCirculante,
+                        passivoTotal,
                         patrimonioLiquido,
                         receitaLiquida,
                         lucroBruto,

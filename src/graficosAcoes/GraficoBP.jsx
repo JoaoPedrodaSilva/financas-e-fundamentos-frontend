@@ -20,7 +20,95 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                 hidden: true,
                 borderRadius: 0,
                 stack: "stack 0",
+                pointStyle: "rectRounded"                
+            },
+            {
+                label: "Ativo Não Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoNaoCirculante),
+                backgroundColor: cores[1],
+                borderColor: cores[1],
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 0",
                 pointStyle: "rectRounded"
+            },
+            {
+                label: "Passivo Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoCirculante),
+                backgroundColor: cores[2],
+                borderColor: cores[2],
+                hidden: true,
+                borderRadius: 0,
+                stack: "stack 1",
+                pointStyle: "rectRounded"
+            },
+            {
+                label: "Passivo Não Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoNaoCirculante),
+                backgroundColor: cores[3],
+                borderColor: cores[3],
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 1",
+                pointStyle: "rectRounded"
+            },
+            {
+                label: "Patrimonio Líquido",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
+                backgroundColor: cores[4],
+                borderColor: cores[4],
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 2",
+                pointStyle: "rectRounded"
+            }]
+        })
+
+        dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
+            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            datasets: [{
+                label: "Ativo Total",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoTotal),
+                backgroundColor: cores[1],
+                borderColor: cores[1],
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 0",
+                pointStyle: "rectRounded"                
+            },
+            {
+                label: "Passivo Total",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoTotal),
+                backgroundColor: cores[3],
+                borderColor: cores[3],
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 1",
+                pointStyle: "rectRounded"
+            },
+            {
+                label: "Patrimonio Líquido",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
+                backgroundColor: cores[4],
+                borderColor: cores[4],
+                hidden: false,
+                borderRadius: 10,
+                stack: "stack 2",
+                pointStyle: "rectRounded"
+            }]
+        })
+
+        dadosCadastrais.holding && setDadosFinanceiros({
+            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            datasets: [{
+                label: "Ativo Circulante",
+                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoCirculante),
+                backgroundColor: cores[0],
+                borderColor: cores[0],
+                hidden: true,
+                borderRadius: 0,
+                stack: "stack 0",
+                pointStyle: "rectRounded"                
             },
             {
                 label: "Ativo Não Circulante",

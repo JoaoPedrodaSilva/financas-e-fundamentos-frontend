@@ -79,8 +79,8 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                     options={{
                         responsive: true,
                         tension: 0.4,
-                        radius: 2,
-                        hoverRadius: 4,
+                        radius: 0,
+                        hoverRadius: 0,
                         borderRadius: 10,
                         categoryPercentage: .7,
                         barPercentage: 1,
