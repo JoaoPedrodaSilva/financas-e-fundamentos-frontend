@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { BarraNavegacao } from './componentesGerais/BarraNavegacao'
 import { PaginaInicial } from './paginas/PaginaInicial'
-import { Acoes } from './paginas/Acoes'
+import { PaginaAcoes } from './paginas/PaginaAcoes'
+import { AcaoIndividual } from './paginas/AcaoIndividual'
 import { MacroEconomia } from './paginas/MacroEconomia'
 import { Rodape } from './componentesGerais/Rodape'
 
@@ -44,7 +45,8 @@ export const App = () => {
                         <div className='basis-full bg-gray-800'>
                             <Routes>
                                 <Route path='/' element={<PaginaInicial />} />
-                                <Route path='/acoes/:codigoBaseParametro' element={<Acoes />} />
+                                <Route path='/acoes/' element={<PaginaAcoes />} />
+                                <Route path='/acoes/:codigoBaseParametro' element={<AcaoIndividual />} />
                                 <Route path='/macroeconomia/:indicadorParametro' element={<MacroEconomia />} />
                             </Routes>
                         </div>

@@ -11,7 +11,7 @@ import { GraficoLiquidez } from "../graficosAcoes/GraficoLiquidez"
 import { DadosCadastrais } from "../componentesGerais/DadosCadastrais"
 
 
-export const Acoes = () => {
+export const AcaoIndividual = () => {
     const navigate = useNavigate()
     const { codigoBaseParametro } = useParams(null)
     const [empresas, setEmpresas] = useState(null)
@@ -25,6 +25,7 @@ export const Acoes = () => {
             .then(data => {
                 const empresas = data.empresas
                 const dadosCadastrais = empresas.filter(empresa => empresa.codigo_base === codigoBaseParametro)[0]
+                //mount the dadosCadastrais object as in PaginaAcoes
 
                 const historicoValores = data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
                     const { ativoCirculante, ativoNaoCirculante, ativoTotal, passivoCirculante, passivoNaoCirculante, passivoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
