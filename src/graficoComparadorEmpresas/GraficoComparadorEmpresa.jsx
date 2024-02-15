@@ -2,34 +2,42 @@ import { useEffect, useState } from 'react'
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoEndividamento = ({ dadosCadastrais, historicoValores }) => {
+export const GraficoComparadorEmpresa = ({ primeiraEmpresaDadosCadastrais, primeiraEmpresaHistoricoValores, segundaEmpresaDadosCadastrais, segundaEmpresaHistoricoValores }) => {
 
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
-
+    
 
     useEffect(() => {
         setDadosFinanceiros({
-            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+            labels: ["Receita Líquida", "Lucro Operacional", "Lucro Líquido",],
             datasets: [{
-                label: "Dívida Líquida / Ebitda",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.dividaLiquidaPeloEbitda),
+                label: primeiraEmpresaDadosCadastrais.codigoBase,
+                data: [
+                    primeiraEmpresaHistoricoValores[primeiraEmpresaHistoricoValores.length - 1].receitaLiquida,
+                    primeiraEmpresaHistoricoValores[primeiraEmpresaHistoricoValores.length - 1].lucroOperacional,
+                    primeiraEmpresaHistoricoValores[primeiraEmpresaHistoricoValores.length - 1].lucroLiquido
+                ],
                 backgroundColor: cores[0],
                 borderColor: cores[0],
                 hidden: false,
                 pointStyle: "rectRounded"
             },
             {
-                label: "Dívida Bruta / Patrimônio Líquido",
-                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.dividaBrutaPeloPatrimonioLiquido),
-                backgroundColor: cores[1],
-                borderColor: cores[1],
+                label: segundaEmpresaDadosCadastrais.codigoBase,
+                data: [
+                    segundaEmpresaHistoricoValores[segundaEmpresaHistoricoValores.length - 1].receitaLiquida,
+                    segundaEmpresaHistoricoValores[segundaEmpresaHistoricoValores.length - 1].lucroOperacional,
+                    segundaEmpresaHistoricoValores[segundaEmpresaHistoricoValores.length - 1].lucroLiquido
+                ],
+                backgroundColor: cores[2],
+                borderColor: cores[2],
                 hidden: false,
                 pointStyle: "rectRounded"
             }]
         })
-    }, [dadosCadastrais])
+    }, [primeiraEmpresaDadosCadastrais, segundaEmpresaDadosCadastrais])
 
 
     return (
@@ -53,7 +61,7 @@ export const GraficoEndividamento = ({ dadosCadastrais, historicoValores }) => {
                                     color: "white",
                                 },
                                 grid: {
-                                    display: false
+                                    display: false,
                                 }
                             },
                             y: {
@@ -61,6 +69,12 @@ export const GraficoEndividamento = ({ dadosCadastrais, historicoValores }) => {
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
+                                    callback: value => value.toLocaleString("pt-BR")
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Milhões de R$",
+                                    color: "white"
                                 },
                                 grid: {
                                     color: "rgba(255,255,255,0.05)"
@@ -70,7 +84,7 @@ export const GraficoEndividamento = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${dadosCadastrais.codigoBase} - ENDIVIDAMENTO`,
+                                text: `${primeiraEmpresaDadosCadastrais.codigoBase}   X   ${segundaEmpresaDadosCadastrais.codigoBase}`,
                                 color: "white",
                                 font: {
                                     size: 16
@@ -78,7 +92,8 @@ export const GraficoEndividamento = ({ dadosCadastrais, historicoValores }) => {
                             },
                             tooltip: {
                                 callbacks: {
-                                    label: context => `${context.dataset.label}: ${context.raw}`
+                                    label: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`,
+                                    labelTextColor: context => context.raw < 0 ? "red" : "white"
                                 }
                             },
                             legend: {

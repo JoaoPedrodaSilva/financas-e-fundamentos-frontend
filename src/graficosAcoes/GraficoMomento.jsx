@@ -124,7 +124,7 @@ export const GraficoPayout = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${dadosCadastrais.codigo_base} - MOMENTO`,
+                                text: `${dadosCadastrais.codigoBase} - MOMENTO`,
                                 color: "white",
                                 font: {
                                     size: 16

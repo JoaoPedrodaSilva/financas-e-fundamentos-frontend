@@ -8,7 +8,12 @@ export const PaginaInicial = () => (
         >
             Ações
         </Link>
-
+        <Link
+            to={`/comparador-empresas/`}
+            className="text-md text-white text-2xl py-4 my-6 rounded hover:text-blue-700"
+        >
+            Comparar Empresas
+        </Link>
         <Link
             to={`/macroeconomia/DÓLAR%20EUA`}
             className="text-md text-white text-2xl py-4 my-6 rounded hover:text-blue-700"

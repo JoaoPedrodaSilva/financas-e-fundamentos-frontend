@@ -116,7 +116,7 @@ export const GraficoEficiencia = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${dadosCadastrais.codigo_base} - EFICIÊNCIA`,
+                                text: `${dadosCadastrais.codigoBase} - EFICIÊNCIA`,
                                 color: "white",
                                 font: {
                                     size: 16

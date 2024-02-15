@@ -147,7 +147,7 @@ export const GraficoLiquidez = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${dadosCadastrais.codigo_base} - LIQUIDEZ`,
+                                text: `${dadosCadastrais.codigoBase} - LIQUIDEZ`,
                                 color: "white",
                                 font: {
                                     size: 16

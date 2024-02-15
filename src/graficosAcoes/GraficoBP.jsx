@@ -10,7 +10,7 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
 
 
     useEffect(() => {
-        !dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
+        !dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: "Ativo Circulante",
@@ -64,7 +64,7 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
             }]
         })
 
-        dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
+        dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: "Ativo Total",
@@ -200,7 +200,7 @@ export const GraficoBP = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${dadosCadastrais.codigo_base} - BALANÇO PATRIMONIAL`,
+                                text: `${dadosCadastrais.codigoBase} - BALANÇO PATRIMONIAL`,
                                 color: "white",
                                 font: {
                                     size: 16

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Line } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
-import { DadosCadastrais } from '../componentesGerais/DadosCadastrais'
 
 export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
 
@@ -129,7 +128,7 @@ export const GraficoRentabilidade = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${dadosCadastrais.codigo_base} - RENTABILIDADE`,
+                                text: `${dadosCadastrais.codigoBase} - RENTABILIDADE`,
                                 color: "white",
                                 font: {
                                     size: 16

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-export const PaginaAcoes = () => {
-    const [empresas, setEmpresas] = useState(null)
+export const TodasAcoes = () => {
+    const [todasEmpresas, setTodasEmpresas] = useState(null)
 
 
     //fetch all companies and its registration data
@@ -11,7 +11,7 @@ export const PaginaAcoes = () => {
         fetch(`${import.meta.env.VITE_API_URL_PROD}/api/acoes/`)
             .then(response => response.json())
             .then(data => {
-                const todasEmpresas = data.empresas.map(empresa => {
+                const empresas = data.empresas.map(empresa => {
                     return ({
                         id: empresa.id,
                         cnpj: empresa.cnpj,
@@ -26,7 +26,7 @@ export const PaginaAcoes = () => {
                         holding: empresa.holding
                     })
                 })
-                setEmpresas(todasEmpresas)
+                setTodasEmpresas(empresas)
             })
             .catch(error => console.error(error))
     }, [])
@@ -34,7 +34,7 @@ export const PaginaAcoes = () => {
 
     //render in case of no data
     //renderiza em caso de não haver dados
-    if (!empresas) {
+    if (!todasEmpresas) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
                 <p className="text-white text-center">Carregando as informações...</p>
@@ -46,7 +46,7 @@ export const PaginaAcoes = () => {
 
     return (
         <section className='w-full grid grid-cols-4 justify-center items-center flex-wrap gap-4 my-4 mx-2'>
-            {empresas.map(empresa => {
+            {todasEmpresas.map(empresa => {
                 return (
                     <Link to={`/acoes/${empresa.codigoBase}`} key={empresa.id}>
                         < article className='w-full flex-1 flex-col justify-center items-center bg-white rounded-lg'>

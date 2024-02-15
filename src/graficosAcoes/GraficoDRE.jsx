@@ -10,7 +10,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
 
 
     useEffect(() => {
-        !dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
+        !dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: "Receita Líquida",
@@ -54,7 +54,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
             }]
         })
 
-        dadosCadastrais.instituicao_financeira && !dadosCadastrais.holding && setDadosFinanceiros({
+        dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding && setDadosFinanceiros({
             labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: "Receita Líquida",
@@ -164,7 +164,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${dadosCadastrais.codigo_base} - DRE`,
+                                text: `${dadosCadastrais.codigoBase} - DRE`,
                                 color: "white",
                                 font: {
                                     size: 16
