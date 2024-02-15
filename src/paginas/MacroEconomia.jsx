@@ -9,7 +9,7 @@ export const MacroEconomia = () => {
     const [indicadorSelecionado, setIndicadorSelecionado] = useState(null)
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_PROD}/api/macroeconomia/${indicadorParametro}`)
+        fetch(`${import.meta.env.VITE_API_URL_PROD}api/macroeconomia/${indicadorParametro}`)
         .then(response => response.json())
         .then(data => {
             const indicadores = data.indicadores
