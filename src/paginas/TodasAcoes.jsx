@@ -45,12 +45,12 @@ export const TodasAcoes = () => {
 
 
     return (
-        <section className='w-full grid grid-cols-4 justify-center items-center flex-wrap gap-4 my-4 mx-2'>
+        <section className='w-full grid grid-cols-4 justify-center items-center gap-2 my-4'>
             {todasEmpresas.map(empresa => {
                 return (
                     <Link to={`/acoes/${empresa.codigoBase}`} key={empresa.id}>
-                        < article className='w-full flex-1 flex-col justify-center items-center bg-white rounded-lg'>
-                            <p className='text-center text-xl font-bold '>{empresa.codigoBase}</p>
+                        <article className='m-2 bg-white rounded-lg'>
+                            <p className='text-center text-xl font-bold bg-blue-200 rounded-t-lg'>{empresa.codigoBase}</p>
                             <hr />
                             <p className='text-center p-2 text-sm'>{empresa.codigosNegociacao}</p>
                             <hr />

@@ -11,7 +11,7 @@ export const BarraNavegacao = () => (
         </Link>
 
         <div>
-            <ul className="flex flex-row items-center gap-4 p-4 bg-white rounded-b">
+            <ul className="flex flex-row items-center gap-12 p-4 bg-white rounded-b">
                 <li>
                     <Link
                         to={`/comparador-empresas/`}

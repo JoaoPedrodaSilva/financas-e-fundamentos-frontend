@@ -30,7 +30,7 @@ export const App = () => {
     //renderização condicional a depender do tamanho da tela
     return (
         <>
-            {larguraTela <= 768 ? (
+            {larguraTela < 768 ? (
                 <section className='w-screen h-screen flex flex-col justify-center items-center gap-4 bg-gray-800'>
                     <div className="flex justify-center items-center gap-2 p-1 rounded bg-white">
                         <img src='https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/logo.png' className="w-6" alt="Logotipo do Finanças e Fundamentos, uma moeda amarela com duas letras efes, uma de cabeça para cima e outra de cabeça para baixo." />
@@ -42,9 +42,9 @@ export const App = () => {
                 </section>
             ) : (
                 <BrowserRouter>
-                    <div className='flex flex-col w-screen h-screen'>
+                    <div className='flex flex-col w-full h-screen'>
                         <BarraNavegacao />
-                        <div className='basis-full bg-gray-800'>
+                        <div className='basis-full w-full bg-gray-800'>
                             <Routes>
                                 <Route path='/' element={<PaginaInicial />} />
                                 <Route path='/acoes/' element={<TodasAcoes />} />

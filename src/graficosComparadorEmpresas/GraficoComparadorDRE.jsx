@@ -2,21 +2,23 @@ import { useEffect, useState } from 'react'
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoComparadorEmpresa = ({ primeiraEmpresaDadosCadastrais, primeiraEmpresaHistoricoValores, segundaEmpresaDadosCadastrais, segundaEmpresaHistoricoValores }) => {
+export const GraficoComparadorDRE = ({ primeiraEmpresaDadosCadastrais, primeiraEmpresaHistoricoValores, segundaEmpresaDadosCadastrais, segundaEmpresaHistoricoValores, terceiraEmpresaDadosCadastrais, terceiraEmpresaHistoricoValores }) => {
 
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
-    
+
 
     useEffect(() => {
         setDadosFinanceiros({
-            labels: ["Receita Líquida", "Lucro Operacional", "Lucro Líquido",],
+            labels: ["Receita Líquida", "Lucro Bruto", "Lucro Operacional", "Lucro Antes dos Tributos", "Lucro Líquido"],
             datasets: [{
                 label: primeiraEmpresaDadosCadastrais.codigoBase,
                 data: [
                     primeiraEmpresaHistoricoValores[primeiraEmpresaHistoricoValores.length - 1].receitaLiquida,
+                    primeiraEmpresaHistoricoValores[primeiraEmpresaHistoricoValores.length - 1].lucroBruto,
                     primeiraEmpresaHistoricoValores[primeiraEmpresaHistoricoValores.length - 1].lucroOperacional,
+                    primeiraEmpresaHistoricoValores[primeiraEmpresaHistoricoValores.length - 1].lucroAntesTributos,
                     primeiraEmpresaHistoricoValores[primeiraEmpresaHistoricoValores.length - 1].lucroLiquido
                 ],
                 backgroundColor: cores[0],
@@ -28,16 +30,32 @@ export const GraficoComparadorEmpresa = ({ primeiraEmpresaDadosCadastrais, prime
                 label: segundaEmpresaDadosCadastrais.codigoBase,
                 data: [
                     segundaEmpresaHistoricoValores[segundaEmpresaHistoricoValores.length - 1].receitaLiquida,
+                    segundaEmpresaHistoricoValores[segundaEmpresaHistoricoValores.length - 1].lucroBruto,
                     segundaEmpresaHistoricoValores[segundaEmpresaHistoricoValores.length - 1].lucroOperacional,
+                    segundaEmpresaHistoricoValores[segundaEmpresaHistoricoValores.length - 1].lucroAntesTributos,
                     segundaEmpresaHistoricoValores[segundaEmpresaHistoricoValores.length - 1].lucroLiquido
                 ],
                 backgroundColor: cores[2],
                 borderColor: cores[2],
                 hidden: false,
                 pointStyle: "rectRounded"
+            },
+            {
+                label: terceiraEmpresaDadosCadastrais.codigoBase,
+                data: [
+                    terceiraEmpresaHistoricoValores[terceiraEmpresaHistoricoValores.length - 1].receitaLiquida,
+                    terceiraEmpresaHistoricoValores[terceiraEmpresaHistoricoValores.length - 1].lucroBruto,
+                    terceiraEmpresaHistoricoValores[terceiraEmpresaHistoricoValores.length - 1].lucroOperacional,
+                    terceiraEmpresaHistoricoValores[terceiraEmpresaHistoricoValores.length - 1].lucroAntesTributos,
+                    terceiraEmpresaHistoricoValores[terceiraEmpresaHistoricoValores.length - 1].lucroLiquido
+                ],
+                backgroundColor: cores[4],
+                borderColor: cores[4],
+                hidden: false,
+                pointStyle: "rectRounded"
             }]
         })
-    }, [primeiraEmpresaDadosCadastrais, segundaEmpresaDadosCadastrais])
+    }, [primeiraEmpresaDadosCadastrais, segundaEmpresaDadosCadastrais, terceiraEmpresaDadosCadastrais])
 
 
     return (
@@ -65,7 +83,7 @@ export const GraficoComparadorEmpresa = ({ primeiraEmpresaDadosCadastrais, prime
                                 }
                             },
                             y: {
-                                position: 'right',
+                                position: 'left',
                                 ticks: {
                                     maxTicksLimit: 6,
                                     color: "white",
@@ -84,7 +102,7 @@ export const GraficoComparadorEmpresa = ({ primeiraEmpresaDadosCadastrais, prime
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${primeiraEmpresaDadosCadastrais.codigoBase}   X   ${segundaEmpresaDadosCadastrais.codigoBase}`,
+                                text: `${primeiraEmpresaDadosCadastrais.codigoBase}   X   ${segundaEmpresaDadosCadastrais.codigoBase}   X   ${terceiraEmpresaDadosCadastrais.codigoBase}   -   DRE  ${segundaEmpresaHistoricoValores[segundaEmpresaHistoricoValores.length - 1].ano.getFullYear()}`,
                                 color: "white",
                                 font: {
                                     size: 16
@@ -116,4 +134,4 @@ export const GraficoComparadorEmpresa = ({ primeiraEmpresaDadosCadastrais, prime
             }
         </div>
     )
-} 
+}
