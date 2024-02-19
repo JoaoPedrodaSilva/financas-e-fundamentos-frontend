@@ -24,18 +24,38 @@ const patrimonioLiquido = (dadosFinanceiros) => {
 
 // Demonstração de Resultado do Exercício - Income Statement
 const receitaLiquida = (dadosFinanceiros) => {
+    if (dadosFinanceiros.receita_liquida === null) {
+        return null
+    }
+
     return Math.round(Number(dadosFinanceiros.receita_liquida / 1000))
 }
 const lucroBruto = (dadosFinanceiros) => {
+    if (dadosFinanceiros.lucro_bruto === null) {
+        return null
+    }
+
     return Math.round(Number(dadosFinanceiros.lucro_bruto / 1000))
 }
 const lucroOperacional = (dadosFinanceiros) => {
+    if (dadosFinanceiros.lucro_operacional === null) {
+        return null
+    }
+
     return Math.round(Number(dadosFinanceiros.lucro_operacional / 1000))
 }
 const lucroAntesTributos = (dadosFinanceiros) => {
+    if (dadosFinanceiros.lucro_antes_tributos === null) {
+        return null
+    }
+
     return Math.round(Number(dadosFinanceiros.lucro_antes_tributos / 1000))
 }
 const lucroLiquido = (dadosFinanceiros) => {
+    if (dadosFinanceiros.lucro_liquido === null) {
+        return null
+    }
+
     return Math.round(Number(dadosFinanceiros.lucro_liquido / 1000))
 }
 
@@ -93,7 +113,7 @@ const retornoPelosAtivos = (dadosFinanceiros) => {
     if (dadosFinanceiros.lucro_liquido <= 0) {
         return 0
     }
-    
+
     const retornoPelosAtivos = Number(dadosFinanceiros.lucro_liquido) / Number(dadosFinanceiros.ativo_total)
 
     if (retornoPelosAtivos <= 0) {
@@ -192,7 +212,7 @@ const liquidezImediata = (dadosFinanceiros, dadosCadastrais) => {
     if (liquidezImediata <= 0) {
         return 0
     }
-    
+
     return Number(liquidezImediata.toFixed(2))
 }
 const liquidezSeca = (dadosFinanceiros, dadosCadastrais) => {

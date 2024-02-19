@@ -1,12 +1,10 @@
 import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
-import { GraficoComparadorDRE } from "../graficosComparadorEmpresas/GraficoComparadorDRE"
-import { GraficoComparadorBP } from "../graficosComparadorEmpresas/GraficoComparadorBP"
-import { GraficoComparadorEndividamento } from "../graficosComparadorEmpresas/GraficoComparadorEndividamento"
+import { GraficoComparadorEmpresas } from "../graficosComparadorEmpresas/GraficoComparadorEmpresas"
 
 export const ComparadorEmpresas = () => {
     const [todasEmpresas, setTodasEmpresas] = useState(null)
-    const [indicadorSelecionado, setIndicadorSelecionado] = useState("dre")
+    const [indicadorSelecionado, setIndicadorSelecionado] = useState("lucroLiquido")
     const [primeiroCodigoSelecionado, setPrimeiroCodigoSelecionado] = useState("ARZZ")
     const [segundoCodigoSelecionado, setSegundoCodigoSelecionado] = useState("LREN")
     const [terceiroCodigoSelecionado, setTerceiroCodigoSelecionado] = useState("GUAR")
@@ -65,7 +63,6 @@ export const ComparadorEmpresas = () => {
 
                 const historicoValores = data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
                     const { ativoCirculante, ativoNaoCirculante, ativoTotal, passivoCirculante, passivoNaoCirculante, passivoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
-
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
                         ativoCirculante,
@@ -258,14 +255,11 @@ export const ComparadorEmpresas = () => {
                     onChange={event => setIndicadorSelecionado(event.target.value)}
                 >
                     <>
-                        <option value="dre">DRE (RECEITA/LUCRO)</option>
-                        <option value="bp">BALANÇO PATRIMONIAL</option>
-                        <option value="endividamento">ENDIVIDAMENTO</option>
-                        <option value="rentabilidade">RENTABILIDADE (ROE/ROA)</option>
-                        <option value="eficiencia">EFICIÊNCIA (MARGENS)</option>
-                        <option value="momento">MOMENTO</option>
-                        <option value="liquidez">LIQUIDEZ</option>
-                        <option value="dados_cadastrais">DADOS CADASTRAIS</option>
+                        <option value="receitaLiquida">RECEITA LÍQUIDA</option>
+                        <option value="lucroBruto">LUCRO BRUTO</option>
+                        <option value="lucroOperacional">LUCRO OPERACIONAL</option>
+                        <option value="lucroAntesTributos">LUCRO ANTES DOS TRIBUTOS</option>
+                        <option value="lucroLiquido">LUCRO LÍQUIDO</option>
                     </>
                 </select>
 
@@ -325,33 +319,15 @@ export const ComparadorEmpresas = () => {
                 <div className='relative w-full p-1 border border-white rounded'>
                     {
                         (() => {
-                            switch (indicadorSelecionado) {
-
-                                case "dre":
+                            switch (true) {
+                                case indicadorSelecionado === "receitaLiquida"
+                                    || indicadorSelecionado === "lucroBruto"
+                                    || indicadorSelecionado === "lucroOperacional"
+                                    || indicadorSelecionado === "lucroAntesTributos"
+                                    || indicadorSelecionado === "lucroLiquido":
                                     return (
-                                        <GraficoComparadorDRE
-                                            primeiraEmpresaDadosCadastrais={primeiraEmpresaSelecionada.dadosCadastrais}
-                                            primeiraEmpresaHistoricoValores={primeiraEmpresaSelecionada.historicoValores}
-                                            segundaEmpresaDadosCadastrais={segundaEmpresaSelecionada.dadosCadastrais}
-                                            segundaEmpresaHistoricoValores={segundaEmpresaSelecionada.historicoValores}
-                                            terceiraEmpresaDadosCadastrais={terceiraEmpresaSelecionada.dadosCadastrais}
-                                            terceiraEmpresaHistoricoValores={terceiraEmpresaSelecionada.historicoValores}
-                                        />
-                                    )
-                                case "bp":
-                                    return (
-                                        <GraficoComparadorBP
-                                            primeiraEmpresaDadosCadastrais={primeiraEmpresaSelecionada.dadosCadastrais}
-                                            primeiraEmpresaHistoricoValores={primeiraEmpresaSelecionada.historicoValores}
-                                            segundaEmpresaDadosCadastrais={segundaEmpresaSelecionada.dadosCadastrais}
-                                            segundaEmpresaHistoricoValores={segundaEmpresaSelecionada.historicoValores}
-                                            terceiraEmpresaDadosCadastrais={terceiraEmpresaSelecionada.dadosCadastrais}
-                                            terceiraEmpresaHistoricoValores={terceiraEmpresaSelecionada.historicoValores}
-                                        />
-                                    )
-                                case "endividamento":
-                                    return (
-                                        <GraficoComparadorEndividamento
+                                        <GraficoComparadorEmpresas
+                                            indicadorSelecionado={indicadorSelecionado}
                                             primeiraEmpresaDadosCadastrais={primeiraEmpresaSelecionada.dadosCadastrais}
                                             primeiraEmpresaHistoricoValores={primeiraEmpresaSelecionada.historicoValores}
                                             segundaEmpresaDadosCadastrais={segundaEmpresaSelecionada.dadosCadastrais}
@@ -362,7 +338,8 @@ export const ComparadorEmpresas = () => {
                                     )
                                 default:
                                     return (
-                                        <GraficoComparadorDRE
+                                        <GraficoComparadorEmpresas
+                                            indicadorSelecionado={indicadorSelecionado}
                                             primeiraEmpresaDadosCadastrais={primeiraEmpresaSelecionada.dadosCadastrais}
                                             primeiraEmpresaHistoricoValores={primeiraEmpresaSelecionada.historicoValores}
                                             segundaEmpresaDadosCadastrais={segundaEmpresaSelecionada.dadosCadastrais}
