@@ -6,19 +6,22 @@ export const PaginaInicial = () => (
             to={`/acoes/`}
             className="text-md text-white text-2xl py-4 my-6 rounded hover:text-blue-700"
         >
-            Ações
+            <h2 className="text-center pb-1">Ações</h2>
+            <p className="text-center text-xl">Analise os fundamentos de cada empresa individualmente</p>
         </Link>
         <Link
             to={`/comparador-empresas/`}
             className="text-md text-white text-2xl py-4 my-6 rounded hover:text-blue-700"
         >
-            Comparar Empresas
+            <h2 className="text-center pb-1">Comparar Ações</h2>
+            <p className="text-center text-xl">Compare os fundamentos de até três empresas</p>
         </Link>
         <Link
             to={`/macroeconomia/DÓLAR%20EUA`}
             className="text-md text-white text-2xl py-4 my-6 rounded hover:text-blue-700"
         >
-            Macroeconomia
+            <h2 className="text-center pb-1">Macroeconomia</h2>
+            <p className="text-center text-xl">Acompanhe os principais indicadores macroeconômicos</p>
         </Link>
     </section>
 )

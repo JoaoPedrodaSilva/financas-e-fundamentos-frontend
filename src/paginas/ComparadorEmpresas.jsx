@@ -256,10 +256,16 @@ export const ComparadorEmpresas = () => {
                 >
                     <>
                         <option value="receitaLiquida">RECEITA LÍQUIDA</option>
-                        <option value="lucroBruto">LUCRO BRUTO</option>
                         <option value="lucroOperacional">LUCRO OPERACIONAL</option>
-                        <option value="lucroAntesTributos">LUCRO ANTES DOS TRIBUTOS</option>
                         <option value="lucroLiquido">LUCRO LÍQUIDO</option>
+                        <option value="patrimonioLiquido">PATRIMÔNIO LÍQUIDO</option>
+                        <option value="margemOperacional">MARGEM OPERACIONAL</option>
+                        <option value="margemLiquida">MARGEM LÍQUIDA</option>
+                        <option value="capexPeloFCO">CAPEX / FCO</option>
+                        <option value="payout">PAYOUT</option>
+                        <option value="dividaLiquidaPeloEbitda">DÍVIDA LÍQUIDA / EBITDA</option>
+                        <option value="dividaBrutaPeloPatrimonioLiquido">DÍVIDA BRUTA / PATRIMÔNIO LÍQUIDO</option>
+                        <option value="retornoPeloPatrimonioLiquido">ROE</option>
                     </>
                 </select>
 
@@ -318,39 +324,21 @@ export const ComparadorEmpresas = () => {
             <div className='w-full flex flex-col justify-center items-center gap-2'>
                 <div className='relative w-full p-1 border border-white rounded'>
                     {
-                        (() => {
-                            switch (true) {
-                                case indicadorSelecionado === "receitaLiquida"
-                                    || indicadorSelecionado === "lucroBruto"
-                                    || indicadorSelecionado === "lucroOperacional"
-                                    || indicadorSelecionado === "lucroAntesTributos"
-                                    || indicadorSelecionado === "lucroLiquido":
-                                    return (
-                                        <GraficoComparadorEmpresas
-                                            indicadorSelecionado={indicadorSelecionado}
-                                            primeiraEmpresaDadosCadastrais={primeiraEmpresaSelecionada.dadosCadastrais}
-                                            primeiraEmpresaHistoricoValores={primeiraEmpresaSelecionada.historicoValores}
-                                            segundaEmpresaDadosCadastrais={segundaEmpresaSelecionada.dadosCadastrais}
-                                            segundaEmpresaHistoricoValores={segundaEmpresaSelecionada.historicoValores}
-                                            terceiraEmpresaDadosCadastrais={terceiraEmpresaSelecionada.dadosCadastrais}
-                                            terceiraEmpresaHistoricoValores={terceiraEmpresaSelecionada.historicoValores}
-                                        />
-                                    )
-                                default:
-                                    return (
-                                        <GraficoComparadorEmpresas
-                                            indicadorSelecionado={indicadorSelecionado}
-                                            primeiraEmpresaDadosCadastrais={primeiraEmpresaSelecionada.dadosCadastrais}
-                                            primeiraEmpresaHistoricoValores={primeiraEmpresaSelecionada.historicoValores}
-                                            segundaEmpresaDadosCadastrais={segundaEmpresaSelecionada.dadosCadastrais}
-                                            segundaEmpresaHistoricoValores={segundaEmpresaSelecionada.historicoValores}
-                                            terceiraEmpresaDadosCadastrais={terceiraEmpresaSelecionada.dadosCadastrais}
-                                            terceiraEmpresaHistoricoValores={terceiraEmpresaSelecionada.historicoValores}
-                                        />
-                                    )
-                            }
-                        })()
+                        <GraficoComparadorEmpresas
+                            indicadorSelecionado={indicadorSelecionado}
+                            primeiraEmpresaDadosCadastrais={primeiraEmpresaSelecionada.dadosCadastrais}
+                            primeiraEmpresaHistoricoValores={primeiraEmpresaSelecionada.historicoValores}
+                            segundaEmpresaDadosCadastrais={segundaEmpresaSelecionada.dadosCadastrais}
+                            segundaEmpresaHistoricoValores={segundaEmpresaSelecionada.historicoValores}
+                            terceiraEmpresaDadosCadastrais={terceiraEmpresaSelecionada.dadosCadastrais}
+                            terceiraEmpresaHistoricoValores={terceiraEmpresaSelecionada.historicoValores}
+                        />
                     }
+                </div>
+                <div className='w-full text-white text-right text-xs'>
+                    <a href="https://www.b3.com.br" target='_blank' rel='noreferrer'>
+                        Fonte: B3 - Brasil, Bolsa, Balcão
+                    </a>
                 </div>
             </div>
 

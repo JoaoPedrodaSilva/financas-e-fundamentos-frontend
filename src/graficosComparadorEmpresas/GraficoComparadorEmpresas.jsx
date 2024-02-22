@@ -7,6 +7,7 @@ export const GraficoComparadorEmpresas = ({ indicadorSelecionado, primeiraEmpres
     //states
     const cores = ["#ccccff", "#6666ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
+    const [configuraGrafico, setConfiguraGrafico] = useState(null)
 
 
     useEffect(() => {
@@ -14,54 +15,178 @@ export const GraficoComparadorEmpresas = ({ indicadorSelecionado, primeiraEmpres
             labels: primeiraEmpresaHistoricoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
             datasets: [{
                 label: primeiraEmpresaDadosCadastrais.codigoBase,
-                data: primeiraEmpresaHistoricoValores.map(exercicioFinanceiro => {
-                    return (
-                        indicadorSelecionado === "receitaLiquida" ? exercicioFinanceiro.receitaLiquida
-                            : indicadorSelecionado === "lucroBruto" ? exercicioFinanceiro.lucroBruto
-                                : indicadorSelecionado === "lucroOperacional" ? exercicioFinanceiro.lucroOperacional
-                                    : indicadorSelecionado === "lucroAntesTributos" ? exercicioFinanceiro.lucroAntesTributos
-                                        : indicadorSelecionado === "lucroLiquido" ? exercicioFinanceiro.lucroLiquido
-                                            : null
-                    )
-                }),
+                data: primeiraEmpresaHistoricoValores.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
                 pointStyle: "rectRounded"
             },
             {
                 label: segundaEmpresaDadosCadastrais.codigoBase,
-                data: segundaEmpresaHistoricoValores.map(exercicioFinanceiro => {
-                    return (
-                        indicadorSelecionado === "receitaLiquida" ? exercicioFinanceiro.receitaLiquida
-                            : indicadorSelecionado === "lucroBruto" ? exercicioFinanceiro.lucroBruto
-                                : indicadorSelecionado === "lucroOperacional" ? exercicioFinanceiro.lucroOperacional
-                                    : indicadorSelecionado === "lucroAntesTributos" ? exercicioFinanceiro.lucroAntesTributos
-                                        : indicadorSelecionado === "lucroLiquido" ? exercicioFinanceiro.lucroLiquido
-                                            : null
-                    )
-                }),
+                data: segundaEmpresaHistoricoValores.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
                 pointStyle: "rectRounded"
             },
             {
                 label: terceiraEmpresaDadosCadastrais.codigoBase,
-                data: terceiraEmpresaHistoricoValores.map(exercicioFinanceiro => {
-                    return (
-                        indicadorSelecionado === "receitaLiquida" ? exercicioFinanceiro.receitaLiquida
-                            : indicadorSelecionado === "lucroBruto" ? exercicioFinanceiro.lucroBruto
-                                : indicadorSelecionado === "lucroOperacional" ? exercicioFinanceiro.lucroOperacional
-                                    : indicadorSelecionado === "lucroAntesTributos" ? exercicioFinanceiro.lucroAntesTributos
-                                        : indicadorSelecionado === "lucroLiquido" ? exercicioFinanceiro.lucroLiquido
-                                            : null
-                    )
-                }),
+                data: terceiraEmpresaHistoricoValores.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
                 backgroundColor: cores[2],
                 borderColor: cores[2],
                 pointStyle: "rectRounded"
             }]
         })
     }, [primeiraEmpresaDadosCadastrais, segundaEmpresaDadosCadastrais, terceiraEmpresaDadosCadastrais, indicadorSelecionado])
+
+
+    useEffect(() => {
+        {
+            (() => {
+                switch (indicadorSelecionado) {
+                    case "receitaLiquida":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Receita Líquida",
+                            tituloEixoY: {
+                                display: true,
+                                text: "Milhões de R$",
+                                color: "white"
+                            },
+                            labelEixoY: value => value.toLocaleString("pt-BR"),
+                            labelTooltip: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                        })
+                        break
+
+                    case "lucroOperacional":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Lucro Operacional",
+                            tituloEixoY: {
+                                display: true,
+                                text: "Milhões de R$",
+                                color: "white"
+                            },
+                            labelEixoY: value => value.toLocaleString("pt-BR"),
+                            labelTooltip: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                        })
+                        break
+
+                    case "lucroLiquido":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Lucro Líquido",
+                            tituloEixoY: {
+                                display: true,
+                                text: "Milhões de R$",
+                                color: "white"
+                            },
+                            labelEixoY: value => value.toLocaleString("pt-BR"),
+                            labelTooltip: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                        })
+                        break
+
+                    case "patrimonioLiquido":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Patrimônio Líquido",
+                            tituloEixoY: {
+                                display: true,
+                                text: "Milhões de R$",
+                                color: "white"
+                            },
+                            labelEixoY: value => value.toLocaleString("pt-BR"),
+                            labelTooltip: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                        })
+                        break
+
+                    case "margemOperacional":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Margem Operacional",
+                            tituloEixoY: {
+                                display: false
+                            },
+                            labelEixoY: value => `${(value * 100).toFixed(0)}%`,
+                            labelTooltip: context => `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
+                        })
+                        break
+
+                    case "margemLiquida":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Margem Líquida",
+                            tituloEixoY: {
+                                display: false
+                            },
+                            labelEixoY: value => `${(value * 100).toFixed(0)}%`,
+                            labelTooltip: context => `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
+                        })
+                        break
+
+                    case "capexPeloFCO":
+                        setConfiguraGrafico({
+                            tituloGrafico: "CAPEX / FCO",
+                            tituloEixoY: {
+                                display: false
+                            },
+                            labelEixoY: value => `${(value * 100).toFixed(0)}%`,
+                            labelTooltip: context => `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
+                        })
+                        break
+
+                    case "payout":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Payout",
+                            tituloEixoY: {
+                                display: false
+                            },
+                            labelEixoY: value => `${(value * 100).toFixed(0)}%`,
+                            labelTooltip: context => `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
+                        })
+                        break
+
+                    case "dividaLiquidaPeloEbitda":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Dívida Líquida / EBITDA",
+                            tituloEixoY: {
+                                display: false
+                            },
+                            labelEixoY: value => value,
+                            labelTooltip: context => `${context.dataset.label}: ${context.raw}`
+                        })
+                        break
+
+                    case "dividaBrutaPeloPatrimonioLiquido":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Dívida Bruta / Patrimônio Líquido",
+                            tituloEixoY: {
+                                display: false
+                            },
+                            labelEixoY: value => value,
+                            labelTooltip: context => `${context.dataset.label}: ${context.raw}`
+                        })
+                        break
+
+                    case "retornoPeloPatrimonioLiquido":
+                        setConfiguraGrafico({
+                            tituloGrafico: "ROE",
+                            tituloEixoY: {
+                                display: false
+                            },
+                            labelEixoY: value => `${(value * 100).toFixed(0)}%`,
+                            labelTooltip: context => `${context.dataset.label}: ${Math.round(context.raw * 100)}%`
+                        })
+                        break
+
+                    default:
+                        setConfiguraGrafico({
+                            tituloGrafico: "Lucro Líquido",
+                            tituloEixoY: {
+                                display: true,
+                                text: "Milhões de R$",
+                                color: "white"
+                            },
+                            labelEixoY: value => value.toLocaleString("pt-BR"),
+                            labelTooltip: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                        })
+                        break
+                }
+            })()
+        }
+    }, [indicadorSelecionado])
 
 
     return (
@@ -93,23 +218,18 @@ export const GraficoComparadorEmpresas = ({ indicadorSelecionado, primeiraEmpres
                                 position: 'right',
                                 ticks: {
                                     color: "white",
-                                    callback: value => value.toLocaleString("pt-BR")
+                                    callback: value => configuraGrafico.labelEixoY(value)
                                 },
                                 grid: {
                                     color: "rgba(255,255,255,0.05)"
                                 },
-                                title: {
-                                    display: true,
-                                    text: "Milhões de R$",
-                                    color: "white"
-                                },
+                                title: configuraGrafico.tituloEixoY,
                             }
                         },
                         plugins: {
                             title: {
                                 display: true,
-                                //incluir nome do indicador
-                                text: `${primeiraEmpresaDadosCadastrais.codigoBase}   X   ${segundaEmpresaDadosCadastrais.codigoBase}   X   ${terceiraEmpresaDadosCadastrais.codigoBase}`,
+                                text: `${configuraGrafico.tituloGrafico}`,
                                 color: "white",
                                 font: {
                                     size: 16
@@ -118,11 +238,12 @@ export const GraficoComparadorEmpresas = ({ indicadorSelecionado, primeiraEmpres
                             tooltip: {
                                 //se todos os dados forem nulos, a tooltip nem aparecem. O ideal era que a tooltip aparecesse com a mensagem abaixo.
                                 callbacks: {
-                                    label: context => context.raw !== null ?
-                                        `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões` :
-                                        `${context.dataset.label}: Dados não disponibilizados pela empresa`,
+                                    label: context => context.raw === null ?
+                                        `${context.dataset.label}: Dados não disponibilizados pela empresa` :
+                                        configuraGrafico.labelTooltip(context),
                                     labelTextColor: context => context.raw < 0 ? "red" : "white"
                                 }
+
                             },
                             legend: {
                                 position: "bottom",
