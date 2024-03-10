@@ -10,7 +10,7 @@ export const MacroEconomia = () => {
     const nomeMeses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_DEV}api/macroeconomia/`)
+        fetch(`${import.meta.env.VITE_API_URL_PROD}api/macroeconomia/`)
             .then(response => response.json())
             .then(data => {
                 const todosIndicadores = data.todosIndicadores
