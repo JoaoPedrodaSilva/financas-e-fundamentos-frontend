@@ -17,7 +17,7 @@ export const PaginaInicial = () => (
             <p className="text-center text-xl">Compare os fundamentos de até três empresas</p>
         </Link>
         <Link
-            to={`/macroeconomia/DÓLAR%20EUA`}
+            to={`/macroeconomia/`}
             className="text-md text-white text-2xl py-4 my-6 rounded hover:text-blue-700"
         >
             <h2 className="text-center pb-1">Macroeconomia</h2>

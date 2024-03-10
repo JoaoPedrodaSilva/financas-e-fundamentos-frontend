@@ -49,7 +49,7 @@ export const AcaoIndividual = () => {
     //fetch selected company data
     //busca os dados da empresa selecionada
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_PROD}api/acoes/${codigoBaseParametro}`)
+        fetch(`${import.meta.env.VITE_API_URL_PROD}api/acoes/${codigoBaseParametro}/`)
             .then(response => response.json())
             .then(data => {
 

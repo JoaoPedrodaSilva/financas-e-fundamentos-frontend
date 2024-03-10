@@ -48,9 +48,9 @@ export const App = () => {
                             <Routes>
                                 <Route path='/' element={<PaginaInicial />} />
                                 <Route path='/acoes/' element={<TodasAcoes />} />
-                                <Route path='/acoes/:codigoBaseParametro' element={<AcaoIndividual />} />
+                                <Route path='/acoes/:codigoBaseParametro/' element={<AcaoIndividual />} />
                                 <Route path='/comparador-empresas/' element={<ComparadorEmpresas />} />
-                                <Route path='/macroeconomia/:indicadorParametro' element={<MacroEconomia />} />
+                                <Route path='/macroeconomia/' element={<MacroEconomia />} />
                             </Routes>
                         </div>
                         <Rodape />

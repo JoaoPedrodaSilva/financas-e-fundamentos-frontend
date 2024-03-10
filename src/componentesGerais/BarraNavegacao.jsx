@@ -22,7 +22,6 @@ export const BarraNavegacao = () => (
                 </li>
                 <li>
                     <Link
-                        // to={`/acoes/ABEV`}
                         to={`/acoes/`}
                         className="text-base text-gray-700 rounded hover:text-blue-700"
                     >
@@ -31,7 +30,7 @@ export const BarraNavegacao = () => (
                 </li>
                 <li>
                     <Link
-                        to={`/macroeconomia/DÓLAR EUA`}
+                        to={`/macroeconomia/`}
                         className="text-base text-gray-700 rounded hover:text-blue-700"
                     >
                         Macroeconomia

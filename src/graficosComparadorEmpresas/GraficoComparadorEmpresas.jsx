@@ -38,6 +38,8 @@ export const GraficoComparadorEmpresas = ({ indicadorSelecionado, primeiraEmpres
     }, [primeiraEmpresaDadosCadastrais, segundaEmpresaDadosCadastrais, terceiraEmpresaDadosCadastrais, indicadorSelecionado])
 
 
+    //Configura Gráfico
+    //configure chart
     useEffect(() => {
         {
             (() => {
@@ -200,7 +202,7 @@ export const GraficoComparadorEmpresas = ({ indicadorSelecionado, primeiraEmpres
                         borderWidth: 3,
                         tension: 0.4,
                         radius: 0,
-                        hoverRadius: 0,
+                        hoverRadius: 4,
                         interaction: {
                             mode: 'index',
                             intersect: false
