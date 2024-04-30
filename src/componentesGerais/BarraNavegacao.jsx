@@ -36,6 +36,22 @@ export const BarraNavegacao = () => (
                         Macroeconomia
                     </Link>
                 </li>
+                <li>
+                    <Link
+                        to={`/cadastrese/`}
+                        className="text-base text-gray-700 rounded hover:text-blue-700"
+                    >
+                        Cadastre-se
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        to={`/entrar/`}
+                        className="text-base text-gray-700 rounded hover:text-blue-700"
+                    >
+                        Entrar
+                    </Link>
+                </li>
             </ul >
         </div >
     </nav >

@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { BarraNavegacao } from './componentesGerais/BarraNavegacao'
 import { PaginaInicial } from './paginas/PaginaInicial'
+import { Cadastrese } from './paginas/Cadastrese'
+import { Entrar } from './paginas/Entrar'
 import { TodasAcoes } from './paginas/TodasAcoes'
 import { AcaoIndividual } from './paginas/AcaoIndividual'
 import { ComparadorEmpresas } from './paginas/ComparadorEmpresas'
 import { MacroEconomia } from './paginas/MacroEconomia'
 import { Rodape } from './componentesGerais/Rodape'
+
 
 
 
@@ -47,6 +50,8 @@ export const App = () => {
                         <div className='basis-full w-full bg-gray-800'>
                             <Routes>
                                 <Route path='/' element={<PaginaInicial />} />
+                                <Route path='/cadastrese' element={<Cadastrese />} />
+                                <Route path='/entrar' element={<Entrar />} />
                                 <Route path='/acoes/' element={<TodasAcoes />} />
                                 <Route path='/acoes/:codigoBaseParametro/' element={<AcaoIndividual />} />
                                 <Route path='/comparador-empresas/' element={<ComparadorEmpresas />} />
