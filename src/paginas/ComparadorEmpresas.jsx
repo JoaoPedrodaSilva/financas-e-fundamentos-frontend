@@ -16,7 +16,7 @@ export const ComparadorEmpresas = () => {
     //fetch all companies
     //busca todas as empresas
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_PROD ?? import.meta.env.VITE_API_URL_DEV}api/acoes/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
             .then(response => response.json())
             .then(data => {
                 const empresas = data.empresas.map(empresa => {
@@ -43,7 +43,7 @@ export const ComparadorEmpresas = () => {
     //fetch first selected company
     //busca primeira empresa selecionada
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_PROD ?? import.meta.env.VITE_API_URL_DEV}api/acoes/${primeiroCodigoSelecionado}/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${primeiroCodigoSelecionado}/`)
             .then(response => response.json())
             .then(data => {
 
@@ -104,7 +104,7 @@ export const ComparadorEmpresas = () => {
     //fetch second selected company
     //busca segunda empresa selecionada
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_PROD ?? import.meta.env.VITE_API_URL_DEV}api/acoes/${segundoCodigoSelecionado}/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${segundoCodigoSelecionado}/`)
             .then(response => response.json())
             .then(data => {
 
@@ -167,7 +167,7 @@ export const ComparadorEmpresas = () => {
     //fetch third selected company
     //busca terceira empresa selecionada
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_PROD ?? import.meta.env.VITE_API_URL_DEV}api/acoes/${terceiroCodigoSelecionado}/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${terceiroCodigoSelecionado}/`)
             .then(response => response.json())
             .then(data => {
 

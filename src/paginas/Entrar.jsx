@@ -2,14 +2,14 @@ import { useEffect } from "react"
 
 export const Entrar = () => {
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_DEV}api/entrar/`, { credentials: "include" })
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/entrar/`, { credentials: "include" })
             .then(response => response.json())
             .then(data => console.log(data))
             .catch(error => console.error(error))
     }, [])
 
     const autenticaUsuario = () => {
-        fetch(`${import.meta.env.VITE_API_URL_DEV}api/entrar/`, {
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/entrar/`, {
             credentials: "include",
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

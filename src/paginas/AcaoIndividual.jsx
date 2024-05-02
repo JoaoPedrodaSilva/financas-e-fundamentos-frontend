@@ -22,7 +22,7 @@ export const AcaoIndividual = () => {
     //fetch all companies
     //busca todas as empresas
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_PROD}api/acoes/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
             .then(response => response.json())
             .then(data => {
                 const empresas = data.empresas.map(empresa => {
@@ -49,7 +49,7 @@ export const AcaoIndividual = () => {
     //fetch selected company data
     //busca os dados da empresa selecionada
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_PROD}api/acoes/${codigoBaseParametro}/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${codigoBaseParametro}/`)
             .then(response => response.json())
             .then(data => {
 

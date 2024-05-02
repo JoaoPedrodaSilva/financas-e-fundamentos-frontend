@@ -8,7 +8,7 @@ export const TodasAcoes = () => {
     //fetch all companies and its registration data
     //busca todas as empresas e seus dados cadastrais
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL_PROD}api/acoes/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
             .then(response => response.json())
             .then(data => {
                 const empresas = data.empresas.map(empresa => {
