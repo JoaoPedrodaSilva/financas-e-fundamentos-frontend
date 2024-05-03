@@ -1,7 +1,9 @@
 import { useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
 
 
 export const Cadastrese = () => {
+    const navigate = useNavigate();
 
     //get route
     useEffect(() => {
@@ -21,7 +23,10 @@ export const Cadastrese = () => {
             body: JSON.stringify({ usuario: "Novo Usuário", senha: "123" })
         })
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+                console.log(data.usuarioNovo.id)
+                navigate("/");
+            })
             .catch(error => console.error(error))
     }
 

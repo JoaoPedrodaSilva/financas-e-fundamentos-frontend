@@ -13,10 +13,10 @@ export const Entrar = () => {
             credentials: "include",
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ usuario: 'Usuário Novo'})
+            body: JSON.stringify({ usuario: "Novo Usuário", senha: "123" })
         })
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => console.log(data.response))
             .catch(error => console.error(error))
     }
 
