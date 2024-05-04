@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { Line } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoValoresIpcaDozeMeses, dadosCadastraisSelicMeta, historicoValoresSelicMeta, dadosCadastraisDolarEua, historicoValoresDolarEua }) => {
+export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoValoresIpcaDozeMeses, dadosCadastraisSelicMeta, historicoValoresSelicMeta, dadosCadastraisEmbi, historicoValoresEmbi, dadosCadastraisDolarEua, historicoValoresDolarEua }) => {
 
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
-
+    
 
     useEffect(() => {
         setDadosFinanceiros({
@@ -28,10 +28,17 @@ export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoVa
                     yAxisID: "percentual"
                 },
                 {
-                    label: dadosCadastraisDolarEua.indicador,
-                    data: historicoValoresDolarEua.map(cadaCompetencia => cadaCompetencia.valor),
+                    label: dadosCadastraisEmbi.indicador,
+                    data: historicoValoresEmbi.map(cadaCompetencia => cadaCompetencia.valor),
                     backgroundColor: cores[2],
                     borderColor: cores[2],
+                    yAxisID: "embi",
+                },
+                {
+                    label: dadosCadastraisDolarEua.indicador,
+                    data: historicoValoresDolarEua.map(cadaCompetencia => cadaCompetencia.valor),
+                    backgroundColor: cores[3],
+                    borderColor: cores[3],
                     yAxisID: "moeda",
                 }]
         })
@@ -82,6 +89,16 @@ export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoVa
                                 grid: {
                                     color: "rgba(255,255,255,0.05)"
                                 }
+                            },
+                            embi: {
+                                display: false,
+                                position: 'right',
+                                ticks: {
+                                    color: "white",
+                                },
+                                grid: {
+                                    color: "rgba(255,255,255,0.05)"
+                                }
                             }
                         },
                         plugins: {
@@ -90,8 +107,9 @@ export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoVa
                                     label: context => {
                                         return context.dataset.label === "SELIC META" ? `${context.dataset.label}: ${context.raw.replace(".", ",")}%` :
                                             context.dataset.label === "IPCA 12 MESES" ? `${context.dataset.label}: ${context.raw.replace(".", ",")}%` :
-                                                context.dataset.label === "DÓLAR EUA" ? `${context.dataset.label}: R$ ${context.raw.replace(".", ",")}` :
-                                                    null
+                                                context.dataset.label === "EMBI+" ? `${context.dataset.label}: ${context.raw}` :
+                                                    context.dataset.label === "DÓLAR EUA" ? `${context.dataset.label}: R$ ${context.raw.replace(".", ",")}` :
+                                                        null
                                     }
                                 }
                             },

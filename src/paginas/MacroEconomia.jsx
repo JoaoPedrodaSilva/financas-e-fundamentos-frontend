@@ -5,6 +5,7 @@ export const MacroEconomia = () => {
     const [todosIndicadores, setTodosIndicadores] = useState(null)
     const [ipcaDozeMeses, setIpcaDozeMeses] = useState(null)
     const [selicMeta, setSelicMeta] = useState(null)
+    const [embi, setEmbi] = useState(null)
     const [dolarEua, setDolarEua] = useState(null)
     
     const nomeMeses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
@@ -33,6 +34,15 @@ export const MacroEconomia = () => {
                 ))
 
 
+                const dadosCadastraisEmbi = todosIndicadores.filter(cadaIndicador => cadaIndicador.id === "3")[0]
+                const historicoValoresEmbi = data.historicoValoresEmbi.map(cadaCompetencia => (
+                    {
+                        competencia: `${nomeMeses[new Date(cadaCompetencia.competencia).getUTCMonth()]} / ${new Date(cadaCompetencia.competencia).getUTCFullYear()}`,
+                        valor: cadaCompetencia.valor === null ? null : Number(cadaCompetencia.valor).toFixed(2)
+                    }
+                ))
+
+
                 const dadosCadastraisDolarEua = todosIndicadores.filter(cadaIndicador => cadaIndicador.id === "5")[0]
                 const historicoValoresDolarEua = data.historicoValoresDolarEua.map(cadaCompetencia => (
                     {
@@ -46,6 +56,7 @@ export const MacroEconomia = () => {
                 setTodosIndicadores(todosIndicadores)
                 setIpcaDozeMeses({ dadosCadastraisIpcaDozeMeses, historicoValoresIpcaDozeMeses })
                 setSelicMeta({ dadosCadastraisSelicMeta, historicoValoresSelicMeta })
+                setEmbi({ dadosCadastraisEmbi, historicoValoresEmbi })
                 setDolarEua({ dadosCadastraisDolarEua, historicoValoresDolarEua })
                 
             })
@@ -93,6 +104,9 @@ export const MacroEconomia = () => {
                         <span className="text-gray-400">{ipcaDozeMeses.dadosCadastraisIpcaDozeMeses.indicador}: </span><br />{ipcaDozeMeses.dadosCadastraisIpcaDozeMeses.descricao_longa}
                     </p>
                     <p className="my-3 text-justify">
+                        <span className="text-gray-400">{embi.dadosCadastraisEmbi.indicador}: </span><br />{embi.dadosCadastraisEmbi.descricao_longa}
+                    </p>
+                    <p className="my-3 text-justify">
                         <span className="text-gray-400">{selicMeta.dadosCadastraisSelicMeta.indicador}: </span><br />{selicMeta.dadosCadastraisSelicMeta.descricao_longa}
                     </p>
                 </div>
@@ -108,8 +122,13 @@ export const MacroEconomia = () => {
                         //indicadorSelecionado={indicadorSelecionado.dadosCadastrais.indicador}                        
                         dadosCadastraisIpcaDozeMeses={ipcaDozeMeses.dadosCadastraisIpcaDozeMeses}
                         historicoValoresIpcaDozeMeses={ipcaDozeMeses.historicoValoresIpcaDozeMeses}
+
                         dadosCadastraisSelicMeta={selicMeta.dadosCadastraisSelicMeta}
                         historicoValoresSelicMeta={selicMeta.historicoValoresSelicMeta}
+
+                        dadosCadastraisEmbi={embi.dadosCadastraisEmbi}
+                        historicoValoresEmbi={embi.historicoValoresEmbi}
+
                         dadosCadastraisDolarEua={dolarEua.dadosCadastraisDolarEua}
                         historicoValoresDolarEua={dolarEua.historicoValoresDolarEua}
                     />
