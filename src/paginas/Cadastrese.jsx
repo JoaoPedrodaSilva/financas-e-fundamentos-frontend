@@ -20,7 +20,7 @@ export const Cadastrese = () => {
             credentials: "include",
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ usuario: "Novo Usuário", senha: "123" })
+            body: JSON.stringify({ usuario: "qwerty", senha: "qwerty" })
         })
             .then(response => response.json())
             .then(data => {

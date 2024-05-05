@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { BarraNavegacao } from './componentesGerais/BarraNavegacao'
 import { PaginaInicial } from './paginas/PaginaInicial'
-import { Cadastrese } from './paginas/Cadastrese'
+// import { Cadastrese } from './paginas/Cadastrese'
 import { Entrar } from './paginas/Entrar'
+import { RotaProtegida } from './paginas/RotaProtegida'
 import { TodasAcoes } from './paginas/TodasAcoes'
 import { AcaoIndividual } from './paginas/AcaoIndividual'
 import { ComparadorEmpresas } from './paginas/ComparadorEmpresas'
@@ -11,10 +12,10 @@ import { MacroEconomia } from './paginas/MacroEconomia'
 import { Rodape } from './componentesGerais/Rodape'
 
 
-
-
 export const App = () => {
+    //states
     const [larguraTela, setLarguraTela] = useState(window.innerWidth)
+    const [usuarioAutenticado, setUsuarioAutenticado] = useState(false)
 
     //check screen width every resizing
     //checa a largura da tela a cada redimensionamento
@@ -46,12 +47,27 @@ export const App = () => {
             ) : (
                 <BrowserRouter>
                     <div className='flex flex-col w-full h-screen'>
-                        <BarraNavegacao />
+                        <BarraNavegacao
+                            usuarioAutenticado={usuarioAutenticado}
+                            setUsuarioAutenticado={setUsuarioAutenticado}
+                        />
                         <div className='basis-full w-full bg-gray-800'>
                             <Routes>
                                 <Route path='/' element={<PaginaInicial />} />
-                                <Route path='/cadastrese' element={<Cadastrese />} />
-                                <Route path='/entrar' element={<Entrar />} />
+                                {/* <Route path='/cadastrese' element={<Cadastrese />} /> */}
+                                <Route
+                                    path='/entrar'
+                                    element={<Entrar
+                                        setUsuarioAutenticado={setUsuarioAutenticado}
+                                    />}
+                                />                                    
+                                <Route
+                                    path='/rotaProtegida'
+                                    element={<RotaProtegida
+                                        usuarioAutenticado={usuarioAutenticado}
+                                        setUsuarioAutenticado={setUsuarioAutenticado}
+                                    />}
+                                />
                                 <Route path='/acoes/' element={<TodasAcoes />} />
                                 <Route path='/acoes/:codigoBaseParametro/' element={<AcaoIndividual />} />
                                 <Route path='/comparador-empresas/' element={<ComparadorEmpresas />} />
