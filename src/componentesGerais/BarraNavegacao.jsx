@@ -1,17 +1,6 @@
 import { Link } from 'react-router-dom'
 
-export const BarraNavegacao = ({ usuarioAutenticado, setUsuarioAutenticado }) => {
-    
-    const encerraSessao = () => {
-        if (usuarioAutenticado) {
-            fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/sair/`, { credentials: "include" })
-                .then(response => response.json())
-                .then(data => {
-                    setUsuarioAutenticado(data.usuarioAutenticado)
-                })
-        }      
-    }
-
+export const BarraNavegacao = () => {
 
     return (
         <nav
@@ -47,23 +36,6 @@ export const BarraNavegacao = ({ usuarioAutenticado, setUsuarioAutenticado }) =>
                             className="text-base text-gray-700 rounded hover:text-blue-700"
                         >
                             Macroeconomia
-                        </Link>
-                    </li>
-                    {/* <li>
-                    <Link
-                        to={`/cadastrese/`}
-                        className="text-base text-gray-700 rounded hover:text-blue-700"
-                    >
-                        Cadastre-se
-                    </Link>
-                    </li> */}
-                    <li>
-                        <Link
-                            to={`/entrar/`}
-                            className="text-base text-gray-700 rounded hover:text-blue-700"
-                            onClick={encerraSessao}
-                        >
-                            {usuarioAutenticado ? "Sair" : "Entrar"}                            
                         </Link>
                     </li>
                 </ul >
