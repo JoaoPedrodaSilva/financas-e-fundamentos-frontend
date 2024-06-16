@@ -5,6 +5,7 @@ import { PaginaInicial } from './paginas/PaginaInicial'
 import { TodasAcoes } from './paginas/TodasAcoes'
 import { AcaoIndividual } from './paginas/AcaoIndividual'
 import { ComparadorEmpresas } from './paginas/ComparadorEmpresas'
+import { Rankings } from './paginas/Rankings'
 import { MacroEconomia } from './paginas/MacroEconomia'
 import { Rodape } from './componentesGerais/Rodape'
 
@@ -50,6 +51,7 @@ export const App = () => {
                                 <Route path='/acoes/' element={<TodasAcoes />} />
                                 <Route path='/acoes/:codigoBaseParametro/' element={<AcaoIndividual />} />
                                 <Route path='/comparador-empresas/' element={<ComparadorEmpresas />} />
+                                    <Route path='/rankings/' element={<Rankings />} />
                                 <Route path='/macroeconomia/' element={<MacroEconomia />} />
                             </Routes>
                         </div>

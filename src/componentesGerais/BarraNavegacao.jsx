@@ -16,18 +16,26 @@ export const BarraNavegacao = () => {
                 <ul className="flex flex-row items-center gap-12 p-4 bg-white rounded-b">
                     <li>
                         <Link
-                            to={`/comparador-empresas/`}
-                            className="text-base text-gray-700 rounded hover:text-blue-700"
-                        >
-                            Comparador de Empresas
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
                             to={`/acoes/`}
                             className="text-base text-gray-700 rounded hover:text-blue-700"
                         >
                             Ações
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to={`/comparador-empresas/`}
+                            className="text-base text-gray-700 rounded hover:text-blue-700"
+                        >
+                            Comparador
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to={`/rankings/`}
+                            className="text-base text-gray-700 rounded hover:text-blue-700"
+                        >
+                            Rankings
                         </Link>
                     </li>
                     <li>
