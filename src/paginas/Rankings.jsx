@@ -7,21 +7,18 @@ export const Rankings = () => {
     const [dadosFinanceirosDeTodasEmpresas, setDadosFinanceirosDeTodasEmpresas] = useState(null)
 
 
-    const retornaAsTopVinte = (dadosFinanceirosDeTodasEmpresas) => {
-        let topVinte = []
-        if (dadosFinanceirosDeTodasEmpresas.length === todasEmpresas.length) {
-            for (let i = 0; i < dadosFinanceirosDeTodasEmpresas.length; i++) {
-                if (topVinte.length === 0) {
-                    topVinte.push(dadosFinanceirosDeTodasEmpresas[i])
-                } else if (dadosFinanceirosDeTodasEmpresas[i].lucroLiquido > dadosFinanceirosDeTodasEmpresas[i - 1].lucroLiquido) {
-                    topVinte.push(dadosFinanceirosDeTodasEmpresas[i])
-                }
+    const ordenaPeloIndicadorSelecionado = (dadosFinanceiros, indicador) => {
+        const emOrdemCrescente = dadosFinanceiros.sort((primeiraEmpresa, segundaEmpresa) => {
+            if (primeiraEmpresa[indicador] < segundaEmpresa[indicador]) {
+                return -1;
             }
-            console.log("tem 81")
-            console.log(topVinte)
-        } else {
-            console.log("ainda não")
-        }
+            if (primeiraEmpresa[indicador] > segundaEmpresa[indicador]) {
+                return 1;
+            }
+            return 0;
+        })
+
+        return emOrdemCrescente.reverse()
     }
 
 
@@ -58,31 +55,33 @@ export const Rankings = () => {
         let dadosFinanceirosTemp = []
 
         todasEmpresas && todasEmpresas.map((cadaEmpresa, index) => {
+
             fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${cadaEmpresa.codigoBase}/`)
                 .then(response => response.json())
                 .then(data => {
-                    
+
                     dadosFinanceirosTemp = [
                         ...dadosFinanceirosTemp,
                         {
                             codigoBase: data.empresas[index].codigo_base,
                             ultimoAno: data.dadosEmpresaSelecionada[data.dadosEmpresaSelecionada.length - 1].ano,
-                            lucroLiquido: data.dadosEmpresaSelecionada[data.dadosEmpresaSelecionada.length - 1].lucro_liquido,
+                            lucroLiquido: Math.round(Number(data.dadosEmpresaSelecionada[data.dadosEmpresaSelecionada.length - 1].lucro_liquido / 1000))                            
                         }
                     ]
 
-                    setDadosFinanceirosDeTodasEmpresas(dadosFinanceirosTemp)
+                    if (index === todasEmpresas.length - 1) {
+                        setDadosFinanceirosDeTodasEmpresas(dadosFinanceirosTemp)
+                    }
                 })
-                .catch(error => console.error(error))            
+                .catch(error => console.error(error))
         })
-        
     }, [todasEmpresas])
 
 
 
     //render in case of no data
     //renderiza caso não haja dados
-    if (!todasEmpresas) {
+    if (!todasEmpresas || !dadosFinanceirosDeTodasEmpresas) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
                 <p className="text-white text-center">Carregando as informações...</p>
@@ -94,16 +93,15 @@ export const Rankings = () => {
 
     return (
         <section>
-            {dadosFinanceirosDeTodasEmpresas && retornaAsTopVinte(dadosFinanceirosDeTodasEmpresas)}
 
             {/* charts and complete registration data */}
             {/* gráficos e dados cadastrais completos */}
             <section className='w-full flex flex-col justify-center items-center gap-2'>
                 <div className='relative w-full p-1 border border-white rounded'>
-                    {/* <GraficoRankings
+                    <GraficoRankings
                         indicadorSelecionado={indicadorSelecionado}
-                        dadosFinanceirosDeTodasEmpresas={dadosFinanceirosDeTodasEmpresas}
-                    /> */}
+                        dadosFinanceirosDeTodasEmpresas={ordenaPeloIndicadorSelecionado(dadosFinanceirosDeTodasEmpresas, "lucroLiquido")}
+                    />
                 </div>
 
                 <div className='w-full text-white text-right text-xs'>

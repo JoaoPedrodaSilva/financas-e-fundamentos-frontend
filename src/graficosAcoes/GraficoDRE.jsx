@@ -7,7 +7,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
-
+    
 
     useEffect(() => {
         !dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding && setDadosFinanceiros({
@@ -120,7 +120,7 @@ export const GraficoDRE = ({ dadosCadastrais, historicoValores }) => {
     }, [dadosCadastrais])
 
 
-    return (
+    return (        
         <div className='w-full'>
             {dadosFinanceiros &&
                 <Bar
