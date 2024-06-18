@@ -51,7 +51,7 @@ export const App = () => {
                                 <Route path='/acoes/' element={<TodasAcoes />} />
                                 <Route path='/acoes/:codigoBaseParametro/' element={<AcaoIndividual />} />
                                 <Route path='/comparador-empresas/' element={<ComparadorEmpresas />} />
-                                    <Route path='/rankings/' element={<Rankings />} />
+                                <Route path='/rankings/:anoParametro/:setorParametro/' element={<Rankings />} />
                                 <Route path='/macroeconomia/' element={<MacroEconomia />} />
                             </Routes>
                         </div>

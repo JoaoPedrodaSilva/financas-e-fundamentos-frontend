@@ -1,9 +1,14 @@
 import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from "react-router-dom"
 import { GraficoRankings } from '../graficoRankings/GraficoRankings'
 
 export const Rankings = () => {
-    const [todasEmpresas, setTodasEmpresas] = useState(null)
-    const [indicadorSelecionado, setIndicadorSelecionado] = useState("lucroLiquido")
+    const navigate = useNavigate()
+    const { anoParametro } = useParams(null)
+    const { setorParametro } = useParams(null)
+    const [indicadorSelecionado, setIndicadorSelecionado] = useState("receitaLiquida")
+    const [anoSelecionado, setAnoSelecionado] = useState("2023")
+    const [setorSelecionado, setSetorSelecionado] = useState("Bancos")
     const [dadosFinanceirosDeTodasEmpresas, setDadosFinanceirosDeTodasEmpresas] = useState(null)
 
 
@@ -17,71 +22,35 @@ export const Rankings = () => {
             }
             return 0;
         })
-
         return emOrdemCrescente.reverse()
     }
 
 
-    //fetch all companies and its registration data
-    //busca todas as empresas e seus dados cadastrais
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/rankings/${anoParametro}/${setorParametro}`)
             .then(response => response.json())
             .then(data => {
-                const empresas = data.empresas.map(empresa => {
+
+                const dadosRanking = data.dadosRanking.map(cadaEmpresa => {
                     return ({
-                        id: empresa.id,
-                        cnpj: empresa.cnpj,
-                        codigoBase: empresa.codigo_base,
-                        codigosNegociacao: empresa.codigos_negociacao,
-                        nomeEmpresarial: empresa.nome_empresarial,
-                        segmentoListagem: empresa.segmento_listagem,
-                        escriturador: empresa.escriturador,
-                        classificacaoSetorial: empresa.classificacao_setorial,
-                        atividadePrincipal: empresa.atividade_principal,
-                        instituicaoFinanceira: empresa.instituicao_financeira,
-                        holding: empresa.holding
+                        codigoBase: cadaEmpresa.codigo_base,
+                        ano: cadaEmpresa.ano,
+                        setor: cadaEmpresa.classificacao_setorial,
+                        receitaLiquida: Math.round(Number(cadaEmpresa.receita_liquida / 1000)),
+                        lucroOperacional: Math.round(Number(cadaEmpresa.lucro_operacional / 1000)),
+                        lucroLiquido: Math.round(Number(cadaEmpresa.lucro_liquido / 1000)),
+                        patrimonioLiquido: Math.round(Number(cadaEmpresa.patrimonio_liquido / 1000))
                     })
                 })
-                setTodasEmpresas(empresas)
+                setDadosFinanceirosDeTodasEmpresas(dadosRanking)
             })
             .catch(error => console.error(error))
-    }, [])
-
-
-    //fetch financial data of all companies
-    //busca os dados financeiros de todas as empresas
-    useEffect(() => {
-        let dadosFinanceirosTemp = []
-
-        todasEmpresas && todasEmpresas.map((cadaEmpresa, index) => {
-
-            fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${cadaEmpresa.codigoBase}/`)
-                .then(response => response.json())
-                .then(data => {
-
-                    dadosFinanceirosTemp = [
-                        ...dadosFinanceirosTemp,
-                        {
-                            codigoBase: data.empresas[index].codigo_base,
-                            ultimoAno: data.dadosEmpresaSelecionada[data.dadosEmpresaSelecionada.length - 1].ano,
-                            lucroLiquido: Math.round(Number(data.dadosEmpresaSelecionada[data.dadosEmpresaSelecionada.length - 1].lucro_liquido / 1000))                            
-                        }
-                    ]
-
-                    if (index === todasEmpresas.length - 1) {
-                        setDadosFinanceirosDeTodasEmpresas(dadosFinanceirosTemp)
-                    }
-                })
-                .catch(error => console.error(error))
-        })
-    }, [todasEmpresas])
-
+    }, [anoSelecionado, setorSelecionado])
 
 
     //render in case of no data
     //renderiza caso não haja dados
-    if (!todasEmpresas || !dadosFinanceirosDeTodasEmpresas) {
+    if (!dadosFinanceirosDeTodasEmpresas) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
                 <p className="text-white text-center">Carregando as informações...</p>
@@ -92,7 +61,85 @@ export const Rankings = () => {
 
 
     return (
-        <section>
+        <section className='h-full flex flex-row justify-center items-center gap-2 px-5 lg:px-20'>
+            <section className="w-full lg:max-w-xl flex flex-col gap-3">
+                {/* metrics dropdown */}
+                {/* dropdown dos indicadores */}
+                <select
+                    className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
+                    value={indicadorSelecionado}
+                    onChange={event => setIndicadorSelecionado(event.target.value)}
+                >
+                    <>
+                        <option value="receitaLiquida">RECEITA LÍQUIDA</option>
+                        <option value="lucroOperacional">LUCRO OPERACIONAL</option>
+                        <option value="lucroLiquido">LUCRO LÍQUIDO</option>
+                        <option value="patrimonioLiquido">PATRIMÔNIO LÍQUIDO</option>
+                        {/* <option value="PatrimonioLiquido">PATRIMÔNIO lÍQUIDO</option> */}
+                    </>
+                </select>
+
+                {/* year dropdown */}
+                {/* dropdown dos anos */}
+                <select
+                    className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
+                    value={anoSelecionado}
+                    onChange={event => {
+                        setAnoSelecionado(event.target.value)
+                        navigate(`/rankings/${event.target.value}/${setorSelecionado}`)
+                    }}
+                >
+                    <>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                    </>
+                </select>
+
+                {/* setorial classification dropdown */}
+                {/* dropdown da classificação setorial */}
+                <select
+                    className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
+                    value={setorSelecionado}
+                    onChange={event => {
+                        setSetorSelecionado(event.target.value)
+                        navigate(`/rankings/${anoSelecionado}/${event.target.value}`)
+                    }}
+                >
+                    <>
+                        <option value="Agricultura (Açúcar, Álcool e Cana)">AGRICULTURA (AÇÚCAR, ÁLCOOL E CANA)</option>
+                        <option value="Alimentos">ALIMENTOS</option>
+                        <option value="Bancos">BANCOS</option>
+                        <option value="Bebidas e Fumo">BEBIDAS E FUMO</option>
+                        <option value="Bolsas de Valores Mercadorias e Futuros">BOLSAS DE VALORES/MERCADORIAS E FUTUROS</option>
+                        <option value="Comércio (Atacado e Varejo)">COMÉRCIO (ATACADO E VAREJO)</option>
+                        <option value="Construção Civil, Mat. Constr. e Decoração">CONSTRUÇÃO CIVIL, MATERIAIS DE CONSTRUÇÃO E DECORAÇÃO</option>
+                        <option value="Educação">EDUCAÇÃO</option>
+                        <option value="Energia Elétrica">ENERGIA ELÉTRICA</option>
+                        <option value="Extração Mineral">EXTRAÇAO MINERAL</option>
+                        <option value="Farmacêutico e Higiene">FARMACÊUTICO E HIGIENE</option>
+                        <option value="Hospedagem e Turismo">HOSPEDAGEM E TURISMO</option>
+                        <option value="Intermediação Financeira">INTERMEDIAÇÃO FINANCEIRA</option>
+                        <option value="Máquinas, Equipamentos, Veículos e Peças">MÁQUINAS, EQUIPAMENTOS, VEÍCULOS E PEÇAS</option>
+                        <option value="Papel e Celulose">PAPEL E CELULOSE</option>
+                        <option value="Petróleo e Gás">PETRÓLEO E GÁS</option>
+                        <option value="Petroquímicos e Borracha">PETROQUÍMICOS E BORRACHA</option>
+                        <option value="Saneamento, Serv. Água e Gás">SANEAMENTO, SERVIÇOS DE ÁGUA E GÁS</option>
+                        <option value="Seguradoras e Corretoras">SEGURADORAS E CORRETORAS</option>
+                        <option value="Sem Setor Principal">SEM SETOR PRINCIPAL</option>
+                        <option value="Serviços médicos">SERVIÇOS MÉDICOS</option>
+                        <option value="Serviços Transporte e Logística">SERVIÇOS DE TRANSPORTE E LOGÍSTICA</option>
+                        <option value="Telecomunicações">TELECOMUNICAÇÕES</option>
+                        <option value="Têxtil e Vestuário">TÊXTIL E VESTUÁRIO</option>
+                    </>
+                </select>
+            </section>
+
 
             {/* charts and complete registration data */}
             {/* gráficos e dados cadastrais completos */}
@@ -100,7 +147,9 @@ export const Rankings = () => {
                 <div className='relative w-full p-1 border border-white rounded'>
                     <GraficoRankings
                         indicadorSelecionado={indicadorSelecionado}
-                        dadosFinanceirosDeTodasEmpresas={ordenaPeloIndicadorSelecionado(dadosFinanceirosDeTodasEmpresas, "lucroLiquido")}
+                        anoSelecionado={anoSelecionado}
+                        setorSelecionado={setorSelecionado}
+                        dadosFinanceirosDeTodasEmpresas={ordenaPeloIndicadorSelecionado(dadosFinanceirosDeTodasEmpresas, indicadorSelecionado)}
                     />
                 </div>
 

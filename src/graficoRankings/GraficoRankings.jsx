@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoRankings = ({ indicadorSelecionado, dadosFinanceirosDeTodasEmpresas }) => {
+export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSelecionado, dadosFinanceirosDeTodasEmpresas }) => {
 
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
-    const [quantidadeDeEmpresas, setQuantidadeDeEmpresas] = useState(15)
+    const [quantidadeDeEmpresas, setQuantidadeDeEmpresas] = useState(10)
 
 
     useEffect(() => {
@@ -15,14 +15,14 @@ export const GraficoRankings = ({ indicadorSelecionado, dadosFinanceirosDeTodasE
             labels: dadosFinanceirosDeTodasEmpresas.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa.codigoBase),
             datasets: [{
                 // label: false,
-                data: dadosFinanceirosDeTodasEmpresas.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa.lucroLiquido),
+                data: dadosFinanceirosDeTodasEmpresas.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado]),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
                 hidden: false,
                 pointStyle: "rectRounded"
             }]
         })
-    }, [indicadorSelecionado])
+    }, [indicadorSelecionado, dadosFinanceirosDeTodasEmpresas])
 
 
     return (
@@ -58,7 +58,7 @@ export const GraficoRankings = ({ indicadorSelecionado, dadosFinanceirosDeTodasE
                                 }
                             },
                             y: {
-                                position: 'right',
+                                position: 'left',
                                 ticks: {
                                     color: "white"
                                 },
@@ -71,7 +71,7 @@ export const GraficoRankings = ({ indicadorSelecionado, dadosFinanceirosDeTodasE
                         plugins: {
                             title: {
                                 display: true,
-                                // text: `${dadosCadastrais.codigoBase} - DRE`,
+                                text: `${indicadorSelecionado} em ${anoSelecionado}`,
                                 color: "white",
                                 font: {
                                     size: 16
@@ -79,7 +79,7 @@ export const GraficoRankings = ({ indicadorSelecionado, dadosFinanceirosDeTodasE
                             },
                             tooltip: {
                                 callbacks: {
-                                    label: context => `Lucro Líquido: R$ ${context.raw.toLocaleString("pt-BR")} milhões`,
+                                    label: context => `${indicadorSelecionado}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`,
                                     labelTextColor: context => context.raw < 0 ? "red" : "white"
                                 }
                             },
