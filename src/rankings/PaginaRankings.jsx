@@ -1,23 +1,24 @@
+import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from "react-router-dom"
-import { GraficoRankings } from '../graficoRankings/GraficoRankings'
+import { GraficoRankings } from './GraficoRankings'
 
-export const Rankings = () => {
+export const PaginaRankings = () => {
     const navigate = useNavigate()
     const { anoParametro } = useParams(null)
     const { setorParametro } = useParams(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("receitaLiquida")
     const [anoSelecionado, setAnoSelecionado] = useState("2023")
     const [setorSelecionado, setSetorSelecionado] = useState("Bancos")
-    const [dadosFinanceirosDeTodasEmpresas, setDadosFinanceirosDeTodasEmpresas] = useState(null)
+    const [dadosDeTodasEmpresas, setDadosDeTodasEmpresas] = useState(null)
 
 
-    const ordenaPeloIndicadorSelecionado = (dadosFinanceiros, indicador) => {
-        const emOrdemCrescente = dadosFinanceiros.sort((primeiraEmpresa, segundaEmpresa) => {
-            if (primeiraEmpresa[indicador] < segundaEmpresa[indicador]) {
+    const ordenaPeloIndicadorSelecionado = (dadosQueSeraoOrdenados, indicadorQueSeraUsadoParaOrdenar) => {
+        const emOrdemCrescente = dadosQueSeraoOrdenados.sort((primeiraEmpresa, segundaEmpresa) => {
+            if (primeiraEmpresa[indicadorQueSeraUsadoParaOrdenar] < segundaEmpresa[indicadorQueSeraUsadoParaOrdenar]) {
                 return -1;
             }
-            if (primeiraEmpresa[indicador] > segundaEmpresa[indicador]) {
+            if (primeiraEmpresa[indicadorQueSeraUsadoParaOrdenar] > segundaEmpresa[indicadorQueSeraUsadoParaOrdenar]) {
                 return 1;
             }
             return 0;
@@ -30,19 +31,25 @@ export const Rankings = () => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/rankings/${anoParametro}/${setorParametro}`)
             .then(response => response.json())
             .then(data => {
+                const dadosDeTodasEmpresasTemp = data.dadosRanking.map(cadaEmpresa => {
+                    const { patrimonioLiquido, receitaLiquida, lucroOperacional, lucroLiquido, retornoPeloPatrimonioLiquido, margemOperacional, margemLiquida, capexPeloFCO, payout } = calculaIndicadores(cadaEmpresa, null)                    
 
-                const dadosRanking = data.dadosRanking.map(cadaEmpresa => {
                     return ({
                         codigoBase: cadaEmpresa.codigo_base,
                         ano: cadaEmpresa.ano,
                         setor: cadaEmpresa.classificacao_setorial,
-                        receitaLiquida: Math.round(Number(cadaEmpresa.receita_liquida / 1000)),
-                        lucroOperacional: Math.round(Number(cadaEmpresa.lucro_operacional / 1000)),
-                        lucroLiquido: Math.round(Number(cadaEmpresa.lucro_liquido / 1000)),
-                        patrimonioLiquido: Math.round(Number(cadaEmpresa.patrimonio_liquido / 1000))
+                        patrimonioLiquido,
+                        receitaLiquida,
+                        lucroOperacional,
+                        lucroLiquido,
+                        retornoPeloPatrimonioLiquido,                        
+                        margemOperacional,
+                        margemLiquida,
+                        capexPeloFCO,
+                        payout
                     })
                 })
-                setDadosFinanceirosDeTodasEmpresas(dadosRanking)
+                setDadosDeTodasEmpresas(dadosDeTodasEmpresasTemp)
             })
             .catch(error => console.error(error))
     }, [anoSelecionado, setorSelecionado])
@@ -50,7 +57,7 @@ export const Rankings = () => {
 
     //render in case of no data
     //renderiza caso não haja dados
-    if (!dadosFinanceirosDeTodasEmpresas) {
+    if (!dadosDeTodasEmpresas) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
                 <p className="text-white text-center">Carregando as informações...</p>
@@ -75,7 +82,11 @@ export const Rankings = () => {
                         <option value="lucroOperacional">LUCRO OPERACIONAL</option>
                         <option value="lucroLiquido">LUCRO LÍQUIDO</option>
                         <option value="patrimonioLiquido">PATRIMÔNIO LÍQUIDO</option>
-                        {/* <option value="PatrimonioLiquido">PATRIMÔNIO lÍQUIDO</option> */}
+                        <option value="margemOperacional">MARGEM OPERACIONAL</option>
+                        <option value="margemLiquida">MARGEM LÍQUIDA</option>
+                        <option value="retornoPeloPatrimonioLiquido">ROE</option>
+                        <option value="capexPeloFCO">CAPEX / FCO</option>
+                        <option value="payout">PAYOUT</option>
                     </>
                 </select>
 
@@ -149,7 +160,7 @@ export const Rankings = () => {
                         indicadorSelecionado={indicadorSelecionado}
                         anoSelecionado={anoSelecionado}
                         setorSelecionado={setorSelecionado}
-                        dadosFinanceirosDeTodasEmpresas={ordenaPeloIndicadorSelecionado(dadosFinanceirosDeTodasEmpresas, indicadorSelecionado)}
+                        dadosDeTodasEmpresas={ordenaPeloIndicadorSelecionado(dadosDeTodasEmpresas, indicadorSelecionado)}
                     />
                 </div>
 

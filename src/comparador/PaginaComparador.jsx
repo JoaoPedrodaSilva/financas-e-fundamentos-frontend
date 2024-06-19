@@ -1,8 +1,13 @@
 import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
-import { GraficoComparadorEmpresas } from "../graficosComparadorEmpresas/GraficoComparadorEmpresas"
+import { useNavigate, useParams } from "react-router-dom"
+import { GraficoComparador } from "./GraficoComparador"
 
-export const ComparadorEmpresas = () => {
+export const PaginaComparador = () => {
+    const navigate = useNavigate()
+    const { primeiroCodigoParametro } = useParams(null)
+    const { segundoCodigoParametro } = useParams(null)
+    const { terceiroCodigoParametro } = useParams(null)
     const [todasEmpresas, setTodasEmpresas] = useState(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("lucroLiquido")
     const [primeiroCodigoSelecionado, setPrimeiroCodigoSelecionado] = useState("ARZZ")
@@ -13,27 +18,17 @@ export const ComparadorEmpresas = () => {
     const [terceiraEmpresaSelecionada, setTerceiraEmpresaSelecionada] = useState(null)
 
 
-    //fetch all companies
-    //busca todas as empresas
+    //fetch all companies - used to fill the comanies dropdown
+    //busca todas as empresas - usado para preencher o dropdown de seleção de empresas
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`) //should make an api route to get only these 3 infos instead of all infos??
             .then(response => response.json())
             .then(data => {
-                const empresas = data.empresas.map(empresa => {
-                    return ({
-                        id: empresa.id,
-                        cnpj: empresa.cnpj,
-                        codigoBase: empresa.codigo_base,
-                        codigosNegociacao: empresa.codigos_negociacao,
-                        nomeEmpresarial: empresa.nome_empresarial,
-                        segmentoListagem: empresa.segmento_listagem,
-                        escriturador: empresa.escriturador,
-                        classificacaoSetorial: empresa.classificacao_setorial,
-                        atividadePrincipal: empresa.atividade_principal,
-                        instituicaoFinanceira: empresa.instituicao_financeira,
-                        holding: empresa.holding
-                    })
-                })
+                const empresas = data.empresas.map(empresa => ({
+                    id: empresa.id,
+                    codigoBase: empresa.codigo_base,
+                    nomeEmpresarial: empresa.nome_empresarial
+                }))
                 setTodasEmpresas(empresas)
             })
             .catch(error => console.error(error))
@@ -49,49 +44,27 @@ export const ComparadorEmpresas = () => {
 
                 const dadosCadastrais = {
                     id: data.dadosEmpresaSelecionada[0].id,
-                    cnpj: data.dadosEmpresaSelecionada[0].cnpj,
                     codigoBase: data.dadosEmpresaSelecionada[0].codigo_base,
-                    codigosNegociacao: data.dadosEmpresaSelecionada[0].codigos_negociacao,
-                    nomeEmpresarial: data.dadosEmpresaSelecionada[0].nome_empresarial,
-                    segmentoListagem: data.dadosEmpresaSelecionada[0].segmento_listagem,
-                    escriturador: data.dadosEmpresaSelecionada[0].escriturador,
-                    classificacaoSetorial: data.dadosEmpresaSelecionada[0].classificacao_setorial,
-                    atividadePrincipal: data.dadosEmpresaSelecionada[0].atividade_principal,
                     instituicaoFinanceira: data.dadosEmpresaSelecionada[0].instituicao_financeira,
                     holding: data.dadosEmpresaSelecionada[0].holding
                 }
 
                 const historicoValores = data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
-                    const { ativoCirculante, ativoNaoCirculante, ativoTotal, passivoCirculante, passivoNaoCirculante, passivoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
+                    const { patrimonioLiquido, receitaLiquida, lucroOperacional, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, margemOperacional, margemLiquida, capexPeloFCO, payout } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
+
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
-                        ativoCirculante,
-                        ativoNaoCirculante,
-                        ativoTotal,
-                        passivoCirculante,
-                        passivoNaoCirculante,
-                        passivoTotal,
                         patrimonioLiquido,
                         receitaLiquida,
-                        lucroBruto,
                         lucroOperacional,
-                        lucroAntesTributos,
                         lucroLiquido,
                         dividaLiquidaPeloEbitda,
                         dividaBrutaPeloPatrimonioLiquido,
                         retornoPeloPatrimonioLiquido,
-                        retornoPelosAtivos,
-                        margemBruta,
                         margemOperacional,
-                        margemAntesTributos,
                         margemLiquida,
                         capexPeloFCO,
-                        capexPelaDA,
-                        payout,
-                        liquidezImediata,
-                        liquidezSeca,
-                        liquidezCorrente,
-                        liquidezGeral
+                        payout
                     })
                 })
 
@@ -110,51 +83,28 @@ export const ComparadorEmpresas = () => {
 
                 const dadosCadastrais = {
                     id: data.dadosEmpresaSelecionada[0].id,
-                    cnpj: data.dadosEmpresaSelecionada[0].cnpj,
                     codigoBase: data.dadosEmpresaSelecionada[0].codigo_base,
-                    codigosNegociacao: data.dadosEmpresaSelecionada[0].codigos_negociacao,
-                    nomeEmpresarial: data.dadosEmpresaSelecionada[0].nome_empresarial,
-                    segmentoListagem: data.dadosEmpresaSelecionada[0].segmento_listagem,
-                    escriturador: data.dadosEmpresaSelecionada[0].escriturador,
-                    classificacaoSetorial: data.dadosEmpresaSelecionada[0].classificacao_setorial,
-                    atividadePrincipal: data.dadosEmpresaSelecionada[0].atividade_principal,
                     instituicaoFinanceira: data.dadosEmpresaSelecionada[0].instituicao_financeira,
                     holding: data.dadosEmpresaSelecionada[0].holding
                 }
 
 
                 const historicoValores = data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
-                    const { ativoCirculante, ativoNaoCirculante, ativoTotal, passivoCirculante, passivoNaoCirculante, passivoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
+                    const { patrimonioLiquido, receitaLiquida, lucroOperacional, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, margemOperacional, margemLiquida, capexPeloFCO, payout } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
 
                     return ({
                         ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
-                        ativoCirculante,
-                        ativoNaoCirculante,
-                        ativoTotal,
-                        passivoCirculante,
-                        passivoNaoCirculante,
-                        passivoTotal,
                         patrimonioLiquido,
                         receitaLiquida,
-                        lucroBruto,
                         lucroOperacional,
-                        lucroAntesTributos,
                         lucroLiquido,
                         dividaLiquidaPeloEbitda,
                         dividaBrutaPeloPatrimonioLiquido,
                         retornoPeloPatrimonioLiquido,
-                        retornoPelosAtivos,
-                        margemBruta,
                         margemOperacional,
-                        margemAntesTributos,
                         margemLiquida,
                         capexPeloFCO,
-                        capexPelaDA,
-                        payout,
-                        liquidezImediata,
-                        liquidezSeca,
-                        liquidezCorrente,
-                        liquidezGeral
+                        payout
                     })
                 })
 
@@ -173,51 +123,28 @@ export const ComparadorEmpresas = () => {
 
                 const dadosCadastrais = {
                     id: data.dadosEmpresaSelecionada[0].id,
-                    cnpj: data.dadosEmpresaSelecionada[0].cnpj,
                     codigoBase: data.dadosEmpresaSelecionada[0].codigo_base,
-                    codigosNegociacao: data.dadosEmpresaSelecionada[0].codigos_negociacao,
-                    nomeEmpresarial: data.dadosEmpresaSelecionada[0].nome_empresarial,
-                    segmentoListagem: data.dadosEmpresaSelecionada[0].segmento_listagem,
-                    escriturador: data.dadosEmpresaSelecionada[0].escriturador,
-                    classificacaoSetorial: data.dadosEmpresaSelecionada[0].classificacao_setorial,
-                    atividadePrincipal: data.dadosEmpresaSelecionada[0].atividade_principal,
                     instituicaoFinanceira: data.dadosEmpresaSelecionada[0].instituicao_financeira,
                     holding: data.dadosEmpresaSelecionada[0].holding
                 }
 
 
                 const historicoValores = data.dadosEmpresaSelecionada.map(exercicioFinanceiro => {
-                    const { ativoCirculante, ativoNaoCirculante, ativoTotal, passivoCirculante, passivoNaoCirculante, passivoTotal, patrimonioLiquido, receitaLiquida, lucroBruto, lucroOperacional, lucroAntesTributos, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, retornoPelosAtivos, margemBruta, margemOperacional, margemAntesTributos, margemLiquida, capexPeloFCO, capexPelaDA, payout, liquidezImediata, liquidezSeca, liquidezCorrente, liquidezGeral } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
+                    const { patrimonioLiquido, receitaLiquida, lucroOperacional, lucroLiquido, dividaLiquidaPeloEbitda, dividaBrutaPeloPatrimonioLiquido, retornoPeloPatrimonioLiquido, margemOperacional, margemLiquida, capexPeloFCO, payout } = calculaIndicadores(exercicioFinanceiro, dadosCadastrais)
 
                     return ({
-                        ano: new Date(`01-01-${exercicioFinanceiro.ano}`),
-                        ativoCirculante,
-                        ativoNaoCirculante,
-                        ativoTotal,
-                        passivoCirculante,
-                        passivoNaoCirculante,
-                        passivoTotal,
+                        ano: new Date(`01-01-${exercicioFinanceiro.ano}`),                        
                         patrimonioLiquido,
                         receitaLiquida,
-                        lucroBruto,
                         lucroOperacional,
-                        lucroAntesTributos,
                         lucroLiquido,
                         dividaLiquidaPeloEbitda,
                         dividaBrutaPeloPatrimonioLiquido,
                         retornoPeloPatrimonioLiquido,
-                        retornoPelosAtivos,
-                        margemBruta,
                         margemOperacional,
-                        margemAntesTributos,
                         margemLiquida,
                         capexPeloFCO,
-                        capexPelaDA,
-                        payout,
-                        liquidezImediata,
-                        liquidezSeca,
-                        liquidezCorrente,
-                        liquidezGeral
+                        payout
                     })
                 })
 
@@ -324,7 +251,7 @@ export const ComparadorEmpresas = () => {
             <div className='w-full flex flex-col justify-center items-center gap-2'>
                 <div className='relative w-full p-1 border border-white rounded'>
                     {
-                        <GraficoComparadorEmpresas
+                        <GraficoComparador
                             indicadorSelecionado={indicadorSelecionado}
                             primeiraEmpresaDadosCadastrais={primeiraEmpresaSelecionada.dadosCadastrais}
                             primeiraEmpresaHistoricoValores={primeiraEmpresaSelecionada.historicoValores}

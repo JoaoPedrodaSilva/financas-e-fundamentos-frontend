@@ -62,6 +62,10 @@ const lucroLiquido = (dadosFinanceiros) => {
 
 // Endividamento - Debt
 const dividaLiquidaPeloEbitda = (dadosFinanceiros, dadosCadastrais) => {
+    if (dadosCadastrais === null) {
+        return null
+    }
+
     if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
         return null
     }
@@ -80,6 +84,10 @@ const dividaLiquidaPeloEbitda = (dadosFinanceiros, dadosCadastrais) => {
     return Number((dividaLiquida / ebitda).toFixed(2))
 }
 const dividaBrutaPeloPatrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => {
+    if (dadosCadastrais === null) {
+        return null
+    }
+    
     if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
         return null
     }
@@ -203,6 +211,10 @@ const payout = (dadosFinanceiros) => {
 
 // Liquidez
 const liquidezImediata = (dadosFinanceiros, dadosCadastrais) => {
+    if (dadosCadastrais === null) {
+        return null
+    }
+    
     if (dadosCadastrais.instituicao_financeira) {
         return null
     }
@@ -216,6 +228,10 @@ const liquidezImediata = (dadosFinanceiros, dadosCadastrais) => {
     return Number(liquidezImediata.toFixed(2))
 }
 const liquidezSeca = (dadosFinanceiros, dadosCadastrais) => {
+    if (dadosCadastrais === null) {
+        return null
+    }
+    
     if (dadosCadastrais.instituicao_financeira || dadosFinanceiros.estoques === null) {
         return null
     }
@@ -229,6 +245,10 @@ const liquidezSeca = (dadosFinanceiros, dadosCadastrais) => {
     return Number(liquidezSeca.toFixed(2))
 }
 const liquidezCorrente = (dadosFinanceiros, dadosCadastrais) => {
+    if (dadosCadastrais === null) {
+        return null
+    }
+    
     if (dadosCadastrais.instituicao_financeira) {
         return null
     }
@@ -242,6 +262,10 @@ const liquidezCorrente = (dadosFinanceiros, dadosCadastrais) => {
     return Number(liquidezCorrente.toFixed(2))
 }
 const liquidezGeral = (dadosFinanceiros, dadosCadastrais) => {
+    if (dadosCadastrais === null) {
+        return null
+    }
+    
     if (dadosCadastrais.instituicao_financeira) {
         return null
     }

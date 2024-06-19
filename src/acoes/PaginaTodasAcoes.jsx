@@ -1,31 +1,22 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-export const TodasAcoes = () => {
+export const PaginaTodasAcoes = () => {
     const [todasEmpresas, setTodasEmpresas] = useState(null)
 
 
     //fetch all companies and its registration data
     //busca todas as empresas e seus dados cadastrais
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`) //should make an api route to get only these 4 infos instead of all infos??
             .then(response => response.json())
             .then(data => {
-                const empresas = data.empresas.map(empresa => {
-                    return ({
-                        id: empresa.id,
-                        cnpj: empresa.cnpj,
-                        codigoBase: empresa.codigo_base,
-                        codigosNegociacao: empresa.codigos_negociacao,
-                        nomeEmpresarial: empresa.nome_empresarial,
-                        segmentoListagem: empresa.segmento_listagem,
-                        escriturador: empresa.escriturador,
-                        classificacaoSetorial: empresa.classificacao_setorial,
-                        atividadePrincipal: empresa.atividade_principal,
-                        instituicaoFinanceira: empresa.instituicao_financeira,
-                        holding: empresa.holding
-                    })
-                })
+                const empresas = data.empresas.map(empresa => ({
+                    id: empresa.id,
+                    codigoBase: empresa.codigo_base,
+                    codigosNegociacao: empresa.codigos_negociacao,
+                    nomeEmpresarial: empresa.nome_empresarial
+                }))
                 setTodasEmpresas(empresas)
             })
             .catch(error => console.error(error))

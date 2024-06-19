@@ -1,17 +1,17 @@
 import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { GraficoDRE } from "../graficosAcoes/GraficoDRE"
-import { GraficoBP } from "../graficosAcoes/GraficoBP"
-import { GraficoEndividamento } from "../graficosAcoes/GraficoEndividamento"
-import { GraficoRentabilidade } from "../graficosAcoes/GraficoRentabilidade"
-import { GraficoEficiencia } from "../graficosAcoes/GraficoEficiencia"
-import { GraficoPayout } from "../graficosAcoes/GraficoMomento"
-import { GraficoLiquidez } from "../graficosAcoes/GraficoLiquidez"
-import { DadosCadastrais } from "../componentesGerais/DadosCadastrais"
+import { GraficoDRE } from "./GraficoDRE"
+import { GraficoBP } from "./GraficoBP"
+import { GraficoEndividamento } from "./GraficoEndividamento"
+import { GraficoRentabilidade } from "./GraficoRentabilidade"
+import { GraficoEficiencia } from "./GraficoEficiencia"
+import { GraficoPayout } from "./GraficoMomento"
+import { GraficoLiquidez } from "./GraficoLiquidez"
+import { DadosCadastrais } from "./DadosCadastrais"
 
 
-export const AcaoIndividual = () => {
+export const PaginaAcaoIndividual = () => {
     const navigate = useNavigate()
     const { codigoBaseParametro } = useParams(null)
     const [todasEmpresas, setTodasEmpresas] = useState(null)
@@ -19,27 +19,17 @@ export const AcaoIndividual = () => {
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("dre") // want to show the dre chart as default - quero mostrar o grádico de DRE como padrão
 
 
-    //fetch all companies
-    //busca todas as empresas
+    //fetch all companies - used to fill the comanies dropdown
+    //busca todas as empresas - usado para preencher o dropdown de seleção de empresas
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`) //should make an api route to get only these 3 infos instead of all infos??
             .then(response => response.json())
             .then(data => {
-                const empresas = data.empresas.map(empresa => {
-                    return ({
-                        id: empresa.id,
-                        cnpj: empresa.cnpj,
-                        codigoBase: empresa.codigo_base,
-                        codigosNegociacao: empresa.codigos_negociacao,
-                        nomeEmpresarial: empresa.nome_empresarial,
-                        segmentoListagem: empresa.segmento_listagem,
-                        escriturador: empresa.escriturador,
-                        classificacaoSetorial: empresa.classificacao_setorial,
-                        atividadePrincipal: empresa.atividade_principal,
-                        instituicaoFinanceira: empresa.instituicao_financeira,
-                        holding: empresa.holding
-                    })
-                })
+                const empresas = data.empresas.map(empresa => ({
+                    id: empresa.id,
+                    codigoBase: empresa.codigo_base,
+                    nomeEmpresarial: empresa.nome_empresarial,
+                }))
                 setTodasEmpresas(empresas)
             })
             .catch(error => console.error(error))
@@ -52,7 +42,6 @@ export const AcaoIndividual = () => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${codigoBaseParametro}/`)
             .then(response => response.json())
             .then(data => {
-
                 const dadosCadastrais = {
                     id: data.dadosEmpresaSelecionada[0].id,
                     cnpj: data.dadosEmpresaSelecionada[0].cnpj,
@@ -112,6 +101,7 @@ export const AcaoIndividual = () => {
 
 
     //render in case of no data
+    //renderiza caso não haja dados
     if (!empresaSelecionada) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
@@ -127,7 +117,7 @@ export const AcaoIndividual = () => {
             <section className="w-full lg:max-w-xl flex flex-col gap-3">
 
                 {/* selected company basic registration data */}
-                {/* dados cadastrais da empresa selecionada */}
+                {/* dados cadastrais resumidos da empresa selecionada */}
                 {empresaSelecionada && (
                     <div className="w-full flex flex-col text-white px-1 lg:text-lg">
                         <p className="my-3 text-justify">
@@ -143,8 +133,8 @@ export const AcaoIndividual = () => {
                 )}
 
 
-                {/* companies dropdown */}
-                {/* dropdown das empresas */}
+                {/* all companies dropdown */}
+                {/* dropdown de todas as empresas */}
                 <select
                     className="w-full lg:max-w-md shadow rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={empresaSelecionada && empresaSelecionada.dadosCadastrais.codigoBase}

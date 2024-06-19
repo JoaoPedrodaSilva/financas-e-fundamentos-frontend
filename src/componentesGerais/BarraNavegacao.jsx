@@ -24,7 +24,7 @@ export const BarraNavegacao = () => {
                     </li>
                     <li>
                         <Link
-                            to={`/comparador-empresas/`}
+                            to={`/comparador/`}
                             className="text-base text-gray-700 rounded hover:text-blue-700"
                         >
                             Comparador

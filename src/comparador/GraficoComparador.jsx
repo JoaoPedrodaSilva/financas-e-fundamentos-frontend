@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Line } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoComparadorEmpresas = ({ indicadorSelecionado, primeiraEmpresaDadosCadastrais, primeiraEmpresaHistoricoValores, segundaEmpresaDadosCadastrais, segundaEmpresaHistoricoValores, terceiraEmpresaDadosCadastrais, terceiraEmpresaHistoricoValores }) => {
+export const GraficoComparador = ({ indicadorSelecionado, primeiraEmpresaDadosCadastrais, primeiraEmpresaHistoricoValores, segundaEmpresaDadosCadastrais, segundaEmpresaHistoricoValores, terceiraEmpresaDadosCadastrais, terceiraEmpresaHistoricoValores }) => {
 
     //states
     const cores = ["#ccccff", "#6666ff", "#0000ff"]
@@ -209,6 +209,10 @@ export const GraficoComparadorEmpresas = ({ indicadorSelecionado, primeiraEmpres
                         },
                         scales: {
                             x: {
+                                position: "bottom",
+                                title: {
+                                    display: false,
+                                },
                                 ticks: {
                                     color: "white",
                                 },
@@ -218,14 +222,15 @@ export const GraficoComparadorEmpresas = ({ indicadorSelecionado, primeiraEmpres
                             },
                             y: {
                                 position: 'right',
+                                title: configuraGrafico.tituloEixoY,
                                 ticks: {
                                     color: "white",
                                     callback: value => configuraGrafico.labelEixoY(value)
                                 },
                                 grid: {
+                                    display: true,
                                     color: "rgba(255,255,255,0.05)"
-                                },
-                                title: configuraGrafico.tituloEixoY,
+                                }                                
                             }
                         },
                         plugins: {

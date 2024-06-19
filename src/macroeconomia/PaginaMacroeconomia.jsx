@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import { GraficoMacroeconomia } from "../graficosMacroeconomia/GraficoMacroeconomia"
+import { GraficoMacroeconomia } from "./GraficoMacroeconomia"
 
-export const MacroEconomia = () => {
+export const PaginaMacroeconomia = () => {
     const [todosIndicadores, setTodosIndicadores] = useState(null)
     const [ipcaDozeMeses, setIpcaDozeMeses] = useState(null)
     const [selicMeta, setSelicMeta] = useState(null)

@@ -12,7 +12,7 @@ export const PaginaInicial = () => (
         </Link>
 
         <Link
-            to={`/comparador-empresas/`}
+            to={`/comparador/`}
             className="text-md text-white text-2xl py-4 my-6 rounded hover:text-blue-700"
         >
             <h2 className="text-center pb-1">Comparar Ações</h2>

@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { BarraNavegacao } from './componentesGerais/BarraNavegacao'
-import { PaginaInicial } from './paginas/PaginaInicial'
-import { TodasAcoes } from './paginas/TodasAcoes'
-import { AcaoIndividual } from './paginas/AcaoIndividual'
-import { ComparadorEmpresas } from './paginas/ComparadorEmpresas'
-import { Rankings } from './paginas/Rankings'
-import { MacroEconomia } from './paginas/MacroEconomia'
+import { PaginaInicial } from './paginaInicial/PaginaInicial'
+import { PaginaTodasAcoes } from './acoes/PaginaTodasAcoes'
+import { PaginaAcaoIndividual } from './acoes/PaginaAcaoIndividual'
+import { PaginaComparador } from './comparador/PaginaComparador'
+import { PaginaRankings } from './rankings/PaginaRankings'
+import { PaginaMacroeconomia } from './macroeconomia/PaginaMacroeconomia'
 import { Rodape } from './componentesGerais/Rodape'
 
 
@@ -48,11 +48,11 @@ export const App = () => {
                         <div className='basis-full w-full bg-gray-800'>
                             <Routes>
                                 <Route path='/' element={<PaginaInicial />} />
-                                <Route path='/acoes/' element={<TodasAcoes />} />
-                                <Route path='/acoes/:codigoBaseParametro/' element={<AcaoIndividual />} />
-                                <Route path='/comparador-empresas/' element={<ComparadorEmpresas />} />
-                                <Route path='/rankings/:anoParametro/:setorParametro/' element={<Rankings />} />
-                                <Route path='/macroeconomia/' element={<MacroEconomia />} />
+                                    <Route path='/acoes/' element={<PaginaTodasAcoes />} />
+                                    <Route path='/acoes/:codigoBaseParametro/' element={<PaginaAcaoIndividual />} />
+                                    <Route path='/comparador/' element={<PaginaComparador />} />
+                                    <Route path='/rankings/:anoParametro/:setorParametro/' element={<PaginaRankings />} />
+                                    <Route path='/macroeconomia/' element={<PaginaMacroeconomia />} />
                             </Routes>
                         </div>
                         <Rodape />
