@@ -9,6 +9,7 @@ export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoVa
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
     
 
+    //datasets
     useEffect(() => {
         setDadosFinanceiros({
             labels: historicoValoresDolarEua.map(cadaCompetencia => cadaCompetencia.competencia),
@@ -18,14 +19,16 @@ export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoVa
                     data: historicoValoresIpcaDozeMeses.map(cadaCompetencia => cadaCompetencia.valor),
                     backgroundColor: cores[0],
                     borderColor: cores[0],
-                    yAxisID: "percentual"
+                    yAxisID: "percentual",
+                    hidden: false
                 },
                 {
                     label: dadosCadastraisSelicMeta.indicador,
                     data: historicoValoresSelicMeta.map(cadaCompetencia => cadaCompetencia.valor),
                     backgroundColor: cores[1],
                     borderColor: cores[1],
-                    yAxisID: "percentual"
+                    yAxisID: "percentual",
+                    hidden: true
                 },
                 {
                     label: dadosCadastraisEmbi.indicador,
@@ -33,6 +36,7 @@ export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoVa
                     backgroundColor: cores[2],
                     borderColor: cores[2],
                     yAxisID: "embi",
+                    hidden: true
                 },
                 {
                     label: dadosCadastraisDolarEua.indicador,
@@ -40,6 +44,7 @@ export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoVa
                     backgroundColor: cores[3],
                     borderColor: cores[3],
                     yAxisID: "moeda",
+                    hidden: false
                 }]
         })
     }, [])

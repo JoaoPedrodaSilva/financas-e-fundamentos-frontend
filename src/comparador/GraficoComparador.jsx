@@ -146,8 +146,8 @@ export const GraficoComparador = ({ indicadorSelecionado, primeiraEmpresaDadosCa
                             tituloEixoY: {
                                 display: false
                             },
-                            labelEixoY: value => value,
-                            labelTooltip: context => `${context.dataset.label}: ${context.raw}`
+                            labelEixoY: value => value.toLocaleString("pt-BR"),
+                            labelTooltip: context => `${context.dataset.label}: ${context.raw.toLocaleString("pt-BR")}`
                         })
                         break
 
@@ -157,8 +157,8 @@ export const GraficoComparador = ({ indicadorSelecionado, primeiraEmpresaDadosCa
                             tituloEixoY: {
                                 display: false
                             },
-                            labelEixoY: value => value,
-                            labelTooltip: context => `${context.dataset.label}: ${context.raw}`
+                            labelEixoY: value => value.toLocaleString("pt-BR"),
+                            labelTooltip: context => `${context.dataset.label}: ${context.raw.toLocaleString("pt-BR")}`
                         })
                         break
 
@@ -230,7 +230,7 @@ export const GraficoComparador = ({ indicadorSelecionado, primeiraEmpresaDadosCa
                                 grid: {
                                     display: true,
                                     color: "rgba(255,255,255,0.05)"
-                                }                                
+                                }
                             }
                         },
                         plugins: {

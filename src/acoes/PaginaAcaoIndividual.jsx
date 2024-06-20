@@ -1,14 +1,9 @@
 import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { GraficoDRE } from "./GraficoDRE"
-import { GraficoBP } from "./GraficoBP"
-import { GraficoEndividamento } from "./GraficoEndividamento"
-import { GraficoRentabilidade } from "./GraficoRentabilidade"
-import { GraficoEficiencia } from "./GraficoEficiencia"
-import { GraficoPayout } from "./GraficoMomento"
-import { GraficoLiquidez } from "./GraficoLiquidez"
+import { GraficoAcaoIndividual } from "./GraficoAcaoIndividual"
 import { DadosCadastrais } from "./DadosCadastrais"
+
 
 
 export const PaginaAcaoIndividual = () => {
@@ -188,58 +183,10 @@ export const PaginaAcaoIndividual = () => {
                                 return (
                                     <DadosCadastrais dadosCadastrais={empresaSelecionada.dadosCadastrais} />
                                 )
-                            case "dre":
-                                return (
-                                    <GraficoDRE
-                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
-                                        historicoValores={empresaSelecionada.historicoValores}
-                                    />
-                                )
-                            case "bp":
-                                return (
-                                    <GraficoBP
-                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
-                                        historicoValores={empresaSelecionada.historicoValores}
-                                    />
-                                )
-                            case "endividamento":
-                                return (
-                                    <GraficoEndividamento
-                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
-                                        historicoValores={empresaSelecionada.historicoValores}
-                                    />
-                                )
-                            case "rentabilidade":
-                                return (
-                                    <GraficoRentabilidade
-                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
-                                        historicoValores={empresaSelecionada.historicoValores}
-                                    />
-                                )
-                            case "eficiencia":
-                                return (
-                                    <GraficoEficiencia
-                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
-                                        historicoValores={empresaSelecionada.historicoValores}
-                                    />
-                                )
-                            case "momento":
-                                return (
-                                    <GraficoPayout
-                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
-                                        historicoValores={empresaSelecionada.historicoValores}
-                                    />
-                                )
-                            case "liquidez":
-                                return (
-                                    <GraficoLiquidez
-                                        dadosCadastrais={empresaSelecionada.dadosCadastrais}
-                                        historicoValores={empresaSelecionada.historicoValores}
-                                    />
-                                )
                             default:
                                 return (
-                                    <GraficoDRE
+                                    <GraficoAcaoIndividual
+                                        indicadorSelecionado={indicadorSelecionado}
                                         dadosCadastrais={empresaSelecionada.dadosCadastrais}
                                         historicoValores={empresaSelecionada.historicoValores}
                                     />

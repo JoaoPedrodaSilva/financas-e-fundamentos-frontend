@@ -11,11 +11,11 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
     const [configuraGrafico, setConfiguraGrafico] = useState(null)
 
 
+    //datasets
     useEffect(() => {
         setDadosFinanceiros({
-            labels: dadosDeTodasEmpresas.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa.codigoBase),
+            labels: dadosDeTodasEmpresas.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => `${cadaEmpresa.nomeEmpresarial} - ${cadaEmpresa.codigoBase}`),
             datasets: [{
-                // label: false,
                 data: dadosDeTodasEmpresas.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado]),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
@@ -200,7 +200,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${configuraGrafico.tituloGrafico} em ${anoSelecionado}`,
+                                text: `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} em ${anoSelecionado}`,
                                 color: "white",
                                 font: {
                                     size: 16

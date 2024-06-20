@@ -36,6 +36,7 @@ export const PaginaRankings = () => {
 
                     return ({
                         codigoBase: cadaEmpresa.codigo_base,
+                        nomeEmpresarial: cadaEmpresa.nome_empresarial,
                         ano: cadaEmpresa.ano,
                         setor: cadaEmpresa.classificacao_setorial,
                         patrimonioLiquido,

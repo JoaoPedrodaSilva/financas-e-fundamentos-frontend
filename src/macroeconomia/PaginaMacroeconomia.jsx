@@ -3,11 +3,20 @@ import { GraficoMacroeconomia } from "./GraficoMacroeconomia"
 
 export const PaginaMacroeconomia = () => {
     const [todosIndicadores, setTodosIndicadores] = useState(null)
+
+    const [leiaMaisIpcaDozeMeses, setLeiaMaisIpcaDozeMeses] = useState(false)
     const [ipcaDozeMeses, setIpcaDozeMeses] = useState(null)
+
+    const [leiaMaisSelicMeta, setLeiaMaisSelicMeta] = useState(false)
     const [selicMeta, setSelicMeta] = useState(null)
+
+    const [leiaMaisEmbi, setLeiaMaisEmbi] = useState(false)
     const [embi, setEmbi] = useState(null)
+
+    const [leiaMaisDolarEua, setLeiaMaisDolarEua] = useState(false)
     const [dolarEua, setDolarEua] = useState(null)
-    
+
+
     const nomeMeses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
 
     useEffect(() => {
@@ -58,7 +67,7 @@ export const PaginaMacroeconomia = () => {
                 setSelicMeta({ dadosCadastraisSelicMeta, historicoValoresSelicMeta })
                 setEmbi({ dadosCadastraisEmbi, historicoValoresEmbi })
                 setDolarEua({ dadosCadastraisDolarEua, historicoValoresDolarEua })
-                
+
             })
             .catch(error => console.error(error))
     }, [])
@@ -80,35 +89,66 @@ export const PaginaMacroeconomia = () => {
         <section className='h-full flex flex-row justify-center items-center gap-2 px-5 lg:px-20'>
             <section className="w-1/2 lg:max-w-xl flex flex-col gap-3">
 
-                {/* metrics dropdown */}
-                {/* dropdown de indicadores */}
-                {/* <select
-                    className="w-full lg:max-w-md shadow rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
-                    //value={indicadorParametro}
-                    onChange={event => event.target.value}
-                >
-                    {todosIndicadores.map(indicador => (
-                        <option key={indicador.id} value={indicador.indicador}>
-                            {`${indicador.indicador} (${indicador.descricao_curta})`}
-                        </option>
-                    ))}
-                </select> */}
-
                 {/* selected metric long description */}
                 {/* descrição longa do indicador selecionado */}
                 <div className="w-full flex flex-col text-white px-1 text-xs lg:text-lg">
-                    <p className="my-3 text-justify">
-                        <span className="text-gray-400">{dolarEua.dadosCadastraisDolarEua.indicador}: </span><br />{dolarEua.dadosCadastraisDolarEua.descricao_longa}
-                    </p>
-                    <p className="my-3 text-justify">
-                        <span className="text-gray-400">{ipcaDozeMeses.dadosCadastraisIpcaDozeMeses.indicador}: </span><br />{ipcaDozeMeses.dadosCadastraisIpcaDozeMeses.descricao_longa}
-                    </p>
-                    <p className="my-3 text-justify">
-                        <span className="text-gray-400">{embi.dadosCadastraisEmbi.indicador}: </span><br />{embi.dadosCadastraisEmbi.descricao_longa}
-                    </p>
-                    <p className="my-3 text-justify">
-                        <span className="text-gray-400">{selicMeta.dadosCadastraisSelicMeta.indicador}: </span><br />{selicMeta.dadosCadastraisSelicMeta.descricao_longa}
-                    </p>
+                    <article className="my-3 text-justify">
+                        <div className="flex gap-2">
+                            <h1>{dolarEua.dadosCadastraisDolarEua.indicador}:</h1>
+                            <p
+                                className="text-gray-400 cursor-pointer"
+                                onClick={() => setLeiaMaisDolarEua(leiaMaisDolarEua => !leiaMaisDolarEua)}>
+                                {leiaMaisDolarEua ? "(Entendi)" : "(Clique aqui para ver a descrição completa)"}
+                            </p>
+                        </div>
+                        <p>
+                            {leiaMaisDolarEua && dolarEua.dadosCadastraisDolarEua.descricao_longa}
+                        </p>
+                    </article>
+
+                    <article className="my-3 text-justify">
+                        <div className="flex gap-2">
+                            <h1>{ipcaDozeMeses.dadosCadastraisIpcaDozeMeses.indicador}:</h1>
+                            <p
+                                className="text-gray-400 cursor-pointer"
+                                onClick={() => setLeiaMaisIpcaDozeMeses(leiaMaisIpcaDozeMeses => !leiaMaisIpcaDozeMeses)}>
+                                {leiaMaisIpcaDozeMeses ? "(Entendi)" : "(Clique aqui para ver a descrição completa)"}
+                            </p>
+                        </div>
+                        <p>
+                            {leiaMaisIpcaDozeMeses && ipcaDozeMeses.dadosCadastraisIpcaDozeMeses.descricao_longa}
+                        </p>
+                    </article>
+
+
+                    <article className="my-3 text-justify">
+                        <div className="flex gap-2">
+                            <h1>{embi.dadosCadastraisEmbi.indicador}:</h1>
+                            <p
+                                className="text-gray-400 cursor-pointer"
+                                onClick={() => setLeiaMaisEmbi(leiaMaisEmbi => !leiaMaisEmbi)}>
+                                {leiaMaisEmbi ? "(Entendi)" : "(Clique aqui para ver a descrição completa)"}
+                            </p>
+                        </div>
+                        <p>
+                            {leiaMaisEmbi && embi.dadosCadastraisEmbi.descricao_longa}
+                        </p>
+                    </article>
+
+
+                    <article className="my-3 text-justify">
+                        <div className="flex gap-2">
+                            <h1>{selicMeta.dadosCadastraisSelicMeta.indicador}:</h1>
+                            <p
+                                className="text-gray-400 cursor-pointer"
+                                onClick={() => setLeiaMaisSelicMeta(leiaMaisSelicMeta => !leiaMaisSelicMeta)}>
+                                {leiaMaisSelicMeta ? "(Entendi)" : "(Clique aqui para ver a descrição completa)"}
+                            </p>
+                        </div>
+                        <p>
+                            {leiaMaisSelicMeta && selicMeta.dadosCadastraisSelicMeta.descricao_longa}
+                        </p>
+                    </article>
                 </div>
 
 
