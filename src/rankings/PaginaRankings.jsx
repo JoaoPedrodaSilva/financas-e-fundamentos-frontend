@@ -7,6 +7,7 @@ export const PaginaRankings = () => {
     const navigate = useNavigate()
     const { anoParametro } = useParams(null)
     const { setorParametro } = useParams(null)
+    const [setoresUnicos, setSetoresUnicos] = useState(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("receitaLiquida")
     const [anoSelecionado, setAnoSelecionado] = useState("2023")
     const [setorSelecionado, setSetorSelecionado] = useState("Bancos")
@@ -27,12 +28,22 @@ export const PaginaRankings = () => {
     }
 
 
+    //fetch all companies and its registration data - for purpose of finding all unique sectors registered at database
+    //busca todas as empresas e seus dados cadastrais - para encontrar todos os setores únicos cadastrados no banco de dados
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
+            .then(response => response.json())
+            .then(data => setSetoresUnicos(['Todos', ...new Set(data.empresas.map(cadaEmpresa => cadaEmpresa.classificacao_setorial))]))
+            .catch(error => console.error(error))
+    }, [])
+
+
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/rankings/${anoParametro}/${setorParametro}`)
             .then(response => response.json())
             .then(data => {
                 const dadosDeTodasEmpresasTemp = data.dadosRanking.map(cadaEmpresa => {
-                    const { patrimonioLiquido, receitaLiquida, lucroOperacional, lucroLiquido, retornoPeloPatrimonioLiquido, margemOperacional, margemLiquida, capexPeloFCO, payout } = calculaIndicadores(cadaEmpresa, null)                    
+                    const { patrimonioLiquido, receitaLiquida, lucroOperacional, lucroLiquido, retornoPeloPatrimonioLiquido, margemOperacional, margemLiquida, capexPeloFCO, payout } = calculaIndicadores(cadaEmpresa, null)
 
                     return ({
                         codigoBase: cadaEmpresa.codigo_base,
@@ -43,7 +54,7 @@ export const PaginaRankings = () => {
                         receitaLiquida,
                         lucroOperacional,
                         lucroLiquido,
-                        retornoPeloPatrimonioLiquido,                        
+                        retornoPeloPatrimonioLiquido,
                         margemOperacional,
                         margemLiquida,
                         capexPeloFCO,
@@ -102,14 +113,12 @@ export const PaginaRankings = () => {
                     }}
                 >
                     <>
-                        <option value="2016">2016</option>
-                        <option value="2017">2017</option>
-                        <option value="2018">2018</option>
-                        <option value="2019">2019</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
                         <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        {/* <option value="MediaTresAnos">Média dos últimos 3 anos</option> */}
                     </>
                 </select>
 
@@ -124,30 +133,9 @@ export const PaginaRankings = () => {
                     }}
                 >
                     <>
-                        <option value="Agricultura (Açúcar, Álcool e Cana)">AGRICULTURA (AÇÚCAR, ÁLCOOL E CANA)</option>
-                        <option value="Alimentos">ALIMENTOS</option>
-                        <option value="Bancos">BANCOS</option>
-                        <option value="Bebidas e Fumo">BEBIDAS E FUMO</option>
-                        <option value="Bolsas de Valores Mercadorias e Futuros">BOLSAS DE VALORES/MERCADORIAS E FUTUROS</option>
-                        <option value="Comércio (Atacado e Varejo)">COMÉRCIO (ATACADO E VAREJO)</option>
-                        <option value="Construção Civil, Mat. Constr. e Decoração">CONSTRUÇÃO CIVIL, MATERIAIS DE CONSTRUÇÃO E DECORAÇÃO</option>
-                        <option value="Educação">EDUCAÇÃO</option>
-                        <option value="Energia Elétrica">ENERGIA ELÉTRICA</option>
-                        <option value="Extração Mineral">EXTRAÇAO MINERAL</option>
-                        <option value="Farmacêutico e Higiene">FARMACÊUTICO E HIGIENE</option>
-                        <option value="Hospedagem e Turismo">HOSPEDAGEM E TURISMO</option>
-                        <option value="Intermediação Financeira">INTERMEDIAÇÃO FINANCEIRA</option>
-                        <option value="Máquinas, Equipamentos, Veículos e Peças">MÁQUINAS, EQUIPAMENTOS, VEÍCULOS E PEÇAS</option>
-                        <option value="Papel e Celulose">PAPEL E CELULOSE</option>
-                        <option value="Petróleo e Gás">PETRÓLEO E GÁS</option>
-                        <option value="Petroquímicos e Borracha">PETROQUÍMICOS E BORRACHA</option>
-                        <option value="Saneamento, Serv. Água e Gás">SANEAMENTO, SERVIÇOS DE ÁGUA E GÁS</option>
-                        <option value="Seguradoras e Corretoras">SEGURADORAS E CORRETORAS</option>
-                        <option value="Sem Setor Principal">SEM SETOR PRINCIPAL</option>
-                        <option value="Serviços médicos">SERVIÇOS MÉDICOS</option>
-                        <option value="Serviços Transporte e Logística">SERVIÇOS DE TRANSPORTE E LOGÍSTICA</option>
-                        <option value="Telecomunicações">TELECOMUNICAÇÕES</option>
-                        <option value="Têxtil e Vestuário">TÊXTIL E VESTUÁRIO</option>
+                        {setoresUnicos && setoresUnicos.map((cadaSetorUnico, index) => (
+                            <option key={index} value={cadaSetorUnico}>{cadaSetorUnico.toUpperCase()}</option>
+                        ))}
                     </>
                 </select>
             </section>
