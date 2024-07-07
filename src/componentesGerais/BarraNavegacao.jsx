@@ -32,7 +32,7 @@ export const BarraNavegacao = () => {
                     </li>
                     <li>
                         <Link
-                            to={`/rankings/2023/Bancos/`}
+                            to={`/rankings/`}
                             className="text-base text-gray-700 rounded hover:text-blue-700"
                         >
                             Rankings

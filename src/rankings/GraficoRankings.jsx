@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSelecionado, dadosDeTodasEmpresas }) => {
+export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSelecionado, dadosFinanceirosProp }) => {
 
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
@@ -14,16 +14,16 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
     //datasets
     useEffect(() => {
         setDadosFinanceiros({
-            labels: dadosDeTodasEmpresas.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => `${cadaEmpresa.nomeEmpresarial} - ${cadaEmpresa.codigoBase}`),
+            labels: dadosFinanceirosProp.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => `${cadaEmpresa.nomeEmpresarial} - ${cadaEmpresa.codigoBase}`),
             datasets: [{
-                data: dadosDeTodasEmpresas.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado]),
+                data: dadosFinanceirosProp.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado]),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
                 hidden: false,
                 pointStyle: "rectRounded"
             }]
         })
-    }, [indicadorSelecionado, dadosDeTodasEmpresas])
+    }, [indicadorSelecionado, dadosFinanceirosProp])
 
 
     //Configura Gráfico
@@ -159,6 +159,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
 
     return (
         <div className='w-full'>
+            {/* {console.log(dadosFinanceiros)} */}
             {dadosFinanceiros &&
                 <Bar
                     className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
@@ -180,7 +181,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                                 ticks: {
                                     color: "white",
                                     callback: value => configuraGrafico.labelEixoX(value)
-                                },                                
+                                },
                                 grid: {
                                     display: true,
                                     color: "rgba(255,255,255,0.05)"
@@ -200,7 +201,15 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                         plugins: {
                             title: {
                                 display: true,
-                                text: `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} em ${anoSelecionado}`,
+                                text: setorSelecionado === "Todos" && anoSelecionado === "MediaDosTresUltimosAnos"
+                                    ? `${configuraGrafico.tituloGrafico} de Todos os Setores - Média dos últimos 3 anos`
+                                    : setorSelecionado === "Todos" && anoSelecionado !== "MediaDosTresUltimosAnos"
+                                        ? `${configuraGrafico.tituloGrafico} de Todos os Setores em ${anoSelecionado}`
+                                        : setorSelecionado !== "Todos" && anoSelecionado === "MediaDosTresUltimosAnos"
+                                            ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} - Média dos últimos 3 anos`
+                                            : setorSelecionado !== "Todos" && anoSelecionado !== "MediaDosTresUltimosAnos"
+                                                ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} em ${anoSelecionado}`
+                                                : null,
                                 color: "white",
                                 font: {
                                     size: 16

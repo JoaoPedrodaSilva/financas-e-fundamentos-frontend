@@ -87,7 +87,7 @@ const dividaBrutaPeloPatrimonioLiquido = (dadosFinanceiros, dadosCadastrais) => 
     if (dadosCadastrais === null) {
         return null
     }
-    
+
     if (dadosCadastrais.instituicao_financeira || dadosCadastrais.holding) {
         return null
     }
@@ -149,6 +149,10 @@ const margemOperacional = (dadosFinanceiros) => {
 
     const margemOperacional = Number(dadosFinanceiros.lucro_operacional) / Number(dadosFinanceiros.receita_liquida)
 
+    if (margemOperacional === Infinity) {
+        return null
+    }
+    
     if (margemOperacional <= 0) {
         return 0
     }
@@ -157,6 +161,10 @@ const margemOperacional = (dadosFinanceiros) => {
 const margemAntesTributos = (dadosFinanceiros) => {
     const margemAntesTributos = Number(dadosFinanceiros.lucro_antes_tributos) / Number(dadosFinanceiros.receita_liquida)
 
+    if (margemAntesTributos === Infinity) {
+        return null
+    }
+
     if (margemAntesTributos <= 0) {
         return 0
     }
@@ -164,6 +172,10 @@ const margemAntesTributos = (dadosFinanceiros) => {
 }
 const margemLiquida = (dadosFinanceiros) => {
     const margemLiquida = Number(dadosFinanceiros.lucro_liquido) / Number(dadosFinanceiros.receita_liquida)
+
+    if (margemLiquida === Infinity) {
+        return null
+    }
 
     if (margemLiquida <= 0) {
         return 0
@@ -214,7 +226,7 @@ const liquidezImediata = (dadosFinanceiros, dadosCadastrais) => {
     if (dadosCadastrais === null) {
         return null
     }
-    
+
     if (dadosCadastrais.instituicao_financeira) {
         return null
     }
@@ -231,7 +243,7 @@ const liquidezSeca = (dadosFinanceiros, dadosCadastrais) => {
     if (dadosCadastrais === null) {
         return null
     }
-    
+
     if (dadosCadastrais.instituicao_financeira || dadosFinanceiros.estoques === null) {
         return null
     }
@@ -248,7 +260,7 @@ const liquidezCorrente = (dadosFinanceiros, dadosCadastrais) => {
     if (dadosCadastrais === null) {
         return null
     }
-    
+
     if (dadosCadastrais.instituicao_financeira) {
         return null
     }
@@ -265,7 +277,7 @@ const liquidezGeral = (dadosFinanceiros, dadosCadastrais) => {
     if (dadosCadastrais === null) {
         return null
     }
-    
+
     if (dadosCadastrais.instituicao_financeira) {
         return null
     }

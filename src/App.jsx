@@ -51,7 +51,7 @@ export const App = () => {
                                     <Route path='/acoes/' element={<PaginaTodasAcoes />} />
                                     <Route path='/acoes/:codigoBaseParametro/' element={<PaginaAcaoIndividual />} />
                                     <Route path='/comparador/' element={<PaginaComparador />} />
-                                    <Route path='/rankings/:anoParametro/:setorParametro/' element={<PaginaRankings />} />
+                                    <Route path='/rankings/' element={<PaginaRankings />} />
                                     <Route path='/macroeconomia/' element={<PaginaMacroeconomia />} />
                             </Routes>
                         </div>

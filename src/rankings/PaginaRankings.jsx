@@ -1,18 +1,14 @@
 import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from "react-router-dom"
 import { GraficoRankings } from './GraficoRankings'
 
 export const PaginaRankings = () => {
-    const navigate = useNavigate()
-    const { anoParametro } = useParams(null)
-    const { setorParametro } = useParams(null)
     const [setoresUnicos, setSetoresUnicos] = useState(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("receitaLiquida")
     const [anoSelecionado, setAnoSelecionado] = useState("2023")
     const [setorSelecionado, setSetorSelecionado] = useState("Bancos")
-    const [dadosDeTodasEmpresas, setDadosDeTodasEmpresas] = useState(null)
-
+    const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
+    
 
     const ordenaPeloIndicadorSelecionado = (dadosQueSeraoOrdenados, indicadorQueSeraUsadoParaOrdenar) => {
         const emOrdemCrescente = dadosQueSeraoOrdenados.sort((primeiraEmpresa, segundaEmpresa) => {
@@ -28,8 +24,8 @@ export const PaginaRankings = () => {
     }
 
 
-    //fetch all companies and its registration data - for purpose of finding all unique sectors registered at database
-    //busca todas as empresas e seus dados cadastrais - para encontrar todos os setores únicos cadastrados no banco de dados
+    //fetch and setState for all companies and its registration data - for purpose of finding all unique sectors registered at database and feed the select
+    //busca e faz o setState de todas as empresas e seus dados cadastrais - para encontrar todos os setores únicos cadastrados no banco de dados e alimentar o select
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
             .then(response => response.json())
@@ -38,8 +34,10 @@ export const PaginaRankings = () => {
     }, [])
 
 
+    //fetch and setState for financial data of all the companies from specified sector and year
+    //busca e faz o setState dos dados financeiros de todas as empresas do setor e ano selecionados
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/rankings/${anoParametro}/${setorParametro}`)
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/rankings/${anoSelecionado}/${setorSelecionado}/`)
             .then(response => response.json())
             .then(data => {
                 const dadosDeTodasEmpresasTemp = data.dadosRanking.map(cadaEmpresa => {
@@ -61,15 +59,15 @@ export const PaginaRankings = () => {
                         payout
                     })
                 })
-                setDadosDeTodasEmpresas(dadosDeTodasEmpresasTemp)
+                setDadosFinanceiros(dadosDeTodasEmpresasTemp)
             })
             .catch(error => console.error(error))
     }, [anoSelecionado, setorSelecionado])
-
+    
 
     //render in case of no data
     //renderiza caso não haja dados
-    if (!dadosDeTodasEmpresas) {
+    if (!dadosFinanceiros) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
                 <p className="text-white text-center">Carregando as informações...</p>
@@ -80,7 +78,7 @@ export const PaginaRankings = () => {
 
 
     return (
-        <section className='h-full flex flex-row justify-center items-center gap-2 px-5 lg:px-20'>
+        <section className='h-full flex flex-row justify-center items-center gap-2 px-5 lg:px-20'> 
             <section className="w-full lg:max-w-xl flex flex-col gap-3">
                 {/* metrics dropdown */}
                 {/* dropdown dos indicadores */}
@@ -107,10 +105,7 @@ export const PaginaRankings = () => {
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={anoSelecionado}
-                    onChange={event => {
-                        setAnoSelecionado(event.target.value)
-                        navigate(`/rankings/${event.target.value}/${setorSelecionado}`)
-                    }}
+                    onChange={event => setAnoSelecionado(event.target.value)}
                 >
                     <>
                         <option value="2023">2023</option>
@@ -118,7 +113,7 @@ export const PaginaRankings = () => {
                         <option value="2021">2021</option>
                         <option value="2020">2020</option>
                         <option value="2019">2019</option>
-                        {/* <option value="MediaTresAnos">Média dos últimos 3 anos</option> */}
+                        <option value="MediaDosTresUltimosAnos">Média dos últimos 3 anos</option>
                     </>
                 </select>
 
@@ -127,10 +122,7 @@ export const PaginaRankings = () => {
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={setorSelecionado}
-                    onChange={event => {
-                        setSetorSelecionado(event.target.value)
-                        navigate(`/rankings/${anoSelecionado}/${event.target.value}`)
-                    }}
+                    onChange={event => setSetorSelecionado(event.target.value)}
                 >
                     <>
                         {setoresUnicos && setoresUnicos.map((cadaSetorUnico, index) => (
@@ -149,7 +141,7 @@ export const PaginaRankings = () => {
                         indicadorSelecionado={indicadorSelecionado}
                         anoSelecionado={anoSelecionado}
                         setorSelecionado={setorSelecionado}
-                        dadosDeTodasEmpresas={ordenaPeloIndicadorSelecionado(dadosDeTodasEmpresas, indicadorSelecionado)}
+                        dadosFinanceirosProp={ordenaPeloIndicadorSelecionado(dadosFinanceiros, indicadorSelecionado)}
                     />
                 </div>
 

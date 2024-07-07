@@ -1,13 +1,8 @@
 import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
 import { GraficoComparador } from "./GraficoComparador"
 
 export const PaginaComparador = () => {
-    const navigate = useNavigate()
-    const { primeiroCodigoParametro } = useParams(null)
-    const { segundoCodigoParametro } = useParams(null)
-    const { terceiroCodigoParametro } = useParams(null)
     const [todasEmpresas, setTodasEmpresas] = useState(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("lucroLiquido")
     const [primeiroCodigoSelecionado, setPrimeiroCodigoSelecionado] = useState("ARZZ")
