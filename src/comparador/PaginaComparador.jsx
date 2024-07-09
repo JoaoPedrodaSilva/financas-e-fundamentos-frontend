@@ -4,12 +4,8 @@ import { GraficoComparador } from "./GraficoComparador"
 export const PaginaComparador = () => {
     const [dadosCadastraisDeTodasEmpresas, setDadosCadastraisDeTodasEmpresas] = useState(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("lucroLiquido")
-    const [primeiroCodigoSelecionado, setPrimeiroCodigoSelecionado] = useState("ARZZ")
-    const [segundoCodigoSelecionado, setSegundoCodigoSelecionado] = useState("LREN")
-    const [terceiroCodigoSelecionado, setTerceiroCodigoSelecionado] = useState("GUAR")
-    const [dadosCompletosDaPrimeiraEmpresaSelecionada, setDadosCompletosDaPrimeiraEmpresaSelecionada] = useState(null)
-    const [dadosCompletosDaSegundaEmpresaSelecionada, setDadosCompletosDaSegundaEmpresaSelecionada] = useState(null)
-    const [dadosCompletosDaTerceiraEmpresaSelecionada, setDadosCompletosDaTerceiraEmpresaSelecionada] = useState(null)
+    const [tresCodigosBaseSelecionados, setTresCodigosBaseSelecionados] = useState(["ARZZ", "LREN", "GUAR"])
+    const [dadosCompletosDasTresEmpresasSelecionadas, setDadosCompletosDasTresEmpresasSelecionadas] = useState(null)
 
 
     //fetch all companies and its registration data - used to fill the companies dropdown
@@ -22,45 +18,45 @@ export const PaginaComparador = () => {
     }, [])
 
 
-    //fetch first selected company registration and financial data
-    //busca os dados cadastrais e financeiros da primeira empresa selecionada
+    //fetch the three selected company registration and financial data
+    //busca os dados cadastrais e financeiros das três empresas selecionadas
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${primeiroCodigoSelecionado}/`)
-            .then(response => response.json())
-            .then(data => {
-                setDadosCompletosDaPrimeiraEmpresaSelecionada(data.dadosCompletosDaEmpresaSelecionada)
+        Promise.all(tresCodigosBaseSelecionados.map(cadaCodigoBaseSelecionado => (
+            fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${cadaCodigoBaseSelecionado}/`)
+                .then(response => response.json())
+                .then(data => data.dadosCompletosDaEmpresaSelecionada)
+                .catch(error => console.error(error))
+        ))).then(data => setDadosCompletosDasTresEmpresasSelecionadas({
+            primeiraEmpresaSelecionada: data[0],
+            segundaEmpresaSelecionada: data[1],
+            terceiraEmpresaSelecionada: data[2]
+        }))
+    }, [tresCodigosBaseSelecionados])
+
+
+    //create an array with all the years of the three selected companies - used as labels of the chart (x axis)
+    //cria um array que inclui todos os anos das três empresas selecionadas - usado como labels do gráfico (eixo x)
+    const todosAnosUnicos = () => {
+        if (dadosCompletosDasTresEmpresasSelecionadas.primeiraEmpresaSelecionada && dadosCompletosDasTresEmpresasSelecionadas.segundaEmpresaSelecionada && dadosCompletosDasTresEmpresasSelecionadas.terceiraEmpresaSelecionada) {
+            let todosAnosUnicosParaRetorno = []
+            const anosUnicosTemp = [
+                ...dadosCompletosDasTresEmpresasSelecionadas.primeiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano),
+                ...dadosCompletosDasTresEmpresasSelecionadas.segundaEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano),
+                ...dadosCompletosDasTresEmpresasSelecionadas.terceiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano)
+            ]
+            anosUnicosTemp.map(cadaAno => {
+                if (!todosAnosUnicosParaRetorno.includes(cadaAno)) {
+                    todosAnosUnicosParaRetorno.push(cadaAno)
+                }
             })
-            .catch(error => console.error(error))
-    }, [primeiroCodigoSelecionado])
-
-
-    //fetch second selected company registration and financial data
-    //busca os dados cadastrais e financeiros da segunda empresa selecionada
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${segundoCodigoSelecionado}/`)
-            .then(response => response.json())
-            .then(data => {
-                setDadosCompletosDaSegundaEmpresaSelecionada(data.dadosCompletosDaEmpresaSelecionada)
-            })
-            .catch(error => console.error(error))
-    }, [segundoCodigoSelecionado])
-
-
-    //fetch third selected company registration and financial data
-    //busca os dados cadastrais e financeiros da terceira empresa selecionada
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/${terceiroCodigoSelecionado}/`)
-            .then(response => response.json())
-            .then(data => {
-                setDadosCompletosDaTerceiraEmpresaSelecionada(data.dadosCompletosDaEmpresaSelecionada)
-            })
-            .catch(error => console.error(error))
-    }, [terceiroCodigoSelecionado])
+            return todosAnosUnicosParaRetorno
+        }
+    }
 
 
     //render when data arrives
     //renderiza quando os dados chegarem
-    if (!dadosCadastraisDeTodasEmpresas || !dadosCompletosDaPrimeiraEmpresaSelecionada || !dadosCompletosDaSegundaEmpresaSelecionada || !dadosCompletosDaTerceiraEmpresaSelecionada) {
+    if (!dadosCadastraisDeTodasEmpresas || !dadosCompletosDasTresEmpresasSelecionadas) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
                 <p className="text-white text-center">Carregando as informações...</p>
@@ -101,65 +97,39 @@ export const PaginaComparador = () => {
                 </select>
 
 
-
                 <div className="flex flex-col gap-4 mt-10">
-
                     <p className="text-white">Selecione as empresas que deseja comparar:</p>
-                    {/* companies first dropdown */}
-                    {/* primeiro dropdown das empresas */}
-                    <select
-                        className="w-full lg:max-w-md shadow rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
-                        value={primeiroCodigoSelecionado && primeiroCodigoSelecionado}
-                        onChange={event => setPrimeiroCodigoSelecionado(event.target.value)}
-                    >
-                        {dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => (
-                            <option key={cadaEmpresa.id} value={cadaEmpresa.codigoBase}>
-                                {`${cadaEmpresa.codigoBase} - ${cadaEmpresa.nomeEmpresarial}`}
-                            </option>
-                        ))}
-                    </select>
-
-
-                    {/* companies second dropdown */}
-                    {/* segundo dropdown das empresas */}
-                    <select
-                        className="w-full lg:max-w-md shadow rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
-                        value={segundoCodigoSelecionado && segundoCodigoSelecionado}
-                        onChange={event => setSegundoCodigoSelecionado(event.target.value)}
-                    >
-                        {dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => (
-                            <option key={cadaEmpresa.id} value={cadaEmpresa.codigoBase}>
-                                {`${cadaEmpresa.codigoBase} - ${cadaEmpresa.nomeEmpresarial}`}
-                            </option>
-                        ))}
-                    </select>
-
-
-                    {/* companies third dropdown */}
-                    {/* terceiro dropdown das empresas */}
-                    <select
-                        className="w-full lg:max-w-md shadow rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
-                        value={terceiroCodigoSelecionado && terceiroCodigoSelecionado}
-                        onChange={event => setTerceiroCodigoSelecionado(event.target.value)}
-                    >
-                        {dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => (
-                            <option key={cadaEmpresa.id} value={cadaEmpresa.codigoBase}>
-                                {`${cadaEmpresa.codigoBase} - ${cadaEmpresa.nomeEmpresarial}`}
-                            </option>
-                        ))}
-                    </select>
+                    {/* companies dropdown */}
+                    {/* dropdown das empresas */}
+                    {tresCodigosBaseSelecionados.map((_, index) => {
+                        return (
+                            <select
+                                key={index}
+                                className="w-full lg:max-w-md shadow rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
+                                value={tresCodigosBaseSelecionados[index]}
+                                onChange={event => setTresCodigosBaseSelecionados(tresCodigosBaseSelecionados.map((_, i, array) => (
+                                    i === index ? array[i] = event.target.value : array[i]
+                                )))}
+                            >
+                                {dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => (
+                                    <option key={cadaEmpresa.id} value={cadaEmpresa.codigoBase}>
+                                        {`${cadaEmpresa.codigoBase} - ${cadaEmpresa.nomeEmpresarial}`}
+                                    </option>
+                                ))}
+                            </select>
+                        )
+                    })}
                 </div>
-
             </div>
+
 
             <div className='w-full flex flex-col justify-center items-center gap-2'>
                 <div className='relative w-full p-1 border border-white rounded'>
                     {
                         <GraficoComparador
                             indicadorSelecionado={indicadorSelecionado}
-                            dadosCompletosDaPrimeiraEmpresaSelecionada={dadosCompletosDaPrimeiraEmpresaSelecionada}
-                            dadosCompletosDaSegundaEmpresaSelecionada={dadosCompletosDaSegundaEmpresaSelecionada}
-                            dadosCompletosDaTerceiraEmpresaSelecionada={dadosCompletosDaTerceiraEmpresaSelecionada}
+                            todosAnosUnicos={todosAnosUnicos()}
+                            dadosCompletosDasTresEmpresasSelecionadas={dadosCompletosDasTresEmpresasSelecionadas}
                         />
                     }
                 </div>
@@ -169,7 +139,6 @@ export const PaginaComparador = () => {
                     </a>
                 </div>
             </div>
-
         </section>
     )
 }

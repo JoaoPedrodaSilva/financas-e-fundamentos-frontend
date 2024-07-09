@@ -39,34 +39,14 @@ export const PaginaRankings = () => {
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/rankings/${anoSelecionado}/${setorSelecionado}/`)
             .then(response => response.json())
-            .then(data => {
-                const dadosDeTodasEmpresasTemp = data.dadosRanking.map(cadaEmpresa => {
-                    const { patrimonioLiquido, receitaLiquida, lucroOperacional, lucroLiquido, retornoPeloPatrimonioLiquido, margemOperacional, margemLiquida, capexPeloFCO, payout } = calculaIndicadores(cadaEmpresa, null)
-
-                    return ({
-                        codigoBase: cadaEmpresa.codigo_base,
-                        nomeEmpresarial: cadaEmpresa.nome_empresarial,
-                        ano: cadaEmpresa.ano,
-                        setor: cadaEmpresa.classificacao_setorial,
-                        patrimonioLiquido,
-                        receitaLiquida,
-                        lucroOperacional,
-                        lucroLiquido,
-                        retornoPeloPatrimonioLiquido,
-                        margemOperacional,
-                        margemLiquida,
-                        capexPeloFCO,
-                        payout
-                    })
-                })
-                setDadosFinanceiros(dadosDeTodasEmpresasTemp)
-            })
+            .then(data => setDadosFinanceiros(data.dadosRanking)
+            )
             .catch(error => console.error(error))
     }, [anoSelecionado, setorSelecionado])
     
 
-    //render when data arrives
-    //renderiza quando os dados chegarem
+    //render while data are being fetched
+    //renderiza enquanto os dados estão sendo buscados
     if (!dadosFinanceiros) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
@@ -77,6 +57,8 @@ export const PaginaRankings = () => {
     }
 
 
+    //render when data arrives
+    //renderiza quando os dados chegarem
     return (
         <section className='h-full flex flex-row justify-center items-center gap-2 px-5 lg:px-20'> 
             <section className="w-full lg:max-w-xl flex flex-col gap-3">

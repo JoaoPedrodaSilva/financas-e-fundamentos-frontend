@@ -2,33 +2,12 @@ import { useEffect, useState } from 'react'
 import { Line } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoComparador = ({ indicadorSelecionado, dadosCompletosDaPrimeiraEmpresaSelecionada, dadosCompletosDaSegundaEmpresaSelecionada, dadosCompletosDaTerceiraEmpresaSelecionada }) => {
+export const GraficoComparador = ({ indicadorSelecionado, todosAnosUnicos, dadosCompletosDasTresEmpresasSelecionadas }) => {
 
     //states
     const cores = ["#ccccff", "#6666ff", "#0000ff"]
     const [datasets, setDatasets] = useState(null)
-    const [todosAnosUnicos, setTodosAnosUnicos] = useState([2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023])
     const [configuraGrafico, setConfiguraGrafico] = useState(null)
-
-    const atualizaLabelsComTodosAnosUnicos = (dadosCompletosDaPrimeiraEmpresaSelecionada, dadosCompletosDaSegundaEmpresaSelecionada, dadosCompletosDaTerceiraEmpresaSelecionada) => {
-        let anosUnicosTemp1 = []
-        const anosUnicosTemp2 = [
-            ...dadosCompletosDaPrimeiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano),
-            ...dadosCompletosDaSegundaEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano),
-            ...dadosCompletosDaTerceiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano)
-        ]
-        anosUnicosTemp2.map(cadaAno => {
-            if (!anosUnicosTemp1.includes(cadaAno)) {
-                anosUnicosTemp1.push(cadaAno)
-            }
-        })
-        setTodosAnosUnicos(anosUnicosTemp1.sort())
-
-        console.log(...dadosCompletosDaPrimeiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano))
-        console.log(...dadosCompletosDaSegundaEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano))
-        console.log(...dadosCompletosDaTerceiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano))
-        console.log(todosAnosUnicos)
-    }
 
 
     //configura datasets
@@ -37,28 +16,28 @@ export const GraficoComparador = ({ indicadorSelecionado, dadosCompletosDaPrimei
         setDatasets({
             labels: todosAnosUnicos,
             datasets: [{
-                label: dadosCompletosDaPrimeiraEmpresaSelecionada.dadosCadastrais.codigoBase,
-                data: dadosCompletosDaPrimeiraEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
+                label: dadosCompletosDasTresEmpresasSelecionadas.primeiraEmpresaSelecionada.dadosCadastrais.codigoBase,
+                data: dadosCompletosDasTresEmpresasSelecionadas.primeiraEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
                 pointStyle: "rectRounded"
             },
             {
-                label: dadosCompletosDaSegundaEmpresaSelecionada.dadosCadastrais.codigoBase,
-                data: dadosCompletosDaSegundaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
+                label: dadosCompletosDasTresEmpresasSelecionadas.segundaEmpresaSelecionada.dadosCadastrais.codigoBase,
+                data: dadosCompletosDasTresEmpresasSelecionadas.segundaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
                 pointStyle: "rectRounded"
             },
             {
-                label: dadosCompletosDaTerceiraEmpresaSelecionada.dadosCadastrais.codigoBase,
-                data: dadosCompletosDaTerceiraEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
+                label: dadosCompletosDasTresEmpresasSelecionadas.terceiraEmpresaSelecionada.dadosCadastrais.codigoBase,
+                data: dadosCompletosDasTresEmpresasSelecionadas.terceiraEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
                 backgroundColor: cores[2],
                 borderColor: cores[2],
                 pointStyle: "rectRounded"
             }]
         })
-    }, [dadosCompletosDaPrimeiraEmpresaSelecionada, dadosCompletosDaSegundaEmpresaSelecionada, dadosCompletosDaTerceiraEmpresaSelecionada, indicadorSelecionado])
+    }, [dadosCompletosDasTresEmpresasSelecionadas, indicadorSelecionado])
 
 
     //configura gráfico
