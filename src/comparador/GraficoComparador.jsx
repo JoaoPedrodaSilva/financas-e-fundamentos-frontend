@@ -2,44 +2,67 @@ import { useEffect, useState } from 'react'
 import { Line } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoComparador = ({ indicadorSelecionado, primeiraEmpresaDadosCadastrais, primeiraEmpresaHistoricoValores, segundaEmpresaDadosCadastrais, segundaEmpresaHistoricoValores, terceiraEmpresaDadosCadastrais, terceiraEmpresaHistoricoValores }) => {
+export const GraficoComparador = ({ indicadorSelecionado, dadosCompletosDaPrimeiraEmpresaSelecionada, dadosCompletosDaSegundaEmpresaSelecionada, dadosCompletosDaTerceiraEmpresaSelecionada }) => {
 
     //states
     const cores = ["#ccccff", "#6666ff", "#0000ff"]
-    const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
+    const [datasets, setDatasets] = useState(null)
+    const [todosAnosUnicos, setTodosAnosUnicos] = useState([2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023])
     const [configuraGrafico, setConfiguraGrafico] = useState(null)
 
+    const atualizaLabelsComTodosAnosUnicos = (dadosCompletosDaPrimeiraEmpresaSelecionada, dadosCompletosDaSegundaEmpresaSelecionada, dadosCompletosDaTerceiraEmpresaSelecionada) => {
+        let anosUnicosTemp1 = []
+        const anosUnicosTemp2 = [
+            ...dadosCompletosDaPrimeiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano),
+            ...dadosCompletosDaSegundaEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano),
+            ...dadosCompletosDaTerceiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano)
+        ]
+        anosUnicosTemp2.map(cadaAno => {
+            if (!anosUnicosTemp1.includes(cadaAno)) {
+                anosUnicosTemp1.push(cadaAno)
+            }
+        })
+        setTodosAnosUnicos(anosUnicosTemp1.sort())
 
+        console.log(...dadosCompletosDaPrimeiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano))
+        console.log(...dadosCompletosDaSegundaEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano))
+        console.log(...dadosCompletosDaTerceiraEmpresaSelecionada.dadosFinanceiros.map(cadaExercicioFinanceiro => cadaExercicioFinanceiro.ano))
+        console.log(todosAnosUnicos)
+    }
+
+
+    //configura datasets
+    //datasets config
     useEffect(() => {
-        setDadosFinanceiros({
-            labels: primeiraEmpresaHistoricoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+        setDatasets({
+            labels: todosAnosUnicos,
             datasets: [{
-                label: primeiraEmpresaDadosCadastrais.codigoBase,
-                data: primeiraEmpresaHistoricoValores.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
+                label: dadosCompletosDaPrimeiraEmpresaSelecionada.dadosCadastrais.codigoBase,
+                data: dadosCompletosDaPrimeiraEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
                 pointStyle: "rectRounded"
             },
             {
-                label: segundaEmpresaDadosCadastrais.codigoBase,
-                data: segundaEmpresaHistoricoValores.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
+                label: dadosCompletosDaSegundaEmpresaSelecionada.dadosCadastrais.codigoBase,
+                data: dadosCompletosDaSegundaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
                 backgroundColor: cores[1],
                 borderColor: cores[1],
                 pointStyle: "rectRounded"
             },
             {
-                label: terceiraEmpresaDadosCadastrais.codigoBase,
-                data: terceiraEmpresaHistoricoValores.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
+                label: dadosCompletosDaTerceiraEmpresaSelecionada.dadosCadastrais.codigoBase,
+                data: dadosCompletosDaTerceiraEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro[indicadorSelecionado]),
                 backgroundColor: cores[2],
                 borderColor: cores[2],
                 pointStyle: "rectRounded"
             }]
         })
-    }, [primeiraEmpresaDadosCadastrais, segundaEmpresaDadosCadastrais, terceiraEmpresaDadosCadastrais, indicadorSelecionado])
+    }, [dadosCompletosDaPrimeiraEmpresaSelecionada, dadosCompletosDaSegundaEmpresaSelecionada, dadosCompletosDaTerceiraEmpresaSelecionada, indicadorSelecionado])
 
 
-    //Configura Gráfico
-    //configure chart
+    //configura gráfico
+    //chart config
     useEffect(() => {
         {
             (() => {
@@ -193,10 +216,10 @@ export const GraficoComparador = ({ indicadorSelecionado, primeiraEmpresaDadosCa
 
     return (
         <div className='w-full'>
-            {dadosFinanceiros &&
+            {datasets &&
                 <Line
                     className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
-                    data={dadosFinanceiros}
+                    data={datasets}
                     options={{
                         responsive: true,
                         borderWidth: 3,

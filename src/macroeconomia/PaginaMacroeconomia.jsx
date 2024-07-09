@@ -73,8 +73,8 @@ export const PaginaMacroeconomia = () => {
     }, [])
 
 
-    //render in case of no data
-    // renderiza em caso de não haver dados
+    //render when data arrives
+    //renderiza quando os dados chegarem
     if (!todosIndicadores || !dolarEua) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">

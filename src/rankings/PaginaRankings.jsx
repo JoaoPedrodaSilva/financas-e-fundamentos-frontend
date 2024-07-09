@@ -29,7 +29,7 @@ export const PaginaRankings = () => {
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
             .then(response => response.json())
-            .then(data => setSetoresUnicos(['Todos', ...new Set(data.empresas.map(cadaEmpresa => cadaEmpresa.classificacao_setorial))]))
+            .then(data => setSetoresUnicos(['Todos', ...new Set(data.dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => cadaEmpresa.classificacaoSetorial))]))
             .catch(error => console.error(error))
     }, [])
 
@@ -65,8 +65,8 @@ export const PaginaRankings = () => {
     }, [anoSelecionado, setorSelecionado])
     
 
-    //render in case of no data
-    //renderiza caso não haja dados
+    //render when data arrives
+    //renderiza quando os dados chegarem
     if (!dadosFinanceiros) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">

@@ -136,6 +136,10 @@ const retornoPelosAtivos = (dadosFinanceiros) => {
 const margemBruta = (dadosFinanceiros) => {
     const margemBruta = Number(dadosFinanceiros.lucro_bruto) / Number(dadosFinanceiros.receita_liquida)
 
+    if (margemBruta === Infinity) {
+        return null
+    }
+    
     if (margemBruta <= 0) {
         return 0
     }
@@ -186,11 +190,15 @@ const margemLiquida = (dadosFinanceiros) => {
 
 // Momento
 const capexPeloFCO = (dadosFinanceiros) => {
+    // console.log(dadosFinanceiros)
+
     if (dadosFinanceiros.despesas_capital === null) {
         return null
     }
 
     let capexPeloFCO = Number(dadosFinanceiros.despesas_capital) / Number(dadosFinanceiros.caixa_liquido_operacional)
+
+    // console.log(capexPeloFCO)
 
     if (capexPeloFCO <= 0) {
         return 0

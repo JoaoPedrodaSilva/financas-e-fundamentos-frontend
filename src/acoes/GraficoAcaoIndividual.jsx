@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { Line } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, historicoValores }) => {
+export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCompletosDaEmpresaSelecionada }) => {    
 
     //states
     const coresPadrao = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const coresBalancoPatrimonial = ["#ccccff", "#9999ff", "#ff7f7f", "#ff3232", "#ffb2b2"]
-    const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
+    const [datasets, setDatasets] = useState(null)
     const [configuracaoDoGrafico, setConfiguracaoDoGrafico] = useState(null)
 
 
@@ -17,7 +17,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                 case "dre":
                     //dre chart settings
                     setConfiguracaoDoGrafico({
-                        tituloDoGrafico: `${dadosCadastrais.nomeEmpresarial} - DRE`,
+                        tituloDoGrafico: `${dadosCompletosDaEmpresaSelecionada.dadosCadastrais.nomeEmpresarial} - DRE`,
                         labelDaTooltip: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`,
                         escalaY: {
                             position: 'right',
@@ -42,17 +42,17 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                     })
 
                     //dre datasets
-                    if (!dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding) {
+                    if (!dadosCompletosDaEmpresaSelecionada.dadosCadastrais.instituicaoFinanceira && !dadosCompletosDaEmpresaSelecionada.dadosCadastrais.holding) {
                         // if not financial institution nor holding
                         //se não for instituição financeira nem holding
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Receita Líquida",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: true,
@@ -62,7 +62,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Bruto",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: true,
@@ -72,7 +72,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Operacional (EBIT)",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: false,
@@ -82,7 +82,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Antes dos Tributos",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                                     backgroundColor: coresPadrao[3],
                                     borderColor: coresPadrao[3],
                                     hidden: false,
@@ -92,7 +92,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Líquido",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                                     backgroundColor: coresPadrao[4],
                                     borderColor: coresPadrao[4],
                                     hidden: false,
@@ -100,17 +100,17 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 }]
                             })
                         )
-                    } else if (dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding) {
+                    } else if (dadosCompletosDaEmpresaSelecionada.dadosCadastrais.instituicaoFinanceira && !dadosCompletosDaEmpresaSelecionada.dadosCadastrais.holding) {
                         //if financial institution but not holding
                         //se for instituição financeira mas não holding
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Receita Líquida",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: true,
@@ -120,7 +120,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Bruto",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: false,
@@ -130,7 +130,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Antes dos Tributos",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: false,
@@ -140,7 +140,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Líquido",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                                     backgroundColor: coresPadrao[3],
                                     borderColor: coresPadrao[3],
                                     hidden: false,
@@ -152,13 +152,13 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                         //if holding, no matter if financial intitution or not
                         //se for holding, não importando se é instituição financeira ou não
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Lucro Operacional",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: false,
@@ -168,7 +168,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Antes dos Tributos",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: false,
@@ -178,7 +178,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Líquido",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: false,
@@ -191,7 +191,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                 case "bp":
                     //bp chart settings
                     setConfiguracaoDoGrafico({
-                        tituloDoGrafico: `${dadosCadastrais.nomeEmpresarial} - BALANÇO PATRIMONIAL`,
+                        tituloDoGrafico: `${dadosCompletosDaEmpresaSelecionada.dadosCadastrais.nomeEmpresarial} - BALANÇO PATRIMONIAL`,
                         labelDaTooltip: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`,
                         escalaY: {
                             position: 'right',
@@ -217,17 +217,17 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                     })
 
                     //bp datasets
-                    if (!dadosCadastrais.instituicaoFinanceira || dadosCadastrais.holding) {
+                    if (!dadosCompletosDaEmpresaSelecionada.dadosCadastrais.instituicaoFinanceira || dadosCompletosDaEmpresaSelecionada.dadosCadastrais.holding) {
                         //if not financial institution or if is holding
                         //se não for instituição financeira ou se for holding
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Ativo Circulante",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoCirculante),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ativoCirculante),
                                     backgroundColor: coresBalancoPatrimonial[0],
                                     borderColor: coresBalancoPatrimonial[0],
                                     hidden: true,
@@ -239,7 +239,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Ativo Não Circulante",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoNaoCirculante),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ativoNaoCirculante),
                                     backgroundColor: coresBalancoPatrimonial[1],
                                     borderColor: coresBalancoPatrimonial[1],
                                     hidden: false,
@@ -251,7 +251,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Passivo Circulante",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoCirculante),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.passivoCirculante),
                                     backgroundColor: coresBalancoPatrimonial[2],
                                     borderColor: coresBalancoPatrimonial[2],
                                     hidden: true,
@@ -263,7 +263,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Passivo Não Circulante",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoNaoCirculante),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.passivoNaoCirculante),
                                     backgroundColor: coresBalancoPatrimonial[3],
                                     borderColor: coresBalancoPatrimonial[3],
                                     hidden: false,
@@ -275,7 +275,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Patrimonio Líquido",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
                                     backgroundColor: coresBalancoPatrimonial[4],
                                     borderColor: coresBalancoPatrimonial[4],
                                     hidden: false,
@@ -285,17 +285,17 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 }]
                             })
                         )
-                    } else if (dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding) {
+                    } else if (dadosCompletosDaEmpresaSelecionada.dadosCadastrais.instituicaoFinanceira && !dadosCompletosDaEmpresaSelecionada.dadosCadastrais.holding) {
                         //if financial institution but not holding
                         //se for instituição financeira mas não holding
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Ativo Total",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoTotal),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ativoTotal),
                                     backgroundColor: coresBalancoPatrimonial[1],
                                     borderColor: coresBalancoPatrimonial[1],
                                     hidden: false,
@@ -307,7 +307,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Passivo Total",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.passivoTotal),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.passivoTotal),
                                     backgroundColor: coresBalancoPatrimonial[3],
                                     borderColor: coresBalancoPatrimonial[3],
                                     hidden: false,
@@ -319,7 +319,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Patrimonio Líquido",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
                                     backgroundColor: coresBalancoPatrimonial[4],
                                     borderColor: coresBalancoPatrimonial[4],
                                     hidden: false,
@@ -334,7 +334,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                 case "endividamento":
                     //endividamento chart settings
                     setConfiguracaoDoGrafico({
-                        tituloDoGrafico: `${dadosCadastrais.nomeEmpresarial} - ENDIVIDAMENTO`,
+                        tituloDoGrafico: `${dadosCompletosDaEmpresaSelecionada.dadosCadastrais.nomeEmpresarial} - ENDIVIDAMENTO`,
                         labelDaTooltip: context => `${context.dataset.label}: ${context.raw.toLocaleString("pt-BR")}`,
                         escalaY: {
                             position: 'right',
@@ -358,13 +358,13 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
 
                     //endividamento datasets
                     return (
-                        setDadosFinanceiros({
-                            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                        setDatasets({
+                            labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                             datasets: [{
                                 label: "Dívida Líquida / Ebitda",
                                 type: "bar",
                                 yAxisID: 'y',
-                                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.dividaLiquidaPeloEbitda),
+                                data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.dividaLiquidaPeloEbitda),
                                 backgroundColor: coresPadrao[0],
                                 borderColor: coresPadrao[0],
                                 hidden: false,
@@ -374,7 +374,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 label: "Dívida Bruta / Patrimônio Líquido",
                                 type: "bar",
                                 yAxisID: 'y',
-                                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.dividaBrutaPeloPatrimonioLiquido),
+                                data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.dividaBrutaPeloPatrimonioLiquido),
                                 backgroundColor: coresPadrao[1],
                                 borderColor: coresPadrao[1],
                                 hidden: false,
@@ -386,7 +386,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                 case "rentabilidade":
                     //rentabilidade chart settings
                     setConfiguracaoDoGrafico({
-                        tituloDoGrafico: `${dadosCadastrais.nomeEmpresarial} - RENTABILIDADE`,
+                        tituloDoGrafico: `${dadosCompletosDaEmpresaSelecionada.dadosCadastrais.nomeEmpresarial} - RENTABILIDADE`,
                         labelDaTooltip: context => {
                             if (context.dataset.type === "bar") {
                                 return `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
@@ -429,13 +429,13 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
 
                     //rentabilidade datasets
                     return (
-                        setDadosFinanceiros({
-                            labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                        setDatasets({
+                            labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                             datasets: [{
                                 label: "ROE",
                                 type: "line",
                                 yAxisID: 'y',
-                                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.retornoPeloPatrimonioLiquido),
+                                data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.retornoPeloPatrimonioLiquido),
                                 backgroundColor: coresPadrao[0],
                                 borderColor: coresPadrao[0],
                                 borderWidth: 3,
@@ -446,7 +446,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 label: "ROA",
                                 type: "line",
                                 yAxisID: 'y',
-                                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.retornoPelosAtivos),
+                                data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.retornoPelosAtivos),
                                 backgroundColor: coresPadrao[1],
                                 borderColor: coresPadrao[1],
                                 borderWidth: 3,
@@ -457,7 +457,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 label: "Lucro Líquido",
                                 type: "bar",
                                 yAxisID: 'y1',
-                                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                                data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                                 backgroundColor: coresPadrao[2],
                                 borderColor: coresPadrao[2],
                                 borderWidth: 0,
@@ -468,7 +468,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 label: "Patrimônio Líquido",
                                 type: "bar",
                                 yAxisID: 'y1',
-                                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
+                                data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.patrimonioLiquido),
                                 backgroundColor: coresPadrao[3],
                                 borderColor: coresPadrao[3],
                                 borderWidth: 0,
@@ -479,7 +479,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 label: "Ativos",
                                 type: "bar",
                                 yAxisID: 'y1',
-                                data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ativoTotal),
+                                data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ativoTotal),
                                 backgroundColor: coresPadrao[4],
                                 borderColor: coresPadrao[4],
                                 borderWidth: 0,
@@ -493,7 +493,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                 case "eficiencia":
                     //eficiencia chart settings
                     setConfiguracaoDoGrafico({
-                        tituloDoGrafico: `${dadosCadastrais.nomeEmpresarial} - EFICIÊNCIA`,
+                        tituloDoGrafico: `${dadosCompletosDaEmpresaSelecionada.dadosCadastrais.nomeEmpresarial} - EFICIÊNCIA`,
                         labelDaTooltip: context => `${context.dataset.label}: ${(Math.round(context.raw * 100)).toFixed(0)}%`,
                         escalaY: {
                             position: 'right',
@@ -516,15 +516,15 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                     })
 
                     //eficiencia datasets
-                    if (historicoValores[historicoValores.length - 1].margemOperacional !== null) {
+                    if (dadosCompletosDaEmpresaSelecionada.dadosFinanceiros[dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.length - 1].margemOperacional !== null) {
                         //if margemOperacional of most recent year not null
                         //se a margemOperacional do ano mais recente não for nula
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Margem Bruta",
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemBruta),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.margemBruta),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: false,
@@ -532,7 +532,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 },
                                 {
                                     label: "Margem Operacional",
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemOperacional),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.margemOperacional),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: false,
@@ -540,7 +540,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 },
                                 {
                                     label: "Margem Antes dos Tributos",
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: true,
@@ -548,7 +548,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 },
                                 {
                                     label: "Margem Líquida",
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemLiquida),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.margemLiquida),
                                     backgroundColor: coresPadrao[3],
                                     borderColor: coresPadrao[3],
                                     hidden: false,
@@ -560,11 +560,11 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                         //if margemOperacional of most recent year is null
                         //se a margemOperacional do ano mais recente for nula
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Margem Bruta",
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemBruta),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.margemBruta),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: false,
@@ -572,7 +572,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 },
                                 {
                                     label: "Margem Antes dos Tributos",
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.margemAntesTributos),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: false,
@@ -580,7 +580,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 },
                                 {
                                     label: "Margem Líquida",
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.margemLiquida),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.margemLiquida),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: false,
@@ -593,7 +593,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                 case "momento":
                     //momento chart settings
                     setConfiguracaoDoGrafico({
-                        tituloDoGrafico: `${dadosCadastrais.nomeEmpresarial} - MOMENTO`,
+                        tituloDoGrafico: `${dadosCompletosDaEmpresaSelecionada.dadosCadastrais.nomeEmpresarial} - MOMENTO`,
                         labelDaTooltip: context => `${context.dataset.label}: ${(Math.round(context.raw * 100)).toFixed(0)}%`,
                         escalaY: {
                             position: 'right',
@@ -616,16 +616,16 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                     })
 
                     //momento datasets
-                    if (historicoValores[historicoValores.length - 1].capexPelaDA !== null) {
+                    if (dadosCompletosDaEmpresaSelecionada.dadosFinanceiros[dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.length - 1].capexPelaDA !== null) {
                         //if capexPelaDa of most recent year is not null
                         //se o capexPelaDa do ano mais recent não for nulo
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [
                                     {
                                         label: "Payout",
-                                        data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.payout),
+                                        data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.payout),
                                         backgroundColor: coresPadrao[0],
                                         borderColor: coresPadrao[0],
                                         borderWidth: 3,
@@ -634,7 +634,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     }, {
                                         label: "CAPEX/FCO",
                                         type: "bar",
-                                        data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.capexPeloFCO),
+                                        data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.capexPeloFCO),
                                         backgroundColor: coresPadrao[1],
                                         borderColor: coresPadrao[1],
                                         borderWidth: 0,
@@ -643,7 +643,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     },
                                     {
                                         label: "CAPEX/D&A",
-                                        data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.capexPelaDA),
+                                        data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.capexPelaDA),
                                         type: "bar",
                                         backgroundColor: coresPadrao[2],
                                         borderColor: coresPadrao[2],
@@ -653,16 +653,16 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     }]
                             })
                         )
-                    } else if (historicoValores[historicoValores.length - 1].capexPelaDA === null) {
+                    } else if (dadosCompletosDaEmpresaSelecionada.dadosFinanceiros[dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.length - 1].capexPelaDA === null) {
                         //if capexPelaDa of most recent year is null
                         //se o capexPelaDa do ano mais recent for nulo
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [
                                     {
                                         label: "Payout",
-                                        data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.payout),
+                                        data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.payout),
                                         backgroundColor: coresPadrao[0],
                                         borderColor: coresPadrao[0],
                                         borderWidth: 3,
@@ -671,7 +671,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     }, {
                                         label: "CAPEX/FCO",
                                         type: "bar",
-                                        data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.capexPeloFCO),
+                                        data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.capexPeloFCO),
                                         backgroundColor: coresPadrao[1],
                                         borderColor: coresPadrao[1],
                                         borderWidth: 0,
@@ -680,16 +680,16 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     }]
                             })
                         )
-                    } else if (historicoValores[historicoValores.length - 1].capexPeloFCO === null) {
+                    } else if (dadosCompletosDaEmpresaSelecionada.dadosFinanceiros[dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.length - 1].capexPeloFCO === null) {
                         //if capexPelaFCO of most recent year is null
                         //se o capexPelaFCO do ano mais recent for nulo
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [
                                     {
                                         label: "Payout",
-                                        data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.payout),
+                                        data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.payout),
                                         backgroundColor: coresPadrao[0],
                                         borderColor: coresPadrao[0],
                                         borderWidth: 3,
@@ -703,7 +703,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                 case "liquidez":
                     //liquidez chart settings
                     setConfiguracaoDoGrafico({
-                        tituloDoGrafico: `${dadosCadastrais.nomeEmpresarial} - LIQUIDEZ`,
+                        tituloDoGrafico: `${dadosCompletosDaEmpresaSelecionada.dadosCadastrais.nomeEmpresarial} - LIQUIDEZ`,
                         labelDaTooltip: context => `${context.dataset.label}: ${context.raw.toLocaleString("pt-BR")}`,
                         escalaY: {
                             position: 'right',
@@ -726,17 +726,17 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                     })
 
                     //liquidez datasets
-                    if (historicoValores[historicoValores.length - 1].liquidezSeca !== null) {
+                    if (dadosCompletosDaEmpresaSelecionada.dadosFinanceiros[dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.length - 1].liquidezSeca !== null) {
                         //if liquidezSeca of most recent year not null
                         //se a liquidezSeca do ano mais recente não for nula
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Liquidez Imediata",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezImediata),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.liquidezImediata),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: false,
@@ -746,7 +746,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Liquidez Seca",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezSeca),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.liquidezSeca),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: false,
@@ -756,7 +756,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Liquidez Corrente",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezCorrente),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.liquidezCorrente),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: false,
@@ -766,7 +766,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Liquidez Geral",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
                                     backgroundColor: coresPadrao[3],
                                     borderColor: coresPadrao[3],
                                     hidden: false,
@@ -778,13 +778,13 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                         //if liquidezSeca of most recent year is null
                         //se a liquidezSeca do ano mais recente for nula
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Liquidez Imediata",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezImediata),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.liquidezImediata),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: false,
@@ -794,7 +794,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Liquidez Corrente",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezCorrente),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.liquidezCorrente),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: false,
@@ -804,7 +804,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Liquidez Geral",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.liquidezGeral),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: false,
@@ -817,7 +817,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                 default:
                     //dre chart settings
                     setConfiguracaoDoGrafico({
-                        tituloDoGrafico: `${dadosCadastrais.nomeEmpresarial} - DRE`,
+                        tituloDoGrafico: `${dadosCompletosDaEmpresaSelecionada.dadosCadastrais.nomeEmpresarial} - DRE`,
                         labelDaTooltip: context => `${context.dataset.label}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`,
                         escalaY: {
                             position: 'right',
@@ -842,17 +842,17 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                     })
 
                     //dre datasets
-                    if (!dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding) {
+                    if (!dadosCompletosDaEmpresaSelecionada.dadosCadastrais.instituicaoFinanceira && !dadosCompletosDaEmpresaSelecionada.dadosCadastrais.holding) {
                         // if not financial institution nor holding
                         //se não for instituição financeira nem holding
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Receita Líquida",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: true,
@@ -862,7 +862,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Bruto",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: true,
@@ -872,7 +872,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Operacional (EBIT)",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: false,
@@ -882,7 +882,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Antes dos Tributos",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                                     backgroundColor: coresPadrao[3],
                                     borderColor: coresPadrao[3],
                                     hidden: false,
@@ -892,7 +892,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Líquido",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                                     backgroundColor: coresPadrao[4],
                                     borderColor: coresPadrao[4],
                                     hidden: false,
@@ -900,17 +900,17 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                 }]
                             })
                         )
-                    } else if (dadosCadastrais.instituicaoFinanceira && !dadosCadastrais.holding) {
+                    } else if (dadosCompletosDaEmpresaSelecionada.dadosCadastrais.instituicaoFinanceira && !dadosCompletosDaEmpresaSelecionada.dadosCadastrais.holding) {
                         //if financial institution but not holding
                         //se for instituição financeira mas não holding
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Receita Líquida",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.receitaLiquida),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: true,
@@ -920,7 +920,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Bruto",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroBruto),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: false,
@@ -930,7 +930,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Antes dos Tributos",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: false,
@@ -940,7 +940,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Líquido",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                                     backgroundColor: coresPadrao[3],
                                     borderColor: coresPadrao[3],
                                     hidden: false,
@@ -952,13 +952,13 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                         //if holding, no matter if financial intitution or not
                         //se for holding, não importando se é instituição financeira ou não
                         return (
-                            setDadosFinanceiros({
-                                labels: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.ano.getFullYear()),
+                            setDatasets({
+                                labels: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.ano),
                                 datasets: [{
                                     label: "Lucro Operacional",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroOperacional),
                                     backgroundColor: coresPadrao[0],
                                     borderColor: coresPadrao[0],
                                     hidden: false,
@@ -968,7 +968,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Antes dos Tributos",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroAntesTributos),
                                     backgroundColor: coresPadrao[1],
                                     borderColor: coresPadrao[1],
                                     hidden: false,
@@ -978,7 +978,7 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                                     label: "Lucro Líquido",
                                     type: "bar",
                                     yAxisID: 'y',
-                                    data: historicoValores.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
+                                    data: dadosCompletosDaEmpresaSelecionada.dadosFinanceiros.map(exercicioFinanceiro => exercicioFinanceiro.lucroLiquido),
                                     backgroundColor: coresPadrao[2],
                                     borderColor: coresPadrao[2],
                                     hidden: false,
@@ -989,15 +989,15 @@ export const GraficoAcaoIndividual = ({ indicadorSelecionado, dadosCadastrais, h
                     }
             }
         }
-    }, [indicadorSelecionado, dadosCadastrais])
+    }, [indicadorSelecionado, dadosCompletosDaEmpresaSelecionada])
 
 
     return (
         <div className='w-full'>
-            {dadosFinanceiros &&
+            {datasets &&
                 <Line
                     className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
-                    data={dadosFinanceiros}
+                    data={datasets}
                     options={{
                         responsive: true,
                         tension: 0.4,
