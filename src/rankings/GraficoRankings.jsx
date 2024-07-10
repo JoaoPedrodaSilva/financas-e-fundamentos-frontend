@@ -2,28 +2,28 @@ import { useEffect, useState } from 'react'
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSelecionado, dadosFinanceirosProp }) => {
+export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSelecionado, dadosCompletosDoSetorSelecionado }) => {
 
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
-    const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
+    const [datasets, setDatasets] = useState(null)
     const [quantidadeDeEmpresas, setQuantidadeDeEmpresas] = useState(15)
     const [configuraGrafico, setConfiguraGrafico] = useState(null)
 
 
     //datasets
     useEffect(() => {
-        setDadosFinanceiros({
-            labels: dadosFinanceirosProp.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => `${cadaEmpresa.nomeEmpresarial} - ${cadaEmpresa.codigoBase}`),
+        setDatasets({
+            labels: dadosCompletosDoSetorSelecionado.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => `${cadaEmpresa.nomeEmpresarial} - ${cadaEmpresa.codigoBase}`),
             datasets: [{
-                data: dadosFinanceirosProp.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado]),
+                data: dadosCompletosDoSetorSelecionado.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado]),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
                 hidden: false,
                 pointStyle: "rectRounded"
             }]
         })
-    }, [indicadorSelecionado, dadosFinanceirosProp])
+    }, [indicadorSelecionado, dadosCompletosDoSetorSelecionado])
 
 
     //Configura Gráfico
@@ -159,11 +159,10 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
 
     return (
         <div className='w-full'>
-            {/* {console.log(dadosFinanceiros)} */}
-            {dadosFinanceiros &&
+            {datasets &&
                 <Bar
                     className='bg-[url(https://financas-e-fundamentos.s3.sa-east-1.amazonaws.com/ff-coin-opacity-10.png)] bg-center bg-no-repeat'
-                    data={dadosFinanceiros}
+                    data={datasets}
                     options={{
                         indexAxis: 'y',
                         responsive: true,

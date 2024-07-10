@@ -1,13 +1,12 @@
-import { calculaIndicadores } from "../utilidades/calculaIndicadores"
 import { useState, useEffect } from 'react'
 import { GraficoRankings } from './GraficoRankings'
 
 export const PaginaRankings = () => {
-    const [setoresUnicos, setSetoresUnicos] = useState(null)
+    const [listaComTodosOsSetores, setListaComTodosOsSetores] = useState(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("receitaLiquida")
     const [anoSelecionado, setAnoSelecionado] = useState("2023")
     const [setorSelecionado, setSetorSelecionado] = useState("Bancos")
-    const [dadosFinanceiros, setDadosFinanceiros] = useState(null)
+    const [dadosCompletosDoSetorSelecionado, setDadosCompletosDoSetorSelecionado] = useState(null)
     
 
     const ordenaPeloIndicadorSelecionado = (dadosQueSeraoOrdenados, indicadorQueSeraUsadoParaOrdenar) => {
@@ -29,7 +28,7 @@ export const PaginaRankings = () => {
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
             .then(response => response.json())
-            .then(data => setSetoresUnicos(['Todos', ...new Set(data.dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => cadaEmpresa.classificacaoSetorial))]))
+            .then(data => setListaComTodosOsSetores(['Todos', ...new Set(data.dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => cadaEmpresa.classificacaoSetorial))]))
             .catch(error => console.error(error))
     }, [])
 
@@ -39,7 +38,7 @@ export const PaginaRankings = () => {
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/rankings/${anoSelecionado}/${setorSelecionado}/`)
             .then(response => response.json())
-            .then(data => setDadosFinanceiros(data.dadosRanking)
+            .then(data => setDadosCompletosDoSetorSelecionado(data.dadosCompletosDoSetorSelecionado)
             )
             .catch(error => console.error(error))
     }, [anoSelecionado, setorSelecionado])
@@ -47,7 +46,7 @@ export const PaginaRankings = () => {
 
     //render while data are being fetched
     //renderiza enquanto os dados estão sendo buscados
-    if (!dadosFinanceiros) {
+    if (!dadosCompletosDoSetorSelecionado) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
                 <p className="text-white text-center">Carregando as informações...</p>
@@ -107,7 +106,7 @@ export const PaginaRankings = () => {
                     onChange={event => setSetorSelecionado(event.target.value)}
                 >
                     <>
-                        {setoresUnicos && setoresUnicos.map((cadaSetorUnico, index) => (
+                        {listaComTodosOsSetores && listaComTodosOsSetores.map((cadaSetorUnico, index) => (
                             <option key={index} value={cadaSetorUnico}>{cadaSetorUnico.toUpperCase()}</option>
                         ))}
                     </>
@@ -123,7 +122,7 @@ export const PaginaRankings = () => {
                         indicadorSelecionado={indicadorSelecionado}
                         anoSelecionado={anoSelecionado}
                         setorSelecionado={setorSelecionado}
-                        dadosFinanceirosProp={ordenaPeloIndicadorSelecionado(dadosFinanceiros, indicadorSelecionado)}
+                        dadosCompletosDoSetorSelecionado={ordenaPeloIndicadorSelecionado(dadosCompletosDoSetorSelecionado, indicadorSelecionado)}
                     />
                 </div>
 
