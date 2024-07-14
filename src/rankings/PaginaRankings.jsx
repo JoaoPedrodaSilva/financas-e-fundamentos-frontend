@@ -4,7 +4,7 @@ import { GraficoRankings } from './GraficoRankings'
 export const PaginaRankings = () => {
     const [listaComTodosOsSetores, setListaComTodosOsSetores] = useState(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("receitaLiquida")
-    const [anoSelecionado, setAnoSelecionado] = useState("2023")
+    const [anoSelecionado, setAnoSelecionado] = useState("MediaDosCincoUltimosAnos")
     const [setorSelecionado, setSetorSelecionado] = useState("Bancos")
     const [dadosCompletosDoSetorSelecionado, setDadosCompletosDoSetorSelecionado] = useState(null)
     
@@ -73,6 +73,8 @@ export const PaginaRankings = () => {
                         <option value="lucroOperacional">LUCRO OPERACIONAL</option>
                         <option value="lucroLiquido">LUCRO LÍQUIDO</option>
                         <option value="patrimonioLiquido">PATRIMÔNIO LÍQUIDO</option>
+                        <option value="dividaLiquidaPeloEbitda">DÍVIDA LÍQUIDA / EBITDA</option>
+                        <option value="dividaBrutaPeloPatrimonioLiquido">DÍVIDA BRUTA / PATRIMÔNIO LÍQUIDO</option>
                         <option value="margemOperacional">MARGEM OPERACIONAL</option>
                         <option value="margemLiquida">MARGEM LÍQUIDA</option>
                         <option value="retornoPeloPatrimonioLiquido">ROE</option>
@@ -89,12 +91,13 @@ export const PaginaRankings = () => {
                     onChange={event => setAnoSelecionado(event.target.value)}
                 >
                     <>
+                        <option value="MediaDosCincoUltimosAnos">Média dos últimos 5 anos</option>
+                        <option value="MediaDosTresUltimosAnos">Média dos últimos 3 anos</option>
                         <option value="2023">2023</option>
                         <option value="2022">2022</option>
                         <option value="2021">2021</option>
                         <option value="2020">2020</option>
                         <option value="2019">2019</option>
-                        <option value="MediaDosTresUltimosAnos">Média dos últimos 3 anos</option>
                     </>
                 </select>
 

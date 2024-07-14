@@ -7,7 +7,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [datasets, setDatasets] = useState(null)
-    const [quantidadeDeEmpresas, setQuantidadeDeEmpresas] = useState(15)
+    const [quantidadeDeEmpresas, setQuantidadeDeEmpresas] = useState(25)
     const [configuraGrafico, setConfiguraGrafico] = useState(null)
 
 
@@ -81,6 +81,28 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                             },
                             labelEixoX: value => value.toLocaleString("pt-BR"),
                             labelTooltip: context => `Patrimônio Líquido: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                        })
+                        break
+
+                    case "dividaLiquidaPeloEbitda":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Dívida Líquida / EBITDA",
+                            tituloEixoX: {
+                                display: false
+                            },
+                            labelEixoX: value => `${(value * 100).toFixed(0)}%`,
+                            labelTooltip: context => `Dívida Líquida / EBITDA: ${Math.round(context.raw * 100)}%`
+                        })
+                        break
+
+                    case "dividaBrutaPeloPatrimonioLiquido":
+                        setConfiguraGrafico({
+                            tituloGrafico: "Dívida Bruta / Patrimônio Líquido",
+                            tituloEixoX: {
+                                display: false
+                            },
+                            labelEixoX: value => `${(value * 100).toFixed(0)}%`,
+                            labelTooltip: context => `Dívida Bruta / Patrimônio Líquido: ${Math.round(context.raw * 100)}%`
                         })
                         break
 
@@ -202,13 +224,18 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                                 display: true,
                                 text: setorSelecionado === "Todos" && anoSelecionado === "MediaDosTresUltimosAnos"
                                     ? `${configuraGrafico.tituloGrafico} de Todos os Setores - Média dos últimos 3 anos`
-                                    : setorSelecionado === "Todos" && anoSelecionado !== "MediaDosTresUltimosAnos"
-                                        ? `${configuraGrafico.tituloGrafico} de Todos os Setores em ${anoSelecionado}`
-                                        : setorSelecionado !== "Todos" && anoSelecionado === "MediaDosTresUltimosAnos"
-                                            ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} - Média dos últimos 3 anos`
-                                            : setorSelecionado !== "Todos" && anoSelecionado !== "MediaDosTresUltimosAnos"
-                                                ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} em ${anoSelecionado}`
-                                                : null,
+                                    : setorSelecionado === "Todos" && anoSelecionado === "MediaDosCincoUltimosAnos"
+                                        ? `${configuraGrafico.tituloGrafico} de Todos os Setores - Média dos últimos 5 anos`
+                                        : setorSelecionado === "Todos" && anoSelecionado !== "MediaDosTresUltimosAnos" && anoSelecionado !== "MediaDosCincoUltimosAnos"
+                                            ? `${configuraGrafico.tituloGrafico} de Todos os Setores em ${anoSelecionado}`
+
+                                            : setorSelecionado !== "Todos" && anoSelecionado === "MediaDosTresUltimosAnos"
+                                                ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} - Média dos últimos 3 anos`
+                                                : setorSelecionado !== "Todos" && anoSelecionado === "MediaDosCincoUltimosAnos"
+                                                    ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} - Média dos últimos 5 anos`
+                                                    : setorSelecionado !== "Todos" && anoSelecionado !== "MediaDosTresUltimosAnos" && anoSelecionado !== "MediaDosCincoUltimosAnos"
+                                                        ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} em ${anoSelecionado}`
+                                                        : null,
                                 color: "white",
                                 font: {
                                     size: 16
