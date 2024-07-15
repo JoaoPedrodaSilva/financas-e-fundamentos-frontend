@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSelecionado, dadosCompletosDoSetorSelecionado }) => {
+export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSelecionado, dadosCompletosDoSetorSelecionado, dadosCompletosDoSetorSelecionadoSeparadosPorAno }) => {
 
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
@@ -11,12 +11,33 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
     const [configuraGrafico, setConfiguraGrafico] = useState(null)
 
 
+    const mostraAnoPorAnoNaTooltip = (codigoBase, dadosCompletosDoSetorSelecionadoSeparadosPorAno) => {
+        let dadosParaTooltip = []
+        dadosCompletosDoSetorSelecionadoSeparadosPorAno.map(cadaAno => {
+
+            if (cadaAno.codigoBase === codigoBase) {
+
+                dadosCompletosDoSetorSelecionado.map(cadaEmpresa => {
+
+                    if (cadaEmpresa.codigoBase === codigoBase && dadosParaTooltip.length === 0) {
+                        dadosParaTooltip.push(indicadorSelecionado.descricao)
+                        dadosParaTooltip.push(`Média do período: R$ ${cadaEmpresa[indicadorSelecionado.propriedade].toLocaleString("pt-BR")} milhões`)
+                    }
+                })
+
+                dadosParaTooltip.push(`${cadaAno.ano}: R$ ${cadaAno[indicadorSelecionado.propriedade].toLocaleString("pt-BR")} milhões`)
+            }
+        })
+        return dadosParaTooltip
+    }
+
+
     //datasets
     useEffect(() => {
         setDatasets({
             labels: dadosCompletosDoSetorSelecionado.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => `${cadaEmpresa.nomeEmpresarial} - ${cadaEmpresa.codigoBase}`),
             datasets: [{
-                data: dadosCompletosDoSetorSelecionado.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado]),
+                data: dadosCompletosDoSetorSelecionado.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado.propriedade]),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
                 hidden: false,
@@ -31,146 +52,48 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
     useEffect(() => {
         {
             (() => {
-                switch (indicadorSelecionado) {
-                    case "receitaLiquida":
+                switch (true) {
+                    case indicadorSelecionado.propriedade === "receitaLiquida"
+                        || indicadorSelecionado.propriedade === "lucroOperacional"
+                        || indicadorSelecionado.propriedade === "lucroLiquido"
+                        || indicadorSelecionado.propriedade === "patrimonioLiquido":
                         setConfiguraGrafico({
-                            tituloGrafico: "Receita Líquida",
+                            tituloGrafico: indicadorSelecionado.descricao,
                             tituloEixoX: {
                                 display: true,
                                 text: "Milhões de R$",
                                 color: "white"
                             },
                             labelEixoX: value => value.toLocaleString("pt-BR"),
-                            labelTooltip: context => `Receita Líquida: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                            labelTooltip: context => `${indicadorSelecionado.descricao}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
                         })
                         break
 
-                    case "lucroOperacional":
+                    case indicadorSelecionado.propriedade === "dividaLiquidaPeloEbitda"
+                        || indicadorSelecionado.propriedade === "dividaBrutaPeloPatrimonioLiquido":
                         setConfiguraGrafico({
-                            tituloGrafico: "Lucro Operacional",
-                            tituloEixoX: {
-                                display: true,
-                                text: "Milhões de R$",
-                                color: "white"
-                            },
-                            labelEixoX: value => value.toLocaleString("pt-BR"),
-                            labelTooltip: context => `Lucro Operacional: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
-                        })
-                        break
-
-                    case "lucroLiquido":
-                        setConfiguraGrafico({
-                            tituloGrafico: "Lucro Líquido",
-                            tituloEixoX: {
-                                display: true,
-                                text: "Milhões de R$",
-                                color: "white"
-                            },
-                            labelEixoX: value => value.toLocaleString("pt-BR"),
-                            labelTooltip: context => `Lucro Líquido: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
-                        })
-                        break
-
-                    case "patrimonioLiquido":
-                        setConfiguraGrafico({
-                            tituloGrafico: "Patrimônio Líquido",
-                            tituloEixoX: {
-                                display: true,
-                                text: "Milhões de R$",
-                                color: "white"
-                            },
-                            labelEixoX: value => value.toLocaleString("pt-BR"),
-                            labelTooltip: context => `Patrimônio Líquido: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
-                        })
-                        break
-
-                    case "dividaLiquidaPeloEbitda":
-                        setConfiguraGrafico({
-                            tituloGrafico: "Dívida Líquida / EBITDA",
+                            tituloGrafico: indicadorSelecionado.descricao,
                             tituloEixoX: {
                                 display: false
                             },
                             labelEixoX: value => `${(value * 100).toFixed(0)}%`,
-                            labelTooltip: context => `Dívida Líquida / EBITDA: ${Math.round(context.raw * 100)}%`
+                            labelTooltip: context => `${indicadorSelecionado.descricao}: ${Math.round(context.raw * 100)}%`
                         })
                         break
 
-                    case "dividaBrutaPeloPatrimonioLiquido":
+
+                    case indicadorSelecionado.propriedade === "margemOperacional"
+                        || indicadorSelecionado.propriedade === "margemLiquida"
+                        || indicadorSelecionado.propriedade === "capexPeloFCO"
+                        || indicadorSelecionado.propriedade === "payout"
+                        || indicadorSelecionado.propriedade === "retornoPeloPatrimonioLiquido":
                         setConfiguraGrafico({
-                            tituloGrafico: "Dívida Bruta / Patrimônio Líquido",
+                            tituloGrafico: indicadorSelecionado.descricao,
                             tituloEixoX: {
                                 display: false
                             },
                             labelEixoX: value => `${(value * 100).toFixed(0)}%`,
-                            labelTooltip: context => `Dívida Bruta / Patrimônio Líquido: ${Math.round(context.raw * 100)}%`
-                        })
-                        break
-
-                    case "margemOperacional":
-                        setConfiguraGrafico({
-                            tituloGrafico: "Margem Operacional",
-                            tituloEixoX: {
-                                display: false
-                            },
-                            labelEixoX: value => `${(value * 100).toFixed(0)}%`,
-                            labelTooltip: context => `Margem Operacional: ${Math.round(context.raw * 100)}%`
-                        })
-                        break
-
-                    case "margemLiquida":
-                        setConfiguraGrafico({
-                            tituloGrafico: "Margem Líquida",
-                            tituloEixoX: {
-                                display: false
-                            },
-                            labelEixoX: value => `${(value * 100).toFixed(0)}%`,
-                            labelTooltip: context => `Margem Líquida: ${Math.round(context.raw * 100)}%`
-                        })
-                        break
-
-                    case "capexPeloFCO":
-                        setConfiguraGrafico({
-                            tituloGrafico: "CAPEX / FCO",
-                            tituloEixoX: {
-                                display: false
-                            },
-                            labelEixoX: value => `${(value * 100).toFixed(0)}%`,
-                            labelTooltip: context => `CAPEX / FCO: ${Math.round(context.raw * 100)}%`
-                        })
-                        break
-
-                    case "payout":
-                        setConfiguraGrafico({
-                            tituloGrafico: "Payout",
-                            tituloEixoX: {
-                                display: false
-                            },
-                            labelEixoX: value => `${(value * 100).toFixed(0)}%`,
-                            labelTooltip: context => `Payout: ${Math.round(context.raw * 100)}%`
-                        })
-                        break
-
-                    case "retornoPeloPatrimonioLiquido":
-                        setConfiguraGrafico({
-                            tituloGrafico: "ROE",
-                            tituloEixoX: {
-                                display: false
-                            },
-                            labelEixoX: value => `${(value * 100).toFixed(0)}%`,
-                            labelTooltip: context => `ROE: ${Math.round(context.raw * 100)}%`
-                        })
-                        break
-
-                    default:
-                        setConfiguraGrafico({
-                            tituloGrafico: "Lucro Líquido",
-                            tituloEixoX: {
-                                display: true,
-                                text: "Milhões de R$",
-                                color: "white"
-                            },
-                            labelEixoX: value => value.toLocaleString("pt-BR"),
-                            labelTooltip: context => `Lucro Líquido: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                            labelTooltip: context => `${indicadorSelecionado.descricao}: ${Math.round(context.raw * 100)}%`
                         })
                         break
                 }
@@ -243,10 +166,9 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                             },
                             tooltip: {
                                 callbacks: {
-                                    label: context => context.raw === null ?
-                                        `${context.dataset.label}: Dados não disponibilizados pela empresa` :
-                                        configuraGrafico.labelTooltip(context),
-
+                                    label: context => context.raw === null
+                                        ? `${context.dataset.label}: Dados não disponibilizados pela empresa`
+                                        : mostraAnoPorAnoNaTooltip(context.label.slice(-4), dadosCompletosDoSetorSelecionadoSeparadosPorAno),
                                     labelTextColor: context => context.raw < 0 ? "red" : "white"
                                 }
                             },

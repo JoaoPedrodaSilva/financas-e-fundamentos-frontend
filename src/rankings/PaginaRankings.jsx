@@ -7,6 +7,7 @@ export const PaginaRankings = () => {
     const [anoSelecionado, setAnoSelecionado] = useState("MediaDosCincoUltimosAnos")
     const [setorSelecionado, setSetorSelecionado] = useState("Bancos")
     const [dadosCompletosDoSetorSelecionado, setDadosCompletosDoSetorSelecionado] = useState(null)
+    const [dadosCompletosDoSetorSelecionadoSeparadosPorAno, setDadosCompletosDoSetorSelecionadoSeparadosPorAno] = useState(null)
     
 
     const ordenaPeloIndicadorSelecionado = (dadosQueSeraoOrdenados, indicadorQueSeraUsadoParaOrdenar) => {
@@ -20,6 +21,46 @@ export const PaginaRankings = () => {
             return 0;
         })
         return emOrdemCrescente.reverse()
+    }
+
+    const indicadorSelecionadoComDescricao = (indicadorSelecionado) => {
+        switch (indicadorSelecionado) {
+            case "receitaLiquida":
+                return { propriedade: "receitaLiquida", descricao: "Receita Líquida" }
+
+            case "lucroOperacional":
+                return { propriedade: "lucroOperacional", descricao: "Lucro Operacional" }
+
+            case "lucroLiquido":
+                return { propriedade: "lucroLiquido", descricao: "Lucro Líquido" }
+
+            case "patrimonioLiquido":
+                return { propriedade: "patrimonioLiquido", descricao: "Patrimônio Líquido" }
+
+            case "dividaLiquidaPeloEbitda":
+                return { propriedade: "dividaLiquidaPeloEbitda", descricao: "Dívida Líquida / EBITDA" }
+
+            case "dividaBrutaPeloPatrimonioLiquido":
+                return { propriedade: "dividaBrutaPeloPatrimonioLiquido", descricao: "Dívida Bruta / Patrimônio Líquido" }
+
+            case "margemOperacional":
+                return { propriedade: "margemOperacional", descricao: "Margem Operacional" }
+
+            case "margemLiquida":
+                return { propriedade: "margemLiquida", descricao: "Margem Líquida" }
+
+            case "retornoPeloPatrimonioLiquido":
+                return { propriedade: "retornoPeloPatrimonioLiquido", descricao: "ROE" }
+
+            case "capexPeloFCO":
+                return { propriedade: "capexPeloFCO", descricao: "CAPEX / FCO" }
+
+            case "payout":
+                return { propriedade: "payout", descricao: "Payout" }
+        
+            default:
+                return { propriedade: "receitaLiquida", descricao: "Receita Líquida" }
+        }
     }
 
 
@@ -38,8 +79,10 @@ export const PaginaRankings = () => {
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/rankings/${anoSelecionado}/${setorSelecionado}/`)
             .then(response => response.json())
-            .then(data => setDadosCompletosDoSetorSelecionado(data.dadosCompletosDoSetorSelecionado)
-            )
+            .then(data => {
+                setDadosCompletosDoSetorSelecionado(data.dadosCompletosDoSetorSelecionado)
+                setDadosCompletosDoSetorSelecionadoSeparadosPorAno(data.dadosCompletosDoSetorSelecionadoSeparadosPorAno)
+            })
             .catch(error => console.error(error))
     }, [anoSelecionado, setorSelecionado])
     
@@ -59,14 +102,16 @@ export const PaginaRankings = () => {
     //render when data arrives
     //renderiza quando os dados chegarem
     return (
-        <section className='h-full flex flex-row justify-center items-center gap-2 px-5 lg:px-20'> 
+        <section className='h-full flex flex-row justify-center items-center gap-2 px-5 lg:px-20'>
             <section className="w-full lg:max-w-xl flex flex-col gap-3">
                 {/* metrics dropdown */}
                 {/* dropdown dos indicadores */}
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={indicadorSelecionado}
-                    onChange={event => setIndicadorSelecionado(event.target.value)}
+                    onChange={event => {
+                        setIndicadorSelecionado(event.target.value)                        
+                    }}
                 >
                     <>
                         <option value="receitaLiquida">RECEITA LÍQUIDA</option>
@@ -122,10 +167,11 @@ export const PaginaRankings = () => {
             <section className='w-full flex flex-col justify-center items-center gap-2'>
                 <div className='relative w-full p-1 border border-white rounded'>
                     <GraficoRankings
-                        indicadorSelecionado={indicadorSelecionado}
+                        indicadorSelecionado={indicadorSelecionadoComDescricao(indicadorSelecionado)}
                         anoSelecionado={anoSelecionado}
                         setorSelecionado={setorSelecionado}
                         dadosCompletosDoSetorSelecionado={ordenaPeloIndicadorSelecionado(dadosCompletosDoSetorSelecionado, indicadorSelecionado)}
+                        dadosCompletosDoSetorSelecionadoSeparadosPorAno={dadosCompletosDoSetorSelecionadoSeparadosPorAno}
                     />
                 </div>
 
