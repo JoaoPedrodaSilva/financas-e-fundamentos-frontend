@@ -6,9 +6,10 @@ export const PaginaRankings = () => {
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("receitaLiquida")
     const [anoSelecionado, setAnoSelecionado] = useState("MediaDosCincoUltimosAnos")
     const [setorSelecionado, setSetorSelecionado] = useState("Bancos")
+    const [quantidadeDeResultados, setQuantidadeDeResultados] = useState(15)
     const [dadosCompletosDoSetorSelecionado, setDadosCompletosDoSetorSelecionado] = useState(null)
     const [dadosCompletosDoSetorSelecionadoSeparadosPorAno, setDadosCompletosDoSetorSelecionadoSeparadosPorAno] = useState(null)
-    
+
 
     const ordenaPeloIndicadorSelecionado = (dadosQueSeraoOrdenados, indicadorQueSeraUsadoParaOrdenar) => {
         const emOrdemCrescente = dadosQueSeraoOrdenados.sort((primeiraEmpresa, segundaEmpresa) => {
@@ -26,40 +27,51 @@ export const PaginaRankings = () => {
     const indicadorSelecionadoComDescricao = (indicadorSelecionado) => {
         switch (indicadorSelecionado) {
             case "receitaLiquida":
-                return { propriedade: "receitaLiquida", descricao: "Receita Líquida" }
+                return { propriedade: "receitaLiquida", descricao: "Receita Líquida", formato: "milhões" }
 
             case "lucroOperacional":
-                return { propriedade: "lucroOperacional", descricao: "Lucro Operacional" }
+                return { propriedade: "lucroOperacional", descricao: "Lucro Operacional", formato: "milhões" }
 
             case "lucroLiquido":
-                return { propriedade: "lucroLiquido", descricao: "Lucro Líquido" }
+                return { propriedade: "lucroLiquido", descricao: "Lucro Líquido", formato: "milhões" }
 
             case "patrimonioLiquido":
-                return { propriedade: "patrimonioLiquido", descricao: "Patrimônio Líquido" }
+                return { propriedade: "patrimonioLiquido", descricao: "Patrimônio Líquido", formato: "milhões" }
 
             case "dividaLiquidaPeloEbitda":
-                return { propriedade: "dividaLiquidaPeloEbitda", descricao: "Dívida Líquida / EBITDA" }
+                return { propriedade: "dividaLiquidaPeloEbitda", descricao: "Dívida Líquida / EBITDA", formato: "decimal" }
 
             case "dividaBrutaPeloPatrimonioLiquido":
-                return { propriedade: "dividaBrutaPeloPatrimonioLiquido", descricao: "Dívida Bruta / Patrimônio Líquido" }
+                return { propriedade: "dividaBrutaPeloPatrimonioLiquido", descricao: "Dívida Bruta / Patrimônio Líquido", formato: "decimal" }
 
             case "margemOperacional":
-                return { propriedade: "margemOperacional", descricao: "Margem Operacional" }
+                return { propriedade: "margemOperacional", descricao: "Margem Operacional", formato: "percentual" }
 
             case "margemLiquida":
-                return { propriedade: "margemLiquida", descricao: "Margem Líquida" }
+                return { propriedade: "margemLiquida", descricao: "Margem Líquida", formato: "percentual" }
 
             case "retornoPeloPatrimonioLiquido":
-                return { propriedade: "retornoPeloPatrimonioLiquido", descricao: "ROE" }
+                return { propriedade: "retornoPeloPatrimonioLiquido", descricao: "ROE", formato: "percentual" }
 
             case "capexPeloFCO":
-                return { propriedade: "capexPeloFCO", descricao: "CAPEX / FCO" }
+                return { propriedade: "capexPeloFCO", descricao: "CAPEX / FCO", formato: "percentual" }
 
             case "payout":
-                return { propriedade: "payout", descricao: "Payout" }
-        
+                return { propriedade: "payout", descricao: "Payout", formato: "percentual" }
+
             default:
-                return { propriedade: "receitaLiquida", descricao: "Receita Líquida" }
+                return { propriedade: "receitaLiquida", descricao: "Receita Líquida", formato: "milhões" }
+        }
+    }
+
+    const voltaParaReceitaLiquida = (dadosCompletosDoSetorSelecionado) => {
+        if (dadosCompletosDoSetorSelecionado[0].classificacaoSetorial === "Bancos"
+            && indicadorSelecionado === "lucroOperacional"
+                || indicadorSelecionado === "dividaLiquidaPeloEbitda"
+                || indicadorSelecionado === "dividaBrutaPeloPatrimonioLiquido"
+                || indicadorSelecionado === "margemOperacional"
+        ) {
+            setIndicadorSelecionado("receitaLiquida")
         }
     }
 
@@ -82,10 +94,11 @@ export const PaginaRankings = () => {
             .then(data => {
                 setDadosCompletosDoSetorSelecionado(data.dadosCompletosDoSetorSelecionado)
                 setDadosCompletosDoSetorSelecionadoSeparadosPorAno(data.dadosCompletosDoSetorSelecionadoSeparadosPorAno)
+                voltaParaReceitaLiquida(data.dadosCompletosDoSetorSelecionado)
             })
             .catch(error => console.error(error))
-    }, [anoSelecionado, setorSelecionado])
-    
+    }, [anoSelecionado, setorSelecionado, indicadorSelecionado])
+
 
     //render while data are being fetched
     //renderiza enquanto os dados estão sendo buscados
@@ -106,21 +119,22 @@ export const PaginaRankings = () => {
             <section className="w-full lg:max-w-xl flex flex-col gap-3">
                 {/* metrics dropdown */}
                 {/* dropdown dos indicadores */}
+                <p className="text-white">Selecione o indicador que deseja analisar:</p>
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={indicadorSelecionado}
                     onChange={event => {
-                        setIndicadorSelecionado(event.target.value)                        
+                        setIndicadorSelecionado(event.target.value)
                     }}
                 >
                     <>
                         <option value="receitaLiquida">RECEITA LÍQUIDA</option>
-                        <option value="lucroOperacional">LUCRO OPERACIONAL</option>
+                        {dadosCompletosDoSetorSelecionado[0].classificacaoSetorial !== "Bancos" && <option value="lucroOperacional">LUCRO OPERACIONAL</option>}
                         <option value="lucroLiquido">LUCRO LÍQUIDO</option>
                         <option value="patrimonioLiquido">PATRIMÔNIO LÍQUIDO</option>
-                        <option value="dividaLiquidaPeloEbitda">DÍVIDA LÍQUIDA / EBITDA</option>
-                        <option value="dividaBrutaPeloPatrimonioLiquido">DÍVIDA BRUTA / PATRIMÔNIO LÍQUIDO</option>
-                        <option value="margemOperacional">MARGEM OPERACIONAL</option>
+                        {dadosCompletosDoSetorSelecionado[0].classificacaoSetorial !== "Bancos" && <option value="dividaLiquidaPeloEbitda">DÍVIDA LÍQUIDA / EBITDA</option>}
+                        {dadosCompletosDoSetorSelecionado[0].classificacaoSetorial !== "Bancos" && <option value="dividaBrutaPeloPatrimonioLiquido">DÍVIDA BRUTA / PATRIMÔNIO LÍQUIDO</option>}
+                        {dadosCompletosDoSetorSelecionado[0].classificacaoSetorial !== "Bancos" && <option value="margemOperacional">MARGEM OPERACIONAL</option>}
                         <option value="margemLiquida">MARGEM LÍQUIDA</option>
                         <option value="retornoPeloPatrimonioLiquido">ROE</option>
                         <option value="capexPeloFCO">CAPEX / FCO</option>
@@ -130,14 +144,15 @@ export const PaginaRankings = () => {
 
                 {/* year dropdown */}
                 {/* dropdown dos anos */}
+                <p className="text-white mt-6">Selecione o período que deseja analisar:</p>
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={anoSelecionado}
                     onChange={event => setAnoSelecionado(event.target.value)}
                 >
                     <>
-                        <option value="MediaDosCincoUltimosAnos">Média dos últimos 5 anos</option>
-                        <option value="MediaDosTresUltimosAnos">Média dos últimos 3 anos</option>
+                        <option value="MediaDosCincoUltimosAnos">MÉDIA DOS ÚLTIMOS 5 ANOS</option>
+                        <option value="MediaDosTresUltimosAnos">MÉDIA DOS ÚLTIMOS 3 ANOS</option>
                         <option value="2023">2023</option>
                         <option value="2022">2022</option>
                         <option value="2021">2021</option>
@@ -148,6 +163,7 @@ export const PaginaRankings = () => {
 
                 {/* setorial classification dropdown */}
                 {/* dropdown da classificação setorial */}
+                <p className="text-white mt-6">Selecione o setor que deseja analisar:</p>
                 <select
                     className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={setorSelecionado}
@@ -158,6 +174,23 @@ export const PaginaRankings = () => {
                             <option key={index} value={cadaSetorUnico}>{cadaSetorUnico.toUpperCase()}</option>
                         ))}
                     </>
+                </select>
+
+                {/* number of results dropdown */}
+                {/* dropdown do numero de resultados */}
+                <p className="text-white mt-6">Selecione quantos resultados você deseja ver:</p>
+                <select
+                    className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
+                    value={quantidadeDeResultados}
+                    onChange={event => setQuantidadeDeResultados(event.target.value)}
+                >
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
                 </select>
             </section>
 
@@ -170,6 +203,7 @@ export const PaginaRankings = () => {
                         indicadorSelecionado={indicadorSelecionadoComDescricao(indicadorSelecionado)}
                         anoSelecionado={anoSelecionado}
                         setorSelecionado={setorSelecionado}
+                        quantidadeDeResultados={quantidadeDeResultados}
                         dadosCompletosDoSetorSelecionado={ordenaPeloIndicadorSelecionado(dadosCompletosDoSetorSelecionado, indicadorSelecionado)}
                         dadosCompletosDoSetorSelecionadoSeparadosPorAno={dadosCompletosDoSetorSelecionadoSeparadosPorAno}
                     />

@@ -2,30 +2,77 @@ import { useEffect, useState } from 'react'
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSelecionado, dadosCompletosDoSetorSelecionado, dadosCompletosDoSetorSelecionadoSeparadosPorAno }) => {
+export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSelecionado, quantidadeDeResultados, dadosCompletosDoSetorSelecionado, dadosCompletosDoSetorSelecionadoSeparadosPorAno }) => {
 
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [datasets, setDatasets] = useState(null)
-    const [quantidadeDeEmpresas, setQuantidadeDeEmpresas] = useState(25)
+    // const [quantidadeDeResultados, setQuantidadeDeResultados] = useState(25)
     const [configuraGrafico, setConfiguraGrafico] = useState(null)
 
 
-    const mostraAnoPorAnoNaTooltip = (codigoBase, dadosCompletosDoSetorSelecionadoSeparadosPorAno) => {
+    const configuraLabelTooltip = (context, dadosCompletosDoSetorSelecionadoSeparadosPorAno) => {
+
+        //para quando não for média
+        if (dadosCompletosDoSetorSelecionadoSeparadosPorAno.length === 0) {
+            switch (indicadorSelecionado.formato) {
+                case "milhões":
+                    return `${indicadorSelecionado.descricao} em ${anoSelecionado}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+            
+                case "percentual":
+                    return `${indicadorSelecionado.descricao} em ${anoSelecionado}: ${Math.round(context.raw * 100)}%`
+
+                case "decimal":
+                    return `${indicadorSelecionado.descricao} em ${anoSelecionado}: ${context.raw.toLocaleString("pt-BR")}`
+            }
+        }
+        
+        //para quando for média
         let dadosParaTooltip = []
+
         dadosCompletosDoSetorSelecionadoSeparadosPorAno.map(cadaAno => {
 
-            if (cadaAno.codigoBase === codigoBase) {
+            if (cadaAno.codigoBase === context.label.slice(-4)) {
 
                 dadosCompletosDoSetorSelecionado.map(cadaEmpresa => {
 
-                    if (cadaEmpresa.codigoBase === codigoBase && dadosParaTooltip.length === 0) {
-                        dadosParaTooltip.push(indicadorSelecionado.descricao)
-                        dadosParaTooltip.push(`Média do período: R$ ${cadaEmpresa[indicadorSelecionado.propriedade].toLocaleString("pt-BR")} milhões`)
+                    //descrição do indicador e média
+                    if (cadaEmpresa.codigoBase === context.label.slice(-4) && dadosParaTooltip.length === 0) {
+                        dadosParaTooltip.push(`${indicadorSelecionado.descricao}`)
+                        dadosParaTooltip.push(``)
+                        switch (indicadorSelecionado.formato) {
+                            case "milhões":
+                                dadosParaTooltip.push(`Média do período: R$ ${cadaEmpresa[indicadorSelecionado.propriedade].toLocaleString("pt-BR")} milhões`)
+                                dadosParaTooltip.push(``)
+                                break
+
+                            case "percentual":
+                                dadosParaTooltip.push(`Média do período: ${Math.round(cadaEmpresa[indicadorSelecionado.propriedade] * 100)}%`)
+                                dadosParaTooltip.push(``)
+                                break
+
+                            case "decimal":
+                                dadosParaTooltip.push(`Média do período: ${cadaEmpresa[indicadorSelecionado.propriedade].toLocaleString("pt-BR")}`)
+                                dadosParaTooltip.push(``)
+                                break
+                        }
                     }
                 })
 
-                dadosParaTooltip.push(`${cadaAno.ano}: R$ ${cadaAno[indicadorSelecionado.propriedade].toLocaleString("pt-BR")} milhões`)
+                //ano por ano
+                switch (indicadorSelecionado.formato) {
+                    case "milhões":
+                        dadosParaTooltip.push(`${cadaAno.ano}: R$ ${cadaAno[indicadorSelecionado.propriedade].toLocaleString("pt-BR")} milhões`)
+                        break
+
+                    case "percentual":
+                        dadosParaTooltip.push(`${cadaAno.ano}: ${Math.round(cadaAno[indicadorSelecionado.propriedade] * 100)}%`)
+                        break
+
+                    case "decimal":
+                        dadosParaTooltip.push(`${cadaAno.ano}: ${cadaAno[indicadorSelecionado.propriedade].toLocaleString("pt-BR")}`)
+                        break
+                }
             }
         })
         return dadosParaTooltip
@@ -35,9 +82,9 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
     //datasets
     useEffect(() => {
         setDatasets({
-            labels: dadosCompletosDoSetorSelecionado.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => `${cadaEmpresa.nomeEmpresarial} - ${cadaEmpresa.codigoBase}`),
+            labels: dadosCompletosDoSetorSelecionado.slice(0, quantidadeDeResultados).map(cadaEmpresa => `${cadaEmpresa.nomeEmpresarial} - ${cadaEmpresa.codigoBase}`),
             datasets: [{
-                data: dadosCompletosDoSetorSelecionado.slice(0, quantidadeDeEmpresas).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado.propriedade]),
+                data: dadosCompletosDoSetorSelecionado.slice(0, quantidadeDeResultados).map(cadaEmpresa => cadaEmpresa[indicadorSelecionado.propriedade]),
                 backgroundColor: cores[0],
                 borderColor: cores[0],
                 hidden: false,
@@ -65,7 +112,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                                 color: "white"
                             },
                             labelEixoX: value => value.toLocaleString("pt-BR"),
-                            labelTooltip: context => `${indicadorSelecionado.descricao}: R$ ${context.raw.toLocaleString("pt-BR")} milhões`
+                            labelTooltip: context => configuraLabelTooltip(context, dadosCompletosDoSetorSelecionadoSeparadosPorAno)
                         })
                         break
 
@@ -77,7 +124,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                                 display: false
                             },
                             labelEixoX: value => `${(value * 100).toFixed(0)}%`,
-                            labelTooltip: context => `${indicadorSelecionado.descricao}: ${Math.round(context.raw * 100)}%`
+                            labelTooltip: context => configuraLabelTooltip(context, dadosCompletosDoSetorSelecionadoSeparadosPorAno)
                         })
                         break
 
@@ -93,7 +140,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                                 display: false
                             },
                             labelEixoX: value => `${(value * 100).toFixed(0)}%`,
-                            labelTooltip: context => `${indicadorSelecionado.descricao}: ${Math.round(context.raw * 100)}%`
+                            labelTooltip: context => configuraLabelTooltip(context, dadosCompletosDoSetorSelecionadoSeparadosPorAno)
                         })
                         break
                 }
@@ -134,7 +181,10 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                             y: {
                                 position: 'left',
                                 ticks: {
-                                    color: "white"
+                                    color: "white",
+                                    font: {
+                                        size: quantidadeDeResultados <= 25 ? 12 : 8,
+                                    }
                                 },
                                 grid: {
                                     display: true,
@@ -168,7 +218,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                                 callbacks: {
                                     label: context => context.raw === null
                                         ? `${context.dataset.label}: Dados não disponibilizados pela empresa`
-                                        : mostraAnoPorAnoNaTooltip(context.label.slice(-4), dadosCompletosDoSetorSelecionadoSeparadosPorAno),
+                                        : configuraGrafico.labelTooltip(context),
                                     labelTextColor: context => context.raw < 0 ? "red" : "white"
                                 }
                             },
