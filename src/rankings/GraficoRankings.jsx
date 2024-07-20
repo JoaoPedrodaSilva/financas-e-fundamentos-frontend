@@ -7,7 +7,6 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [datasets, setDatasets] = useState(null)
-    // const [quantidadeDeResultados, setQuantidadeDeResultados] = useState(25)
     const [configuraGrafico, setConfiguraGrafico] = useState(null)
 
 

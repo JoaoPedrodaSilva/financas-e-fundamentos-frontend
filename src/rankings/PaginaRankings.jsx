@@ -66,10 +66,10 @@ export const PaginaRankings = () => {
 
     const voltaParaReceitaLiquida = (dadosCompletosDoSetorSelecionado) => {
         if (dadosCompletosDoSetorSelecionado[0].classificacaoSetorial === "Bancos"
-            && indicadorSelecionado === "lucroOperacional"
+            && (indicadorSelecionado === "lucroOperacional"
                 || indicadorSelecionado === "dividaLiquidaPeloEbitda"
                 || indicadorSelecionado === "dividaBrutaPeloPatrimonioLiquido"
-                || indicadorSelecionado === "margemOperacional"
+                || indicadorSelecionado === "margemOperacional")
         ) {
             setIndicadorSelecionado("receitaLiquida")
         }
