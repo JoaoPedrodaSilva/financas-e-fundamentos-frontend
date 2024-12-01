@@ -81,7 +81,7 @@ export const PaginaRankings = () => {
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
             .then(response => response.json())
-            .then(data => setListaComTodosOsSetores(['Todos', ...new Set(data.dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => cadaEmpresa.classificacaoSetorial))]))
+            .then(data => setListaComTodosOsSetores(['Todos', ...[...new Set(data.dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => cadaEmpresa.classificacaoSetorial))].sort()]))
             .catch(error => console.error(error))
     }, [])
 
