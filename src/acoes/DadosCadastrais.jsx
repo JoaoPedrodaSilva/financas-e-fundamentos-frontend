@@ -30,3 +30,5 @@ export const DadosCadastrais = ({ dadosCadastraisDaEmpresaSelecionada }) => (
         </p>
     </section>
 )
+
+// testing
