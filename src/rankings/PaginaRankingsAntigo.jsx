@@ -4,7 +4,7 @@ import { GraficoRankings } from './GraficoRankings'
 export const PaginaRankings = () => {
     const [listaComTodosOsSetores, setListaComTodosOsSetores] = useState(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("receitaLiquida")
-    const [anoSelecionado, setAnoSelecionado] = useState("MedianaDosCincoUltimosAnos")
+    const [anoSelecionado, setAnoSelecionado] = useState("MediaDosCincoUltimosAnos")
     const [setorSelecionado, setSetorSelecionado] = useState("Bancos")
     const [quantidadeDeResultados, setQuantidadeDeResultados] = useState(15)
     const [dadosCompletosDoSetorSelecionado, setDadosCompletosDoSetorSelecionado] = useState(null)
@@ -73,7 +73,7 @@ export const PaginaRankings = () => {
         ) {
             setIndicadorSelecionado("receitaLiquida")
         }
-    }    
+    }
 
 
     //fetch and setState for all companies and its registration data - for purpose of finding all unique sectors registered at database and feed the select
@@ -81,7 +81,7 @@ export const PaginaRankings = () => {
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/acoes/`)
             .then(response => response.json())
-            .then(data => setListaComTodosOsSetores(['Todos', ...new Set(data.dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => cadaEmpresa.classificacaoSetorial))].sort()))
+            .then(data => setListaComTodosOsSetores(['Todos', ...new Set(data.dadosCadastraisDeTodasEmpresas.map(cadaEmpresa => cadaEmpresa.classificacaoSetorial))]))
             .catch(error => console.error(error))
     }, [])
 
@@ -151,8 +151,8 @@ export const PaginaRankings = () => {
                     onChange={event => setAnoSelecionado(event.target.value)}
                 >
                     <>
-                        <option value="MedianaDosCincoUltimosAnos">MEDIANA DOS ÚLTIMOS 5 ANOS</option>
-                        <option value="MedianaDosTresUltimosAnos">MEDIANA DOS ÚLTIMOS 3 ANOS</option>
+                        <option value="MediaDosCincoUltimosAnos">MÉDIA DOS ÚLTIMOS 5 ANOS</option>
+                        <option value="MediaDosTresUltimosAnos">MÉDIA DOS ÚLTIMOS 3 ANOS</option>
                         <option value="2023">2023</option>
                         <option value="2022">2022</option>
                         <option value="2021">2021</option>

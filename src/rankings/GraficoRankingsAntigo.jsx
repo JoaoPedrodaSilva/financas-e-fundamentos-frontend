@@ -12,7 +12,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
 
     const configuraLabelTooltip = (context, dadosCompletosDoSetorSelecionadoSeparadosPorAno) => {
 
-        //para quando não for mediana
+        //para quando não for média
         if (dadosCompletosDoSetorSelecionadoSeparadosPorAno.length === 0) {
             switch (indicadorSelecionado.formato) {
                 case "milhões":
@@ -26,7 +26,7 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
             }
         }
         
-        //para quando for mediana
+        //para quando for média
         let dadosParaTooltip = []
 
         dadosCompletosDoSetorSelecionadoSeparadosPorAno.map(cadaAno => {
@@ -35,23 +35,23 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
 
                 dadosCompletosDoSetorSelecionado.map(cadaEmpresa => {
 
-                    //descrição do indicador e mediana
+                    //descrição do indicador e média
                     if (cadaEmpresa.codigoBase === context.label.slice(-4) && dadosParaTooltip.length === 0) {
                         dadosParaTooltip.push(`${indicadorSelecionado.descricao}`)
                         dadosParaTooltip.push(``)
                         switch (indicadorSelecionado.formato) {
                             case "milhões":
-                                dadosParaTooltip.push(`Mediana do período: R$ ${cadaEmpresa[indicadorSelecionado.propriedade].toLocaleString("pt-BR")} milhões`)
+                                dadosParaTooltip.push(`Média do período: R$ ${cadaEmpresa[indicadorSelecionado.propriedade].toLocaleString("pt-BR")} milhões`)
                                 dadosParaTooltip.push(``)
                                 break
 
                             case "percentual":
-                                dadosParaTooltip.push(`Mediana do período: ${Math.round(cadaEmpresa[indicadorSelecionado.propriedade] * 100)}%`)
+                                dadosParaTooltip.push(`Média do período: ${Math.round(cadaEmpresa[indicadorSelecionado.propriedade] * 100)}%`)
                                 dadosParaTooltip.push(``)
                                 break
 
                             case "decimal":
-                                dadosParaTooltip.push(`Mediana do período: ${cadaEmpresa[indicadorSelecionado.propriedade].toLocaleString("pt-BR")}`)
+                                dadosParaTooltip.push(`Média do período: ${cadaEmpresa[indicadorSelecionado.propriedade].toLocaleString("pt-BR")}`)
                                 dadosParaTooltip.push(``)
                                 break
                         }
@@ -194,18 +194,18 @@ export const GraficoRankings = ({ indicadorSelecionado, anoSelecionado, setorSel
                         plugins: {
                             title: {
                                 display: true,
-                                text: setorSelecionado === "Todos" && anoSelecionado === "MedianaDosTresUltimosAnos"
-                                    ? `${configuraGrafico.tituloGrafico} de Todos os Setores - Mediana dos últimos 3 anos`
-                                    : setorSelecionado === "Todos" && anoSelecionado === "MedianaDosCincoUltimosAnos"
-                                        ? `${configuraGrafico.tituloGrafico} de Todos os Setores - Mediana dos últimos 5 anos`
-                                        : setorSelecionado === "Todos" && anoSelecionado !== "MedianaDosTresUltimosAnos" && anoSelecionado !== "MedianaDosCincoUltimosAnos"
+                                text: setorSelecionado === "Todos" && anoSelecionado === "MediaDosTresUltimosAnos"
+                                    ? `${configuraGrafico.tituloGrafico} de Todos os Setores - Média dos últimos 3 anos`
+                                    : setorSelecionado === "Todos" && anoSelecionado === "MediaDosCincoUltimosAnos"
+                                        ? `${configuraGrafico.tituloGrafico} de Todos os Setores - Média dos últimos 5 anos`
+                                        : setorSelecionado === "Todos" && anoSelecionado !== "MediaDosTresUltimosAnos" && anoSelecionado !== "MediaDosCincoUltimosAnos"
                                             ? `${configuraGrafico.tituloGrafico} de Todos os Setores em ${anoSelecionado}`
 
-                                            : setorSelecionado !== "Todos" && anoSelecionado === "MedianaDosTresUltimosAnos"
-                                                ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} - Mediana dos últimos 3 anos`
-                                                : setorSelecionado !== "Todos" && anoSelecionado === "MedianaDosCincoUltimosAnos"
-                                                    ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} - Mediana dos últimos 5 anos`
-                                                    : setorSelecionado !== "Todos" && anoSelecionado !== "MedianaDosTresUltimosAnos" && anoSelecionado !== "MedianaDosCincoUltimosAnos"
+                                            : setorSelecionado !== "Todos" && anoSelecionado === "MediaDosTresUltimosAnos"
+                                                ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} - Média dos últimos 3 anos`
+                                                : setorSelecionado !== "Todos" && anoSelecionado === "MediaDosCincoUltimosAnos"
+                                                    ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} - Média dos últimos 5 anos`
+                                                    : setorSelecionado !== "Todos" && anoSelecionado !== "MediaDosTresUltimosAnos" && anoSelecionado !== "MediaDosCincoUltimosAnos"
                                                         ? `${configuraGrafico.tituloGrafico} do Setor de ${setorSelecionado} em ${anoSelecionado}`
                                                         : null,
                                 color: "white",
