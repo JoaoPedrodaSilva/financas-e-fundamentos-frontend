@@ -4,7 +4,7 @@ import { GraficoComparador } from "./GraficoComparador"
 export const PaginaComparador = () => {
     const [dadosCadastraisDeTodasEmpresas, setDadosCadastraisDeTodasEmpresas] = useState(null)
     const [indicadorSelecionado, setIndicadorSelecionado] = useState("lucroLiquido")
-    const [tresCodigosBaseSelecionados, setTresCodigosBaseSelecionados] = useState(["ARZZ", "LREN", "GUAR"])
+    const [tresCodigosBaseSelecionados, setTresCodigosBaseSelecionados] = useState(["AZZA", "LREN", "GUAR"])
     const [dadosCompletosDasTresEmpresasSelecionadas, setDadosCompletosDasTresEmpresasSelecionadas] = useState(null)
 
 
@@ -54,8 +54,8 @@ export const PaginaComparador = () => {
     }
 
 
-    //render when data arrives
-    //renderiza quando os dados chegarem
+    //render while awaiting data
+    //renderiza enquanto aguarda os dados
     if (!dadosCadastraisDeTodasEmpresas || !dadosCompletosDasTresEmpresasSelecionadas) {
         return (
             <div className="flex flex-col justify-center items-center gap-3 mt-48">
