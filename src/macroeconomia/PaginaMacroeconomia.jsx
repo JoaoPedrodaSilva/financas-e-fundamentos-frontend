@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import { GraficoMacroeconomia } from "./GraficoMacroeconomia"
 
-export const PaginaMacroeconomia = () => {
+export const PaginaMacroeconomia = () => {    
+    const [quantidadeMeses, setQuantidadeMeses] = useState(36) //fazer um select para usuário escolher
     const [todosIndicadores, setTodosIndicadores] = useState(null)
 
     const [leiaMaisIpcaDozeMeses, setLeiaMaisIpcaDozeMeses] = useState(false)
@@ -9,9 +10,6 @@ export const PaginaMacroeconomia = () => {
 
     const [leiaMaisSelicMeta, setLeiaMaisSelicMeta] = useState(false)
     const [selicMeta, setSelicMeta] = useState(null)
-
-    const [leiaMaisEmbi, setLeiaMaisEmbi] = useState(false)
-    const [embi, setEmbi] = useState(null)
 
     const [leiaMaisDolarEua, setLeiaMaisDolarEua] = useState(false)
     const [dolarEua, setDolarEua] = useState(null)
@@ -26,7 +24,7 @@ export const PaginaMacroeconomia = () => {
                 const todosIndicadores = data.todosIndicadores
 
                 const dadosCadastraisIpcaDozeMeses = todosIndicadores.filter(cadaIndicador => cadaIndicador.id === "1")[0]
-                const historicoValoresIpcaDozeMeses = data.historicoValoresIpcaDozeMeses.map(cadaCompetencia => (
+                const historicoValoresIpcaDozeMeses = data.historicoValoresIpcaDozeMeses.slice(-quantidadeMeses).map(cadaCompetencia => (
                     {
                         competencia: `${nomeMeses[new Date(cadaCompetencia.competencia).getUTCMonth()]} / ${new Date(cadaCompetencia.competencia).getUTCFullYear()}`,
                         valor: cadaCompetencia.valor === null ? null : Number(cadaCompetencia.valor).toFixed(2)
@@ -35,16 +33,7 @@ export const PaginaMacroeconomia = () => {
 
 
                 const dadosCadastraisSelicMeta = todosIndicadores.filter(cadaIndicador => cadaIndicador.id === "2")[0]
-                const historicoValoresSelicMeta = data.historicoValoresSelicMeta.map(cadaCompetencia => (
-                    {
-                        competencia: `${nomeMeses[new Date(cadaCompetencia.competencia).getUTCMonth()]} / ${new Date(cadaCompetencia.competencia).getUTCFullYear()}`,
-                        valor: cadaCompetencia.valor === null ? null : Number(cadaCompetencia.valor).toFixed(2)
-                    }
-                ))
-
-
-                const dadosCadastraisEmbi = todosIndicadores.filter(cadaIndicador => cadaIndicador.id === "3")[0]
-                const historicoValoresEmbi = data.historicoValoresEmbi.map(cadaCompetencia => (
+                const historicoValoresSelicMeta = data.historicoValoresSelicMeta.slice(-quantidadeMeses).map(cadaCompetencia => (
                     {
                         competencia: `${nomeMeses[new Date(cadaCompetencia.competencia).getUTCMonth()]} / ${new Date(cadaCompetencia.competencia).getUTCFullYear()}`,
                         valor: cadaCompetencia.valor === null ? null : Number(cadaCompetencia.valor).toFixed(2)
@@ -53,19 +42,18 @@ export const PaginaMacroeconomia = () => {
 
 
                 const dadosCadastraisDolarEua = todosIndicadores.filter(cadaIndicador => cadaIndicador.id === "5")[0]
-                const historicoValoresDolarEua = data.historicoValoresDolarEua.map(cadaCompetencia => (
+                const historicoValoresDolarEua = data.historicoValoresDolarEua.slice(-quantidadeMeses).map(cadaCompetencia => (
                     {
                         competencia: `${nomeMeses[new Date(cadaCompetencia.competencia).getUTCMonth()]} / ${new Date(cadaCompetencia.competencia).getUTCFullYear()}`,
                         valor: cadaCompetencia.valor === null ? null : Number(cadaCompetencia.valor).toFixed(2)
                     }
                 ))
 
-
+                //colocar quantidade de meses aqui
 
                 setTodosIndicadores(todosIndicadores)
                 setIpcaDozeMeses({ dadosCadastraisIpcaDozeMeses, historicoValoresIpcaDozeMeses })
                 setSelicMeta({ dadosCadastraisSelicMeta, historicoValoresSelicMeta })
-                setEmbi({ dadosCadastraisEmbi, historicoValoresEmbi })
                 setDolarEua({ dadosCadastraisDolarEua, historicoValoresDolarEua })
 
             })
@@ -123,21 +111,6 @@ export const PaginaMacroeconomia = () => {
 
                     <article className="my-3 text-justify">
                         <div className="flex gap-2">
-                            <h1>{embi.dadosCadastraisEmbi.indicador}:</h1>
-                            <p
-                                className="text-gray-400 cursor-pointer"
-                                onClick={() => setLeiaMaisEmbi(leiaMaisEmbi => !leiaMaisEmbi)}>
-                                {leiaMaisEmbi ? "(Entendi)" : "(Clique aqui para ver a descrição completa)"}
-                            </p>
-                        </div>
-                        <p>
-                            {leiaMaisEmbi && embi.dadosCadastraisEmbi.descricao_longa}
-                        </p>
-                    </article>
-
-
-                    <article className="my-3 text-justify">
-                        <div className="flex gap-2">
                             <h1>{selicMeta.dadosCadastraisSelicMeta.indicador}:</h1>
                             <p
                                 className="text-gray-400 cursor-pointer"
@@ -165,9 +138,6 @@ export const PaginaMacroeconomia = () => {
 
                         dadosCadastraisSelicMeta={selicMeta.dadosCadastraisSelicMeta}
                         historicoValoresSelicMeta={selicMeta.historicoValoresSelicMeta}
-
-                        dadosCadastraisEmbi={embi.dadosCadastraisEmbi}
-                        historicoValoresEmbi={embi.historicoValoresEmbi}
 
                         dadosCadastraisDolarEua={dolarEua.dadosCadastraisDolarEua}
                         historicoValoresDolarEua={dolarEua.historicoValoresDolarEua}
