@@ -2,21 +2,24 @@ import { useEffect, useState } from 'react'
 import { Line } from "react-chartjs-2"
 import { Chart as ChartJS } from "chart.js/auto"
 
-export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoValoresIpcaDozeMeses, dadosCadastraisSelicMeta, historicoValoresSelicMeta, dadosCadastraisDolarEua, historicoValoresDolarEua }) => {
+export const GraficoMacroeconomia = ({ quantidadeMeses, dadosCadastraisIpcaDozeMeses, historicoValoresIpcaDozeMeses, dadosCadastraisSelicMeta, historicoValoresSelicMeta, dadosCadastraisDolarEua, historicoValoresDolarEua }) => {
 
     //states
     const cores = ["#ccccff", "#9999ff", "#6666ff", "#3232ff", "#0000ff"]
     const [dadosFinanceiros, setDadosFinanceiros] = useState(null)    
     
+    
 
     //datasets
     useEffect(() => {
+        
+
         setDadosFinanceiros({
-            labels: historicoValoresDolarEua.map(cadaCompetencia => cadaCompetencia.competencia), //poderia ser qualquer indicador - could be any metric
+            labels: historicoValoresDolarEua.slice(-quantidadeMeses).map(cadaCompetencia => cadaCompetencia.competencia), //poderia ser qualquer indicador - could be any metric
             datasets: [
                 {
                     label: dadosCadastraisIpcaDozeMeses.indicador,
-                    data: historicoValoresIpcaDozeMeses.map(cadaCompetencia => cadaCompetencia.valor),
+                    data: historicoValoresIpcaDozeMeses.slice(-quantidadeMeses).map(cadaCompetencia => cadaCompetencia.valor),
                     backgroundColor: cores[0],
                     borderColor: cores[0],
                     yAxisID: "percentual",
@@ -24,7 +27,7 @@ export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoVa
                 },
                 {
                     label: dadosCadastraisSelicMeta.indicador,
-                    data: historicoValoresSelicMeta.map(cadaCompetencia => cadaCompetencia.valor),
+                    data: historicoValoresSelicMeta.slice(-quantidadeMeses).map(cadaCompetencia => cadaCompetencia.valor),
                     backgroundColor: cores[1],
                     borderColor: cores[1],
                     yAxisID: "percentual",
@@ -32,14 +35,14 @@ export const GraficoMacroeconomia = ({ dadosCadastraisIpcaDozeMeses, historicoVa
                 },
                 {
                     label: dadosCadastraisDolarEua.indicador,
-                    data: historicoValoresDolarEua.map(cadaCompetencia => cadaCompetencia.valor),
+                    data: historicoValoresDolarEua.slice(-quantidadeMeses).map(cadaCompetencia => cadaCompetencia.valor),
                     backgroundColor: cores[3],
                     borderColor: cores[3],
                     yAxisID: "moeda",
                     hidden: false
                 }]
         })
-    }, [])
+    }, [quantidadeMeses])
 
 
     return (

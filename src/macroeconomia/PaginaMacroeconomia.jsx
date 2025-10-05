@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { GraficoMacroeconomia } from "./GraficoMacroeconomia"
 
 export const PaginaMacroeconomia = () => {    
-    const [quantidadeMeses, setQuantidadeMeses] = useState(36) //fazer um select para usuário escolher
+    const [quantidadeMeses, setQuantidadeMeses] = useState(12)
     const [todosIndicadores, setTodosIndicadores] = useState(null)
 
     const [leiaMaisIpcaDozeMeses, setLeiaMaisIpcaDozeMeses] = useState(false)
@@ -16,7 +16,9 @@ export const PaginaMacroeconomia = () => {
 
 
     const nomeMeses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
-
+    
+    //fetch and setState for all months and metrics
+    //busca e faz o setState de todos os meses de todos o s indicadores
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BACKEND_URL}api/macroeconomia/`)
             .then(response => response.json())
@@ -24,7 +26,7 @@ export const PaginaMacroeconomia = () => {
                 const todosIndicadores = data.todosIndicadores
 
                 const dadosCadastraisIpcaDozeMeses = todosIndicadores.filter(cadaIndicador => cadaIndicador.id === "1")[0]
-                const historicoValoresIpcaDozeMeses = data.historicoValoresIpcaDozeMeses.slice(-quantidadeMeses).map(cadaCompetencia => (
+                const historicoValoresIpcaDozeMeses = data.historicoValoresIpcaDozeMeses.map(cadaCompetencia => (
                     {
                         competencia: `${nomeMeses[new Date(cadaCompetencia.competencia).getUTCMonth()]} / ${new Date(cadaCompetencia.competencia).getUTCFullYear()}`,
                         valor: cadaCompetencia.valor === null ? null : Number(cadaCompetencia.valor).toFixed(2)
@@ -33,7 +35,7 @@ export const PaginaMacroeconomia = () => {
 
 
                 const dadosCadastraisSelicMeta = todosIndicadores.filter(cadaIndicador => cadaIndicador.id === "2")[0]
-                const historicoValoresSelicMeta = data.historicoValoresSelicMeta.slice(-quantidadeMeses).map(cadaCompetencia => (
+                const historicoValoresSelicMeta = data.historicoValoresSelicMeta.map(cadaCompetencia => (
                     {
                         competencia: `${nomeMeses[new Date(cadaCompetencia.competencia).getUTCMonth()]} / ${new Date(cadaCompetencia.competencia).getUTCFullYear()}`,
                         valor: cadaCompetencia.valor === null ? null : Number(cadaCompetencia.valor).toFixed(2)
@@ -42,14 +44,12 @@ export const PaginaMacroeconomia = () => {
 
 
                 const dadosCadastraisDolarEua = todosIndicadores.filter(cadaIndicador => cadaIndicador.id === "5")[0]
-                const historicoValoresDolarEua = data.historicoValoresDolarEua.slice(-quantidadeMeses).map(cadaCompetencia => (
+                const historicoValoresDolarEua = data.historicoValoresDolarEua.map(cadaCompetencia => (
                     {
                         competencia: `${nomeMeses[new Date(cadaCompetencia.competencia).getUTCMonth()]} / ${new Date(cadaCompetencia.competencia).getUTCFullYear()}`,
                         valor: cadaCompetencia.valor === null ? null : Number(cadaCompetencia.valor).toFixed(2)
                     }
-                ))
-
-                //colocar quantidade de meses aqui
+                ))                
 
                 setTodosIndicadores(todosIndicadores)
                 setIpcaDozeMeses({ dadosCadastraisIpcaDozeMeses, historicoValoresIpcaDozeMeses })
@@ -59,7 +59,6 @@ export const PaginaMacroeconomia = () => {
             })
             .catch(error => console.error(error))
     }, [])
-
 
     //render when data arrives
     //renderiza quando os dados chegarem
@@ -80,6 +79,8 @@ export const PaginaMacroeconomia = () => {
                 {/* selected metric long description */}
                 {/* descrição longa do indicador selecionado */}
                 <div className="w-full flex flex-col text-white px-1 text-xs lg:text-lg">
+
+                    {/* DolarEUA */}
                     <article className="my-3 text-justify">
                         <div className="flex gap-2">
                             <h1>{dolarEua.dadosCadastraisDolarEua.indicador}:</h1>
@@ -94,6 +95,7 @@ export const PaginaMacroeconomia = () => {
                         </p>
                     </article>
 
+                    {/* IPCA */}
                     <article className="my-3 text-justify">
                         <div className="flex gap-2">
                             <h1>{ipcaDozeMeses.dadosCadastraisIpcaDozeMeses.indicador}:</h1>
@@ -108,7 +110,7 @@ export const PaginaMacroeconomia = () => {
                         </p>
                     </article>
 
-
+                    {/* Selic */}
                     <article className="my-3 text-justify">
                         <div className="flex gap-2">
                             <h1>{selicMeta.dadosCadastraisSelicMeta.indicador}:</h1>
@@ -122,6 +124,24 @@ export const PaginaMacroeconomia = () => {
                             {leiaMaisSelicMeta && selicMeta.dadosCadastraisSelicMeta.descricao_longa}
                         </p>
                     </article>
+
+                    {/* number of months dropdown */}
+                    {/* dropdown do numero de meses */}
+                    <p className="text-white mt-6">Selecione quantos meses você deseja ver:</p>
+                    <select
+                        className="shadow w-full lg:max-w-md rounded px-1 py-1 text-gray-700 focus:outline-none focus:shadow-outline"
+                        value={quantidadeMeses}
+                        onChange={event => setQuantidadeMeses(event.target.value)}
+                    >
+                        <option value="12">12</option>
+                        <option value="24">24</option>
+                        <option value="36">36</option>
+                        <option value="60">60</option>
+                        <option value="120">120</option>
+                        <option value="180">180</option>
+                        <option value="240">240</option>
+                        <option value="360">360</option>
+                    </select>
                 </div>
 
 
@@ -130,9 +150,11 @@ export const PaginaMacroeconomia = () => {
             {/* charts */}
             {/* gráficos */}
             <section className='w-full flex flex-col justify-center items-center gap-2'>
+                
                 <div className='w-full p-1'>
                     <GraficoMacroeconomia
-                        //indicadorSelecionado={indicadorSelecionado.dadosCadastrais.indicador}                        
+                        quantidadeMeses={quantidadeMeses}
+                        
                         dadosCadastraisIpcaDozeMeses={ipcaDozeMeses.dadosCadastraisIpcaDozeMeses}
                         historicoValoresIpcaDozeMeses={ipcaDozeMeses.historicoValoresIpcaDozeMeses}
 
